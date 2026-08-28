@@ -1,10 +1,10 @@
-# 🎫 Plataforma de Gestión de Eventos
+# Plataforma de Gestión de Eventos
 
-## 👥 Integrantes:
+## Integrantes:
 
 
-## 📋 Presentación del proyecto
-# 🎯 Objetivo del proyecto
+## Presentación del proyecto
+# Objetivo del proyecto
 
 El objetivo es desarrollar una plataforma web **multi-evento** que permita a los usuarios participar en diferentes eventos y, mediante la contratación del servicio correspondiente, obtener permisos para crear y administrar sus propios eventos.
 
@@ -15,7 +15,7 @@ La plataforma contará con dos grandes perfiles:
 
 El sistema busca centralizar la información de los eventos y facilitar tanto su administración como la participación de los usuarios.
 
-# 👤 Usuarios y roles
+# Usuarios y roles
 
 ## Usuario registrado
 
@@ -39,7 +39,7 @@ Podrá:
 
 ---
 
-## 👑 Administrador de evento
+## Administrador de evento
 
 Un usuario podrá obtener permisos de administrador mediante la **contratación de un plan o servicio**.
 
@@ -55,7 +55,7 @@ Una vez realizado y validado el pago, podrá:
 - Gestionar inscripciones.
 - Modificar la información de sus eventos.
 
-### 🔒 Control de permisos
+### Control de permisos
 
 Un administrador solamente podrá modificar los eventos que le pertenecen.
 
@@ -63,7 +63,7 @@ Juan no debería poder modificar el Evento B de Pedro.
 
 Esto será controlado desde el **backend mediante autenticación y autorización**.
 
-# 🏠 Página principal
+# Página principal
 
 La página principal será el punto de entrada de la plataforma.
 
@@ -94,7 +94,7 @@ Ejemplo conceptual:
 │                                             │
 └─────────────────────────────────────────────┘
 ```
-# 📅 Gestión de eventos
+# Gestión de eventos
 
 Cada evento tendrá su propia información y contenido.
 
@@ -126,7 +126,7 @@ EVENTO
 └── Inscripciones
 ```
 
-# 🎯 Actividades
+# Actividades
 
 Cada evento podrá tener múltiples actividades.
 
@@ -151,7 +151,7 @@ Los usuarios podrán:
 5. Inscribirse.
 6. Recibir confirmación de la inscripción.
 
-# 📝 Inscripciones
+# Inscripciones
 
 Las inscripciones estarán asociadas a un **usuario registrado** y a una actividad.
 
@@ -171,7 +171,7 @@ Esto permitirá que el usuario pueda consultar posteriormente sus actividades in
 A su vez, el administrador podrá consultar los participantes de las actividades pertenecientes a sus eventos.
 
 
-# 📰 Noticias
+# Noticias
 
 Cada administrador podrá publicar noticias relacionadas con sus eventos.
 
@@ -187,7 +187,7 @@ Los usuarios podrán consultar las noticias publicadas desde la página correspo
 
 ---
 
-# 🍽️ Gastronomía
+# Gastronomía
 
 Los eventos podrán contar con una sección gastronómica.
 
@@ -201,7 +201,7 @@ El administrador podrá agregar información como:
 
 ---
 
-# 💳 Sistema de contratación
+# Sistema de contratación
 
 Una funcionalidad central será permitir que un usuario pueda **contratar un plan para administrar un evento**.
 
@@ -230,7 +230,7 @@ El sistema deberá validar que el pago haya sido correctamente procesado antes d
 
 ---
 
-# 🔐 Autenticación y autorización
+# Autenticación y autorización
 
 La autenticación se realizará mediante **JSON Web Token (JWT)**.
 
@@ -275,7 +275,7 @@ Administrador
 
 ---
 
-# ✅ Validaciones
+# Validaciones
 
 La aplicación contará con validaciones tanto en **frontend como en backend**.
 
@@ -314,7 +314,7 @@ Las validaciones importantes deberán realizarse en el backend, ya que no se deb
 
 ---
 
-# 🗄️ Base de datos
+# Base de datos
 
 La base de datos será diseñada siguiendo buenas prácticas de modelado y buscando garantizar la consistencia e integridad de la información.
 
@@ -346,7 +346,7 @@ Se deberán contemplar:
 - Consistencia de los datos.
 
 
-# 🧱 Arquitectura del Backend
+# Arquitectura del Backend
 
 El backend se desarrollará utilizando:
 
@@ -385,7 +385,7 @@ Repository
 Database
 ```
 
-# 💻 Frontend
+# Frontend
 
 Para el frontend se podrá utilizar:
 
@@ -408,7 +408,7 @@ La interfaz deberá permitir:
 
 ---
 
-# 🛠️ Tecnologías
+# Tecnologías
 
 ## Frontend
 
@@ -449,9 +449,9 @@ La interfaz deberá permitir:
 
 ---
 
-# 🚀 Funcionalidades previstas
+# Funcionalidades previstas
 
-## 👤 Usuarios
+## Usuarios
 
 - [ ] Registro.
 - [ ] Inicio de sesión.
@@ -460,7 +460,7 @@ La interfaz deberá permitir:
 - [ ] Perfil de usuario.
 - [ ] Consulta de inscripciones.
 
-## 📅 Eventos
+## Eventos
 
 - [ ] Listado de eventos.
 - [ ] Eventos próximos.
@@ -471,7 +471,7 @@ La interfaz deberá permitir:
 - [ ] Edición de eventos.
 - [ ] Eliminación de eventos.
 
-## 🎯 Actividades
+## Actividades
 
 - [ ] Crear actividades.
 - [ ] Editar actividades.
@@ -481,21 +481,21 @@ La interfaz deberá permitir:
 - [ ] Control de cupos.
 - [ ] Prevención de inscripciones duplicadas.
 
-## 📰 Noticias
+## Noticias
 
 - [ ] Crear noticias.
 - [ ] Editar noticias.
 - [ ] Eliminar noticias.
 - [ ] Consultar noticias.
 
-## 🍽️ Gastronomía
+## Gastronomía
 
 - [ ] Crear propuestas gastronómicas.
 - [ ] Editar propuestas.
 - [ ] Eliminar propuestas.
 - [ ] Consultar propuestas.
 
-## 👑 Administración
+## Administración
 
 - [ ] Panel administrativo.
 - [ ] Gestión de eventos propios.
@@ -504,7 +504,7 @@ La interfaz deberá permitir:
 - [ ] Gestión gastronómica.
 - [ ] Consulta de participantes.
 
-## 💳 Pagos
+## Pagos
 
 - [ ] Visualización de planes.
 - [ ] Contratación.
