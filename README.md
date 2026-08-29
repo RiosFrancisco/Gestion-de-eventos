@@ -408,46 +408,113 @@ La interfaz deberá permitir:
 
 ---
 
-# Tecnologías
+## Tecnologías
 
-## Frontend
+# Frontend
+React
+Next.js
+TypeScript
+HTML
+CSS
 
-- React / Next.js
-- JavaScript / TypeScript
-- HTML
-- CSS
+# Backend
+Node.js
+Express
+TypeScript
+API REST
 
-## Backend
+# Base de Datos
+PostgreSQL
 
-- Node.js
-- JavaScript / TypeScript
-- API REST
+## Dependencias
+next
+react
+react-dom
+typescript
+express
+cors
+dotenv
+jsonwebtoken
+bcrypt
+zod
+pg
+tsx
+eslint
+prettier
 
-## Seguridad
+Además, se utilizarán las correspondientes dependencias de tipos para TypeScript:
 
-- JSON Web Token (JWT)
-- Hashing de contraseñas
-- Middleware de autenticación y autorización
-- Validación de datos
+@types/node
+@types/react
+@types/react-dom
+@types/express
+@types/cors
+@types/jsonwebtoken
+@types/bcrypt
 
-## Base de datos
+## Instalación y ejecución
+# Requisitos previos
 
-- Base de datos relacional
-- Transacciones
-- Integridad referencial
-- Propiedades ACID
+Antes de instalar el proyecto, es necesario contar con:
 
-## Buenas prácticas
+Node.js
+npm
+PostgreSQL
+Git
 
-- Principios SOLID
-- Separación de responsabilidades
-- Validaciones
-- Manejo de errores
-- Variables de entorno
-- Código modular
-- Control de acceso por roles
+# 1. Clonar el repositorio
+git clone https://github.com/RiosFrancisco/Gestion-de-eventos
+cd Gestion-de-eventos
 
----
+# 2. Instalar las dependencias
+Si el proyecto se encuentra separado en frontend y backend, instalar las dependencias de cada proyecto.
+- Frontend
+cd frontend
+npm install
+
+- Backend
+cd ../backend
+npm install
+
+El comando npm install instalará automáticamente todas las dependencias especificadas en el archivo package.json de cada proyecto.
+
+# 3. Configurar las variables de entorno
+- Backend
+Crear un archivo .env dentro de la carpeta backend:
+PORT=3001
+DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/nombre_base_de_datos
+JWT_SECRET=clave_secreta
+
+- Frontend
+Crear un archivo .env.local dentro de la carpeta frontend:
+NEXT_PUBLIC_API_URL=http://localhost:3001
+
+# 4. Configurar PostgreSQL
+Crear la base de datos correspondiente en PostgreSQL:
+CREATE DATABASE nombre_base_de_datos;
+
+Luego verificar que los datos de conexión definidos en DATABASE_URL sean correctos.
+
+# 5. Ejecutar el Backend
+Desde la carpeta backend:
+npm run dev
+El servidor estará disponible en:
+http://localhost:3001
+
+# 6. Ejecutar el Frontend
+En otra terminal, desde la carpeta frontend:
+cd frontend
+npm run dev
+La aplicación estará disponible en:
+http://localhost:3000
+
+# 7. Ejecutar el proyecto
+
+Para utilizar la aplicación es necesario mantener ejecutándose:
+El servidor del backend.
+El servidor de desarrollo del frontend.
+El servidor de PostgreSQL.
+El frontend se comunicará con el backend mediante la API REST, mientras que el backend gestionará la conexión con la base de datos PostgreSQL.
 
 # Funcionalidades previstas
 
