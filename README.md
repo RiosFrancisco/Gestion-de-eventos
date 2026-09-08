@@ -1,10 +1,9 @@
 # Plataforma de Gestión de Eventos
 
-## Integrantes:
+## Integrantes: Cutropia Ramiro, Scabusso Matko, Rios Francisco, Beltrame Juan Manuel
 
 
 ## Presentación del proyecto
-# Objetivo del proyecto
 
 El objetivo es desarrollar una plataforma web **multi-evento** que permita a los usuarios participar en diferentes eventos y, mediante la contratación del servicio correspondiente, obtener permisos para crear y administrar sus propios eventos.
 
@@ -375,7 +374,7 @@ La lógica de negocio no deberá concentrarse únicamente en las rutas o control
 
 Flujo conceptual:
 
-```text
+```
 Controller
     ↓
 Service
