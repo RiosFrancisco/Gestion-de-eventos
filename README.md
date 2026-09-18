@@ -360,6 +360,7 @@ Ejemplo:
 src/
 │
 ├── controllers/
+├── database/
 ├── services/
 ├── repositories/
 ├── routes/
@@ -439,7 +440,6 @@ zod
 pg
 tsx
 eslint
-prettier
 
 Además, se utilizarán las correspondientes dependencias de tipos para TypeScript:
 
@@ -481,7 +481,7 @@ El comando npm install instalará automáticamente todas las dependencias especi
 - Backend
 Crear un archivo .env dentro de la carpeta backend:
 PORT=3001
-DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/nombre_base_de_datos
+DATABASE_URL=postgresql://postgres:del1al8@localhost:5432/gestion_eventos
 JWT_SECRET=clave_secreta
 
 - Frontend
@@ -489,10 +489,16 @@ Crear un archivo .env.local dentro de la carpeta frontend:
 NEXT_PUBLIC_API_URL=http://localhost:3001
 
 # 4. Configurar PostgreSQL
-Crear la base de datos correspondiente en PostgreSQL:
-CREATE DATABASE nombre_base_de_datos;
 
-Luego verificar que los datos de conexión definidos en DATABASE_URL sean correctos.
+Crear la base de datos correspondiente en PostgreSQL si todavía no existe:
+
+```sql
+CREATE DATABASE gestion_eventos;
+```
+Luego verificar que los datos de conexión definidos en DATABASE_URL sean correctos utilizando el comando:
+npx tsx src/config/database.ts
+
+Deberia aparecer "conexion exitosa..."
 
 # 5. Ejecutar el Backend
 Desde la carpeta backend:
