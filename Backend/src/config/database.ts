@@ -7,6 +7,8 @@ export const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
+
+//funcion para probar la conexión a la base de datos
 async function probarConexion() {
     try {
         const result = await pool.query(`

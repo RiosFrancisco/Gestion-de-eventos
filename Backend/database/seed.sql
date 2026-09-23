@@ -7,11 +7,11 @@ VALUES
 
 INSERT INTO categorias_evento (nombre)
 VALUES
-    ('Tecnología'),
-    ('Música'),
+    ('Tecnologia'),
+    ('Musica'),
     ('Deportes'),
-    ('Educación'),
-    ('Gastronomía');
+    ('Educacion'),
+    ('Gastronomia');
 
 
 INSERT INTO planes (
