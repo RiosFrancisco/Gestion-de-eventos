@@ -190,7 +190,7 @@ Los usuarios podrán consultar las noticias publicadas desde la página correspo
 
 Los eventos podrán contar con una sección gastronómica.
 
-El administrador podrá agregar información como:
+El creador podrá agregar información como:
 
 - Nombre del establecimiento o propuesta.
 - Descripción.
@@ -266,10 +266,19 @@ Usuario normal
 ├── Inscribirse       ✅
 └── Crear evento      ❌
 
-Administrador
+Creador
 ├── Ver eventos       ✅
 ├── Inscribirse       ✅
 └── Crear evento      ✅
+
+Administrador
+├── Ver eventos       ✅
+├── Inscribirse       ✅
+├── Crear evento      ✅
+├── Modificar informacion de usuarios ✅
+├── Gestionar Roles   ✅
+├── Eliminar eventos  ✅
+└── Eliminar usuarios ✅
 ```
 
 ---
@@ -350,6 +359,7 @@ Se deberán contemplar:
 El backend se desarrollará utilizando:
 
 - **JavaScript**
+- **TypeScript**
 - **Node.js**
 
 Se buscará mantener una arquitectura organizada por responsabilidades.
