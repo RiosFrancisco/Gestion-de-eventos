@@ -3,7 +3,7 @@ import { pool } from "../config/database";
 
 export async function getUsuarioByEmail(email: string) {
     const result = await pool.query(
-        `SELECT id, nombre, email, rol_id, created_at
+        `SELECT id, nombre, email, password, rol_id, created_at
         FROM usuarios
         WHERE email = $1`,
         [email]
