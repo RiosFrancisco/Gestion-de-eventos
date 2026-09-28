@@ -1,5 +1,5 @@
 import { pool } from "../config/database";
-import { UsuarioConContraseña } from "../models/usuarios.models";
+import { UsuarioConContraseña } from "../models/usuario.model";
 
 export async function getUsuarioByEmail(email: string): Promise<UsuarioConContraseña | undefined> {
     const result = await pool.query(
@@ -15,7 +15,9 @@ export async function getUsuarioByEmail(email: string): Promise<UsuarioConContra
         return undefined;
     }
 
-    return {...usuario, id: Number(usuario.id), rol_id: Number(usuario.rol_id)}
+    return {
+        ...usuario, id: Number(usuario.id), rol_id: Number(usuario.rol_id)
+    };
 }
 
 export async function getUsuarioById(id: number) {

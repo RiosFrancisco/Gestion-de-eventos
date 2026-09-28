@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import {
     getUsuarioByEmail,
     createUsuario
-} from "../repositories/usuarios.repository";
+} from "../repositories/usuario.repository";
 
 
 

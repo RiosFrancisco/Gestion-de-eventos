@@ -40,7 +40,7 @@ CREATE TABLE eventos (
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
     ubicacion VARCHAR(200) NOT NULL,
-    estado VARCHAR(20) NOT NULL
+    estado VARCHAR(20) NOT NULL DEFAULT 'publicado'
     CHECK (estado IN ('publicado', 'finalizado', 'cancelado')),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
