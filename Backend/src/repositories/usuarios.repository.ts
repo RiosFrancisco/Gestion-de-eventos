@@ -1,14 +1,21 @@
 import { pool } from "../config/database";
+import { UsuarioConContraseña } from "../models/usuarios.models";
 
-
-export async function getUsuarioByEmail(email: string) {
+export async function getUsuarioByEmail(email: string): Promise<UsuarioConContraseña | undefined> {
     const result = await pool.query(
         `SELECT id, nombre, email, password, rol_id, created_at
         FROM usuarios
         WHERE email = $1`,
         [email]
-    )
-    return result.rows[0];
+    );
+
+    const usuario = result.rows[0];
+
+    if (!usuario) {
+        return undefined;
+    }
+
+    return {...usuario, id: Number(usuario.id), rol_id: Number(usuario.rol_id)}
 }
 
 export async function getUsuarioById(id: number) {
