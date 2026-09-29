@@ -18,7 +18,7 @@ export const crearEventoSchema = z.object({
 
     fecha: z
     .string()
-    .regex(/^\d{2}-\d{2}-\d{4}$/, {error: "El formato de fecha debe ser DD-MM-AAAA."}),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, {error: "El formato de fecha debe ser AAAA-MM-DD."}),
 
     hora: z
     .string()

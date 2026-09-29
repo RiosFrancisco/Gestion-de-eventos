@@ -1,6 +1,7 @@
-import { createEvento } from "../repositories/evento.repository";
+import { createEvento, getAllEventos, getEventoById } from "../repositories/evento.repository";
 import { CrearEvento, Evento } from "../models/evento.model";
 import { getCategoriasById } from "../repositories/categorias.repository";
+
 
 export async function crearEvento(creadorId: number, datos: CrearEvento): Promise<Evento> {
     const fechaEvento = new Date(`${datos.fecha}T${datos.hora}:00`);
@@ -24,3 +25,16 @@ export async function crearEvento(creadorId: number, datos: CrearEvento): Promis
     );
 }
 
+export async function listarEventos() {
+    return await getAllEventos();
+}
+
+export async function obtenerEventoPorId(id: number) {
+    const evento = await getEventoById(id);
+
+    if (!evento) {
+        throw new Error("Evento no encontrado");
+    }
+
+    return evento;
+}

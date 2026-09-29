@@ -476,7 +476,6 @@ git clone https://github.com/RiosFrancisco/Gestion-de-eventos
 cd Gestion-de-eventos
 
 # 2. Instalar las dependencias
-Si el proyecto se encuentra separado en frontend y backend, instalar las dependencias de cada proyecto.
 - Frontend
 cd frontend
 npm install
@@ -485,13 +484,11 @@ npm install
 cd ../backend
 npm install
 
-El comando npm install instalará automáticamente todas las dependencias especificadas en el archivo package.json de cada proyecto.
-
 # 3. Configurar las variables de entorno
 - Backend
 Crear un archivo .env dentro de la carpeta backend:
 PORT=3001
-DATABASE_URL=postgresql://postgres:del1al8@localhost:5432/gestion_eventos
+DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
 JWT_SECRET=clave_secreta
 
 - Frontend
@@ -505,10 +502,17 @@ Crear la base de datos correspondiente en PostgreSQL si todavía no existe:
 ```sql
 CREATE DATABASE gestion_eventos;
 ```
-Luego verificar que los datos de conexión definidos en DATABASE_URL sean correctos utilizando el comando:
-npx tsx src/config/database.ts
+Luego ejecutar los archivos (pueden ejecutarse utilizando pgAdmin u otro cliente PostgreSQL):
 
-Deberia aparecer "conexion exitosa..."
+```
+Backend/database/schema.sql
+Backend/database/seed.sql
+```
+
+`schema.sql` crea las tablas y restricciones.
+
+`seed.sql` inserta los datos iniciales necesarios, como roles y categorías.
+
 
 # 5. Ejecutar el Backend
 Desde la carpeta backend:
@@ -535,10 +539,10 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 
 ## Usuarios
 
-- [ ] Registro.
-- [ ] Inicio de sesión.
+- [✅] Registro.
+- [✅] Inicio de sesión.
 - [ ] Cierre de sesión.
-- [ ] Autenticación mediante JWT.
+- [✅] Autenticación mediante JWT.
 - [ ] Perfil de usuario.
 - [ ] Consulta de inscripciones.
 

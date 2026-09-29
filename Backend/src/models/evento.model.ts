@@ -6,7 +6,7 @@ export interface Evento {
     categoria_id: number,
     nombre: string,
     descripcion: string,
-    fecha: Date,
+    fecha: string,
     hora: string,
     ubicacion: string,
     estado: EstadoEvento,
@@ -20,4 +20,16 @@ export interface CrearEvento {
     fecha: string,
     hora: string,
     ubicacion: string
+}
+
+export interface EventoListado {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    fecha: string;
+    hora: string;
+    ubicacion: string;
+    estado: EstadoEvento;
+    categoria: string;
+    creador: string;
 }

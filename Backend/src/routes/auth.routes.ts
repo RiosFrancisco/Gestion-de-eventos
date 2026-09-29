@@ -16,7 +16,7 @@ router.get("/protegida", authMiddleware, (req, res) => {
 
 router.get("/admin", authMiddleware, validarRol(ROLES.admin), (req, res) => {
     res.status(200).json({
-        message: "Acceso autorizado para admin"
+        message: "Acceso autorizado solo para admin"
     });
 })
 

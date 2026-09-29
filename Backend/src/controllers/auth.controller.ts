@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { registerSchema } from "../schemas/auth.schema";
-import { registerUsuario } from "../services/auth.service";
-import { loginSchema } from "../schemas/auth.schema";
-import { loginUsuario } from "../services/auth.service";
+import { registerSchema, loginSchema } from "../schemas/auth.schema";
+import { registerUsuario, loginUsuario } from "../services/auth.service";
 
 export async function register(req: Request, res: Response) {
     try {
