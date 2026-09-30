@@ -26,8 +26,17 @@ export const crearEventoSchema = z.object({
 
     ubicacion: z
     .string()
-    .min(5, {error: "El campo debe requiere como minimo 5 caracteres."})
+    .min(5, {error: "El campo requiere como minimo 5 caracteres."})
     .max(30, {error: "El campo no admite mas de 30 caracteres."})
     
 
-})
+});
+
+export const actualizarEventoSchema = crearEventoSchema
+    .partial()
+    .refine(
+        data => Object.keys(data).length > 0,
+        {
+            message: "Debe actualizar algun campo para enviar"
+        }
+    );

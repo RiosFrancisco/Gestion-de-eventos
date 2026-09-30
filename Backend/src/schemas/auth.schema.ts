@@ -4,7 +4,7 @@ export const registerSchema = z.object({
     nombre: z
     .string()
     .min(3, {error: "El campo debe tener al menos 2 caracteres"})
-    .max(15, {error: "El campo no admite mas de 15 caracteres"}),
+    .max(25, {error: "El campo no admite mas de 25 caracteres"}),
     
     email: z
     .email({error: "el correo no es valido"})

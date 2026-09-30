@@ -30,8 +30,6 @@ Podrá:
 - Filtrar eventos.
 - Ver información detallada de un evento.
 - Consultar actividades.
-- Consultar noticias.
-- Consultar propuestas gastronómicas.
 - Inscribirse a actividades.
 - Consultar sus propias inscripciones.
 - Gestionar sus datos personales.
@@ -48,8 +46,6 @@ Una vez realizado y validado el pago, podrá:
 - Modificar sus eventos.
 - Eliminar sus eventos.
 - Administrar actividades.
-- Administrar noticias.
-- Administrar propuestas gastronómicas.
 - Consultar participantes.
 - Gestionar inscripciones.
 - Modificar la información de sus eventos.
@@ -104,9 +100,8 @@ Entre los datos principales podrán encontrarse:
 - Fecha.
 - Hora.
 - Ubicación.
-- Imagen.
-- Categoría.
 - Estado.
+- Categoría.
 - Administrador responsable.
 
 Cada evento podrá contener diferentes secciones:
@@ -117,10 +112,6 @@ EVENTO
 ├── Información
 │
 ├── Actividades
-│
-├── Gastronomía
-│
-├── Noticias
 │
 └── Inscripciones
 ```
@@ -169,38 +160,7 @@ Esto permitirá que el usuario pueda consultar posteriormente sus actividades in
 
 A su vez, el administrador podrá consultar los participantes de las actividades pertenecientes a sus eventos.
 
-
-# Noticias
-
-Cada administrador podrá publicar noticias relacionadas con sus eventos.
-
-Una noticia podrá contener:
-
-- Título.
-- Descripción.
-- Imagen.
-- Fecha de publicación.
-- Evento asociado.
-
-Los usuarios podrán consultar las noticias publicadas desde la página correspondiente del evento.
-
----
-
-# Gastronomía
-
-Los eventos podrán contar con una sección gastronómica.
-
-El creador podrá agregar información como:
-
-- Nombre del establecimiento o propuesta.
-- Descripción.
-- Ubicación dentro del evento.
-- Horarios.
-- Información adicional.
-
----
-
-# Sistema de contratación
+# Sistema de contratación (A FUTURO)
 
 Una funcionalidad central será permitir que un usuario pueda **contratar un plan para administrar un evento**.
 
@@ -287,8 +247,6 @@ Administrador
 
 La aplicación contará con validaciones tanto en **frontend como en backend**.
 
-Las validaciones importantes deberán realizarse en el backend, ya que no se debe confiar exclusivamente en los datos enviados desde el cliente.
-
 ## Registro
 
 - Nombre obligatorio.
@@ -320,7 +278,6 @@ Las validaciones importantes deberán realizarse en el backend, ya que no se deb
 - Actividad disponible.
 - Evitar inscripciones duplicadas.
 
----
 
 # Base de datos
 
@@ -335,12 +292,10 @@ USUARIO
    │               │
    ▼               ▼
 EVENTO          INSCRIPCIÓN
-   │               │
-   ├──────┐        ▼
-   │      │     ACTIVIDAD
-   ▼      ▼
-NOTICIA  GASTRONOMÍA
-```
+                   │
+                   ▼
+                 ACTIVIDAD
+
 
 Se deberán contemplar:
 
@@ -567,20 +522,6 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 - [ ] Control de cupos.
 - [ ] Prevención de inscripciones duplicadas.
 
-## Noticias
-
-- [ ] Crear noticias.
-- [ ] Editar noticias.
-- [ ] Eliminar noticias.
-- [ ] Consultar noticias.
-
-## Gastronomía
-
-- [ ] Crear propuestas gastronómicas.
-- [ ] Editar propuestas.
-- [ ] Eliminar propuestas.
-- [ ] Consultar propuestas.
-
 ## Administración
 
 - [ ] Panel administrativo.
@@ -590,7 +531,7 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 - [ ] Gestión gastronómica.
 - [ ] Consulta de participantes.
 
-## Pagos
+## Pagos (A FUTURO)
 
 - [ ] Visualización de planes.
 - [ ] Contratación.

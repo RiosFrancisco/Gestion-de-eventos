@@ -33,3 +33,5 @@ export interface EventoListado {
     categoria: string;
     creador: string;
 }
+
+export type ActualizarEvento = Partial<CrearEvento>;
