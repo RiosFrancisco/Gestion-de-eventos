@@ -1,5 +1,17 @@
-import { createEvento, getAllEventos, getEventoById, getEventoModificable, updateEvento } from "../repositories/evento.repository";
-import { CrearEvento, Evento, ActualizarEvento } from "../models/evento.model";
+import {
+    createEvento,
+    getAllEventos,
+    getEventoById,
+    getEventoModificable,
+    updateEvento,
+    cancelarEvento,
+    activarEvento
+} from "../repositories/evento.repository";
+import {
+    CrearEvento,
+    Evento,
+    ActualizarEvento
+} from "../models/evento.model";
 import { getCategoriasById, } from "../repositories/categorias.repository";
 import { ROLES } from "../utils/roles"
 
@@ -15,7 +27,7 @@ export async function crearEvento(creadorId: number, datos: CrearEvento): Promis
 
     const categoria = await getCategoriasById(datos.categoria_id);
 
-    if(!categoria) {
+    if (!categoria) {
         throw new Error("La categoria seleccionada no existe");
     }
 
@@ -50,7 +62,7 @@ export async function updatearEvento(eventoId: number, usuarioId: number, rolId:
     const esCreador = evento.creador_id === usuarioId;
 
     if (!esAdmin && !esCreador) {
-        throw new Error("No tiene permisos para modificar este evento.");
+        throw new Error("No tiene permisos para realizar esta accion.");
     }
 
     if (datos.fecha || datos.hora) {
@@ -65,4 +77,46 @@ export async function updatearEvento(eventoId: number, usuarioId: number, rolId:
     }
 
     return await updateEvento(eventoId, datos);
+}
+
+export async function cancelacionEvento(eventoId: number, usuarioId: number, rolId: number) {
+    const evento = await getEventoModificable(eventoId);
+
+    if (!evento) {
+        throw new Error("Evento no encontrado");
+    }
+
+    const esAdmin = rolId === ROLES.admin;
+    const esCreador = evento.creador_id === usuarioId;
+
+    if (!esAdmin && !esCreador) {
+        throw new Error("No tiene permisos para realizar esta accion.");
+    }
+
+    if (evento.estado === "finalizado" || evento.estado === "cancelado") {
+        throw new Error("No se puede cancelar un evento ya cancelado o finalizado.");
+    }
+
+    return await cancelarEvento(eventoId);
+}
+
+export async function activacionEvento(eventoId: number, usuarioId: number, rolId: number) {
+    const evento = await getEventoModificable(eventoId);
+
+    if (!evento) {
+        throw new Error("Evento no encontrado");
+    }
+
+    const esAdmin = rolId === ROLES.admin;
+    const esCreador = evento.creador_id === usuarioId;
+
+    if (!esAdmin && !esCreador) {
+        throw new Error("No tiene permisos para realizar esta accion.");
+    }
+
+    if (evento.estado === "finalizado" || evento.estado === "publicado") {
+        throw new Error("El evento ya esta en estado activado o ha finalizado.");
+    }
+
+    return await activarEvento(eventoId);
 }

@@ -1,8 +1,22 @@
-import { Request, Response } from "express";
+import {
+    Request,
+    Response
+} from "express";
 import { AuthRequest } from "../middleware/auth.middleware";
-import { crearEventoSchema, actualizarEventoSchema } from "../schemas/evento.schema";
-import { crearEvento, updatearEvento } from "../services/evento.service";
-import { listarEventos, obtenerEventoPorId } from "../services/evento.service";
+import {
+    crearEventoSchema,
+    actualizarEventoSchema
+} from "../schemas/evento.schema";
+import {
+    activacionEvento,
+    crearEvento,
+    updatearEvento
+} from "../services/evento.service";
+import {
+    listarEventos,
+    obtenerEventoPorId,
+    cancelacionEvento
+} from "../services/evento.service";
 
 export async function createEventoController(req: AuthRequest, res: Response) {
     try {
@@ -51,10 +65,7 @@ export async function listarEventosController(req: Request, res: Response) {
     }
 }
 
-export async function getEventoByIdController(
-    req: Request,
-    res: Response
-) {
+export async function getEventoByIdController(req: Request, res: Response) {
     try {
         const id = Number(req.params.id);
 
@@ -105,6 +116,62 @@ export async function updateEventoController(req: AuthRequest, res: Response) {
             message: error instanceof Error
                 ? error.message
                 : "Error al actualizar el evento"
+        });
+    }
+}
+
+export async function cancelarEventoController(req: AuthRequest, res: Response) {
+    try {
+        const eventoId = Number(req.params.id);
+
+        if (isNaN(eventoId) || eventoId <= 0) {
+            return res.status(400).json({
+                message: "ID de evento invalido"
+            });
+        }
+
+        const evento = await cancelacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id);
+
+        return res.status(200).json({
+            message: "Evento cancelado correctamente.",
+            evento
+        });
+
+    }
+    catch (error) {
+        console.error("ERROR AL CANCELAR EVENTO.", error);
+        return res.status(400).json({
+            message: error instanceof Error
+                ? error.message
+                : "Error al cancelar el evento."
+        });
+    }
+}
+
+export async function activarEventoController(req: AuthRequest, res: Response) {
+    try {
+        const eventoId = Number(req.params.id);
+
+        if (isNaN(eventoId) || eventoId <= 0) {
+            return res.status(400).json({
+                message: "ID de evento invalido"
+            });
+        }
+
+        const evento = await activacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id);
+
+        return res.status(200).json({
+            message: "Evento ha cambiado a estado publicado correctamente.",
+            evento
+        });
+
+    }
+    catch (error) {
+        console.error("ERROR AL ACTIVAR EVENTO.", error);
+        return res.status(400).json({
+            message: error instanceof Error
+                ? error.message
+                : "Error al activar el evento."
         });
     }
 }

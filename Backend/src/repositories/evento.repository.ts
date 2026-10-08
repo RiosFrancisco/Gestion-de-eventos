@@ -2,7 +2,7 @@ import { pool } from "../config/database"
 import { CrearEvento, Evento, EventoListado, ActualizarEvento } from "../models/evento.model"
 import { mapEvento } from "../utils/eventoMapper";
 
-    //Creamos un evento nuevo
+//Creamos un evento nuevo
 export async function createEvento(creadorId: number, datos: CrearEvento): Promise<Evento> {
     const resultados = await pool.query(
         `INSERT into eventos (creador_id, categoria_id, nombre, descripcion, fecha, hora, ubicacion)
@@ -19,12 +19,12 @@ export async function createEvento(creadorId: number, datos: CrearEvento): Promi
                 estado, 
                 created_at`,
         [
-            creadorId, 
-            datos.categoria_id, 
-            datos.nombre, 
-            datos.descripcion, 
-            datos.fecha, 
-            datos.hora, 
+            creadorId,
+            datos.categoria_id,
+            datos.nombre,
+            datos.descripcion,
+            datos.fecha,
+            datos.hora,
             datos.ubicacion
         ]
     );
@@ -34,7 +34,7 @@ export async function createEvento(creadorId: number, datos: CrearEvento): Promi
     return mapEvento(evento);
 }
 
-    //Obtenemos todos los eventos
+//Obtenemos todos los eventos
 export async function getAllEventos(): Promise<EventoListado[]> {
     const resultados = await pool.query(
         `SELECT
@@ -60,7 +60,7 @@ export async function getAllEventos(): Promise<EventoListado[]> {
     }));
 }
 
-    //Obtenemos eventos por id
+//Obtenemos eventos por id
 export async function getEventoById(eventoId: number) {
     const resultado = await pool.query(
         `SELECT 
@@ -79,7 +79,7 @@ export async function getEventoById(eventoId: number) {
             JOIN usuarios d
             ON d.id = e.creador_id
             WHERE e.id = $1`,
-            [eventoId]);
+        [eventoId]);
 
     const evento = resultado.rows[0];
 
@@ -89,13 +89,13 @@ export async function getEventoById(eventoId: number) {
 
     return {
         ...evento,
-        id:Number(eventoId)
+        id: Number(eventoId)
     };
 }
 
-    //obtengo evento por id para modificacion sin traer categoria y creador
-export async function getEventoModificable (id: number) {
-    const resultado = await pool.query (
+//obtengo evento por id para modificacion sin traer categoria y creador
+export async function getEventoModificable(id: number) {
+    const resultado = await pool.query(
         `SELECT 
             id,
             creador_id,
@@ -108,7 +108,7 @@ export async function getEventoModificable (id: number) {
             estado
          FROM eventos
          WHERE id = $1`,
-         [id]
+        [id]
     );
 
     const evento = resultado.rows[0];
@@ -120,7 +120,7 @@ export async function getEventoModificable (id: number) {
 }
 
 
-    //Modificamos un evento
+//Modificamos un evento
 export async function updateEvento(eventoID: number, datos: ActualizarEvento) {
     const campos: string[] = [];
     const valores: any[] = [];
@@ -134,8 +134,8 @@ export async function updateEvento(eventoID: number, datos: ActualizarEvento) {
     }
     valores.push(eventoID);
 
-    const query = 
-                `UPDATE eventos
+    const query =
+        `UPDATE eventos
                  SET ${campos.join(", ")}
                  WHERE id = $${posicion}
                  RETURNING 
@@ -154,7 +154,61 @@ export async function updateEvento(eventoID: number, datos: ActualizarEvento) {
 
     const evento = resultado.rows[0];
 
-    if(!evento) {
+    if (!evento) {
+        return undefined;
+    }
+
+    return mapEvento(evento);
+}
+
+export async function cancelarEvento(eventoId: number) {
+    const resultado = await pool.query(
+        `UPDATE eventos
+         SET estado = 'cancelado'
+         WHERE id = $1
+         RETURNING 
+                    id, 
+                    creador_id, 
+                    categoria_id, 
+                    nombre, 
+                    descripcion, 
+                    fecha::text AS fecha, 
+                    hora::text AS hora, 
+                    ubicacion, 
+                    estado, 
+                    created_at`,
+        [eventoId]
+    );
+    const evento = resultado.rows[0];
+
+    if (!evento) {
+        return undefined;
+    }
+
+    return mapEvento(evento);
+}
+
+export async function activarEvento(eventoId: number) {
+    const resultado = await pool.query(
+        `UPDATE eventos
+         SET estado = 'publicado'
+         WHERE id = $1
+         RETURNING 
+                    id, 
+                    creador_id, 
+                    categoria_id, 
+                    nombre, 
+                    descripcion, 
+                    fecha::text AS fecha, 
+                    hora::text AS hora, 
+                    ubicacion, 
+                    estado, 
+                    created_at`,
+        [eventoId]
+    );
+    const evento = resultado.rows[0];
+
+    if (!evento) {
         return undefined;
     }
 
