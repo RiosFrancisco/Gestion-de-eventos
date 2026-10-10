@@ -5,8 +5,6 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  font-family: var(--fuenteTexto), sans-serif;
-  font-weight: 300;
 }
 
 body {
@@ -19,3 +17,47 @@ body {
 main {
   flex: 1;
 }
+
+/* ==== FORMATO DE TEXTOS ==== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fuenteTitulo);
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 32.44px;
+}
+
+h2 {
+  font-size: 28.83px;
+}
+
+h3 {
+  font-size: 25.63px;
+}
+
+h4 {
+  font-size: 22.78px;
+}
+
+h5 {
+  font-size: 20.25px;
+}
+
+h6 {
+  font-size: 18px;
+}
+
+p {
+  font-family: var(--fuenteTexto);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* ==== ==== ==== ==== ==== */
