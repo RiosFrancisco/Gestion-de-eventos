@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
     <title>Festival Manager</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
 
     <!-- JavaScript -->
   </head>
@@ -15,24 +17,32 @@
     <header>
       <nav class="header-buttons">
         <button id="add-button">
-          <img />
+          <img src="../assets/img/addEventButton2.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
         </button>
-        <button class="text-button" id="my-events-button">Mis eventos</button>
-        <button class="text-button" id="search-button">Buscar</button>
+        <button class="text-button" id="my-events-button">
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <p id="search-text">Buscar</p>
+        </button>
       </nav>
-      <div class="logo" data-page="index.html">
-        <img />
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
       </div>
       <div class="user-icon">
         <button id="user-button" data-page="login.html">
-          <p class="user-status">Iniciar sesión</p>
-          <img />
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <p id="user-status">Iniciar sesión</p>
         </button>
       </div>
     </header>
     <main>
       <section class="next-events">
-        <h1>Próximos eventos</h2>
+        <h1>Próximos eventos</h1>
       </section>
       <section class="events-list">
         <section class="event-container">
@@ -40,7 +50,7 @@
             <img />
           </div>
           <div class="event-info">
-            <h4 id="event-name">event-name</h3>
+            <h4 id="event-name">event-name</h4>
             <p id="event-date">event-date</p>
             <p id="event-location">event-location</p>
             <p id="event-entrance-price">event-entrance-price</p>
