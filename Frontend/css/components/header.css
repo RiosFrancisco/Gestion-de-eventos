@@ -24,12 +24,34 @@ header {
 .header-buttons {
   display: flex;
   justify-content: start;
+  align-items: center;
+  gap: 8px;
+}
+
+#add-button,
+.text-button {
+  background-color: var(--paletaBlanco);
+  border: 1px solid #888;
+  border-radius: var(--radioS);
+  padding: 8px;
+  color: black;
+  cursor: pointer;
+  font-family: var(--fuenteTexto);
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 #add-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.text-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #add-button img {
@@ -55,4 +77,18 @@ header {
 #user-button img {
   width: auto;
   height: 50px;
+}
+
+#user-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--paletaBlanco);
+  border: 1px solid #888;
+  border-radius: var(--radioS);
+  padding: 8px;
+  color: black;
+  cursor: pointer;
+  font-family: var(--fuenteTexto);
 }
