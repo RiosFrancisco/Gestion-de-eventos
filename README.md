@@ -517,7 +517,7 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 - [ ] Crear actividades.
 - [ ] Editar actividades.
 - [ ] Eliminar actividades.
-- [ ] Consultar actividades.
+- [✅] Consultar actividades.
 - [ ] Inscripción a actividades.
 - [ ] Control de cupos.
 - [ ] Prevención de inscripciones duplicadas.
