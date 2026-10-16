@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
+    <title>Mis eventos - Festival Manager</title>
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/mis_eventos.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav class="header-buttons">
+        <a id="add-button" href="anadir-evento.html">
+          <img src="../assets/img/addEventButton2.png" alt="Añadir evento" />
+          <p id="add-event-text">Añadir evento</p>
+        </a>
+
+        <a class="text-button" id="my-events-button" href="mis_eventos.html">
+          <p>Mis eventos</p>
+        </a>
+
+        <a class="text-button" id="search-button" href="index.html">
+          <p>Buscar</p>
+        </a>
+      </nav>
+
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager"
+        />
+      </div>
+
+      <div class="user-icon">
+        <button id="user-button" data-page="login.html">
+          <img src="../assets/img/userIcon.png" alt="Usuario" />
+          <p id="user-status">Iniciar sesión</p>
+        </button>
+      </div>
+    </header>
+
+    <main class="mis-eventos">
+      <section class="page-title">
+        <h1>Mis eventos</h1>
+        <p>Administrá y consultá los eventos que organizás.</p>
+      </section>
+
+      <section class="eventos-resumen">
+        <div class="resumen-card">
+          <h3>Eventos creados</h3>
+          <p>3</p>
+        </div>
+
+        <div class="resumen-card">
+          <h3>Próximos eventos</h3>
+          <p>2</p>
+        </div>
+
+        <div class="resumen-card">
+          <h3>Eventos finalizados</h3>
+          <p>1</p>
+        </div>
+      </section>
+
+      <section class="eventos-contenido">
+        <div class="eventos-encabezado">
+          <h2>Mis eventos creados</h2>
+          <a class="crear-evento" href="anadir-evento.html">
+            Añadir evento
+          </a>
+        </div>
+
+        <div class="lista-eventos">
+          <article class="evento-card">
+            <div class="evento-imagen">
+              <span>Imagen del evento</span>
+            </div>
+
+            <div class="evento-info">
+              <span class="estado estado-proximo">Próximo</span>
+              <h3>Festival de Música Local</h3>
+              <p><strong>Fecha:</strong> 25/11/2026</p>
+              <p><strong>Ubicación:</strong> Bahía Blanca</p>
+              <p><strong>Entrada:</strong> $8.000</p>
+              <p class="evento-descripcion">
+                Una jornada dedicada a bandas y artistas de la escena local.
+              </p>
+
+              <div class="evento-acciones">
+                <a href="actividades.html">Ver actividades</a>
+                <button type="button">Editar</button>
+                <button type="button">Eliminar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="evento-card">
+            <div class="evento-imagen">
+              <span>Imagen del evento</span>
+            </div>
+
+            <div class="evento-info">
+              <span class="estado estado-proximo">Próximo</span>
+              <h3>Expo Gaming 2026</h3>
+              <p><strong>Fecha:</strong> 10/12/2026</p>
+              <p><strong>Ubicación:</strong> Centro de Convenciones</p>
+              <p><strong>Entrada:</strong> $5.000</p>
+              <p class="evento-descripcion">
+                Encuentro dedicado a videojuegos, tecnología y competencias.
+              </p>
+
+              <div class="evento-acciones">
+                <a href="actividades.html">Ver actividades</a>
+                <button type="button">Editar</button>
+                <button type="button">Eliminar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="evento-card">
+            <div class="evento-imagen">
+              <span>Imagen del evento</span>
+            </div>
+
+            <div class="evento-info">
+              <span class="estado estado-finalizado">Finalizado</span>
+              <h3>Feria de Emprendedores</h3>
+              <p><strong>Fecha:</strong> 15/09/2026</p>
+              <p><strong>Ubicación:</strong> Plaza Central</p>
+              <p><strong>Entrada:</strong> Gratis</p>
+              <p class="evento-descripcion">
+                Feria de productos, proyectos y emprendimientos de la ciudad.
+              </p>
+
+              <div class="evento-acciones">
+                <a href="actividades.html">Ver actividades</a>
+                <button type="button">Editar</button>
+                <button type="button">Eliminar</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <section class="footer-logo"></section>
+      <section class="footer-info">
+        <p>&copy; Festival Manager</p>
+        <p>
+          Universidad Tecnológica Nacional - Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
+    </footer>
+  </body>
+</html>
