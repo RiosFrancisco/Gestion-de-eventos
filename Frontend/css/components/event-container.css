@@ -1,0 +1,41 @@
+@import url("../variables.css");
+@import url("../style.css");
+
+/* Event Cards (Normal + Hover) */
+.event-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radioS);
+  border: 1px solid var(--paletaNegro);
+  background-color: var(--paletaBlanco);
+  color: var(--paletaAzulOscuro);
+  box-shadow: var(--formatoSombraNormal);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.event-container:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--formatoSombraHover);
+}
+
+/* Imagen de event cards */
+
+.event-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: var(--paletaAzulOscuro);
+  color: var(--paletaBlanco);
+  text-align: center;
+}
+
+.event-image img {
+  height: 160px;
+  width: auto;
+}
