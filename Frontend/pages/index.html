@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/variables.css" />
     <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/event-container.css" />
 
     <!-- JavaScript -->
   </head>
@@ -43,19 +44,36 @@
     <main>
       <section class="next-events">
         <h1>Próximos eventos</h1>
+        <p>Estos son los eventos que se celebrarán próximamente.</p>
       </section>
       <section class="events-list">
         <section class="event-container">
           <div class="event-image">
-            <img />
+            <img src="../assets/img/imageTemplate.png" />
           </div>
           <div class="event-info">
+            <span class="estado estado-proximo">Próximo</span>
             <h4 id="event-name">event-name</h4>
-            <p id="event-date">event-date</p>
-            <p id="event-location">event-location</p>
-            <p id="event-entrance-price">event-entrance-price</p>
-            <p id="event-tags">event-tags</p>
-            <p id="event-description">event-description</p>
+            <p id="event-date">
+              <strong>Fecha:</strong>
+              event-date
+            </p>
+            <p id="event-location">
+              <strong>Lugar:</strong>
+              event-location
+            </p>
+            <p id="event-entrance-price">
+              <strong>Valor de entrada:</strong>
+              event-entrance-price
+            </p>
+            <p id="event-description">
+              <strong>Descripción:</strong>
+              event-description
+            </p>
+            <p id="event-tags">
+              <strong>Etiquetas:</strong>
+              event-tags
+            </p>
           </div>
         </section>
       </section>
