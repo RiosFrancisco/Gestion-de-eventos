@@ -35,3 +35,58 @@ event-image {
   object-fit: cover;
   display: block;
 }
+
+/* Estado del evento */
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: var(--radioS);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+#proximo {
+  background-color: #90d7ff;
+  color: #254e70;
+}
+
+#en-curso {
+  background-color: #a9e190;
+  color: #2e5339;
+}
+
+#finalizado {
+  background-color: #c7d3dd;
+  color: #37393a;
+}
+
+#cancelado {
+  background-color: #fbbfca;
+  color: #df2935;
+}
+
+/* Información */
+.event-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  padding: 20px;
+}
+
+.event-info h4 {
+  margin: 12px 0;
+  font-size: 1.3rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.event-info p {
+  margin: 6px 0;
+}
+
+#event-description {
+  margin-block: 12px;
+  line-height: 1.5;
+}
