@@ -24,6 +24,10 @@
   --paletaAzulOscuro: #004e98; /* Steel Azure */
   --paletaNaranja: #ff6700; /* Pumpkin Spice */
 
+  /* Sombreado */
+  --formatoSombraNormal: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --formatoSombraHover: 0 8px 18px rgba(0, 0, 0, 0.2);
+
   /* Fuentes tipográficas*/
   --fuenteTitulo: "Momo Display", sans-serif;
   --fuenteTexto: "Momo Sans", sans-serif;
