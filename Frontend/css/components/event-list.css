@@ -1,2 +1,10 @@
 @import url("../variables.css");
 @import url("../style.css");
+
+/* Grid de eventos */
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--espaciadoS);
+  margin-top: 20px;
+}
