@@ -1,10 +1,30 @@
 @import url(../variables.css);
 @import url(../style.css);
 
+button {
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--espaciadoS);
+  margin: var(--espaciadoXS);
+  align-items: center;
+
+  background: var(--paletaAzulClaro);
+  border: none;
+  border-radius: var(--radioS);
+}
+
+button p {
+  margin: var(--espaciado2XS) 0 0 0;
+  color: var(--paletaBlanco);
+}
+
+/*
 .header-buttons {
   display: flex;
   justify-content: start;
 }
+
 
 #add-button {
   display: flex;
@@ -16,6 +36,7 @@
   width: auto;
   height: 50px;
 }
+
 
 #logo {
   display: flex;
@@ -36,3 +57,4 @@
   width: auto;
   height: 50px;
 }
+*/
