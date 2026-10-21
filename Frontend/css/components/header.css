@@ -9,14 +9,14 @@ header {
   grid-template-columns: 1fr auto 1fr;
   background-color: var(--paletaAzulOscuro);
   align-items: center;
-  padding: var(--espaciadoS);
+  padding-inline: var(--espaciadoS);
 }
 
-/*
 #logo img,
 #add-button img,
-#user-button img {
+#user-button img,
+#my-events-button img,
+#search-button img {
   width: auto;
   height: 50px;
 }
-  */
