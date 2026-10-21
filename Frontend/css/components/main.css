@@ -1,0 +1,28 @@
+@import url("../variables.css");
+@import url("../style.css");
+
+main {
+  padding-inline: var(--espaciadoXS);
+}
+
+.next-events {
+  text-align: center;
+}
+
+.next-events h1 {
+  display: inline-block;
+
+  background-color: #90d7ff; /*Frozen Lake*/
+  color: var(--paletaAzulClaro);
+
+  padding: var(--espaciadoS) var(--espaciadoM);
+  border-radius: var(--radioM);
+  margin-top: var(--espaciado2XL);
+  margin-bottom: var(--espaciadoXS);
+}
+
+.next-events p {
+  margin-top: var(--espaciadoXS);
+  margin-bottom: var(--espaciado2XL);
+  font-weight: 550;
+}
