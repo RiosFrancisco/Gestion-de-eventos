@@ -1,2 +1,24 @@
 @import url("../variables.css");
 @import url("../style.css");
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding: var(--espaciado2XL);
+  background-color: var(--paletaGris);
+  gap: var(--espaciadoM);
+}
+
+footer img {
+  height: 40px;
+  width: auto;
+}
+
+footer p {
+  color: var(--paletaNegro);
+  font-weight: 700;
+  font-size: 14px;
+}
