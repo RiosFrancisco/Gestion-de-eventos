@@ -1,6 +1,7 @@
 @import url(../variables.css);
 @import url(../style.css);
 
+/* ==== Estilo general de botón ==== */
 button {
   display: flex;
   flex-direction: column;
@@ -30,3 +31,9 @@ button:active {
   background-color: var(--paletaGris);
   transition: 0.1s;
 }
+
+button p {
+  padding: 0;
+  margin: 0;
+}
+/* ==== * ==== */
