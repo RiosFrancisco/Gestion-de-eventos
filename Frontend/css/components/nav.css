@@ -11,7 +11,7 @@ nav p {
   font-weight: 500;
 }
 
-.user-icon {
+.nav-buttons-right {
   justify-self: end;
   align-items: end;
   margin-right: 25px;
