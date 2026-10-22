@@ -2,7 +2,7 @@
 @import url("../style.css");
 
 main {
-  padding-inline: var(--espaciadoXS);
+  padding: var(--espaciadoS);
 }
 
 .next-events {
