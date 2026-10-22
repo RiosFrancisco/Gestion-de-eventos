@@ -9,7 +9,7 @@ header {
   grid-template-columns: 1fr auto 1fr;
   background-color: var(--paletaAzulOscuro);
   align-items: center;
-  padding-inline: var(--espaciadoS);
+  padding: var(--espaciadoS);
 }
 
 #logo img,
