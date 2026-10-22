@@ -6,7 +6,6 @@ body {
   padding: 0;
   min-height: 100%;
   width: 100%;
-  overflow-x: hidden;
 
   display: flex;
   flex-direction: column;
@@ -14,6 +13,7 @@ body {
 
 main {
   flex: 1;
+  overflow-x: hidden;
 }
 
 /* ==== FORMATO DE TEXTOS ==== */
