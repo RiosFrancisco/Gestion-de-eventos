@@ -1,6 +1,7 @@
 @import url("../variables.css");
 @import url("../style.css");
 
+/* ==== Header ==== */
 header {
   position: sticky;
   width: 100%;
@@ -10,8 +11,13 @@ header {
   background-color: var(--paletaAzulOscuro);
   align-items: center;
   padding: var(--espaciadoS);
-}
 
+  box-sizing: border-box;
+  box-shadow: var(--formatoSombraNormal);
+}
+/* ==== * ==== */
+
+/* ==== Imágenes del header ====*/
 #logo img,
 #add-button img,
 #user-button img,
@@ -20,3 +26,4 @@ header {
   width: auto;
   height: 40px;
 }
+/* ==== * ==== */
