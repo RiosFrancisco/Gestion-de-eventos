@@ -1,12 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { cancelacionEvento } from "../services/evento.service";
+import { 
+    cancelacionEvento,
+    crearEvento
+} from "../services/evento.service";
 import {
     getEventoModificable,
     cancelarEvento
 } from "../repositories/evento.repository";
 import { ROLES } from "../utils/roles";
-import type { Evento } from "../models/evento.model";
-import { getCategoriasById } from "../repositories/categorias.repository";
+import type { Evento, CrearEvento } from "../models/evento.model";
+
 
 //simulamos funciones de repositorio
 vi.mock("../repositories/evento.repository", () => ({
@@ -44,6 +47,7 @@ const eventoCancelado = {
 const mockGetEvento = vi.mocked(getEventoModificable);
 const mockCancelarEvento = vi.mocked(cancelarEvento);
 
+//tests relacionados a cancelacion de eventos
 describe("cancelacionEvento", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -119,5 +123,82 @@ describe("cancelacionEvento", () => {
         ).rejects.toThrow("No se puede cancelar un evento ya cancelado o finalizado.");
 
         expect(mockCancelarEvento).not.toHaveBeenCalled();
+    });
+});
+
+//tests relacionador a creacion de eventos
+describe("crearEvento", () => {
+
+    const datosEvento: CrearEvento = {
+        categoria_id: 1,
+        nombre: "Evento de prueba",
+        descripcion: "Descripcion de evento",
+        fecha: "2030-12-15",
+        hora: "15:00",
+        ubicacion: "Bahia Blanca"
+    };
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it("Debe crear un evento cuando los datos son validos", async () => {
+        
+        const eventoCreado = {
+            ...eventoPublicado,
+            creador_id: 10
+        };
+
+        const mockCreateEvento = vi.mocked(
+            await import("../repositories/evento.repository")
+        ).createEvento;
+
+        const mockGetCategoria = vi.mocked(
+            await import("../repositories/categorias.repository")
+        ).getCategoriasById;
+
+        mockGetCategoria.mockResolvedValue({ id: 1 } as any);
+        mockCreateEvento.mockResolvedValue(eventoCreado);
+
+        const resultado = await crearEvento(10, datosEvento);
+
+        expect(mockGetCategoria).toHaveBeenCalledWith(1);
+        expect(mockCreateEvento).toHaveBeenCalledWith(10, datosEvento);
+        expect(resultado).toEqual(eventoCreado);
+    });
+
+    it("No debe crear un evento con fecha pasada", async () => {
+
+        await expect(
+            crearEvento(10, {
+                ...datosEvento,
+                fecha: "2020-01-01"
+            })
+        ).rejects.toThrow("La fecha no puede ser pasada");
+
+        expect(
+            vi.mocked(
+                (await import("../repositories/evento.repository")).createEvento
+            )
+        ).not.toHaveBeenCalled();
+    });
+
+    it("No debe crear un evento si la categoria no existe", async () => {
+
+        const mockGetCategoria = vi.mocked(
+            (await import("../repositories/categorias.repository")).getCategoriasById
+        );
+
+        mockGetCategoria.mockResolvedValue(undefined);
+
+        await expect(
+            crearEvento(10, datosEvento)
+        ).rejects.toThrow("La categoria seleccionada no existe");
+
+        expect(
+            vi.mocked(
+                (await import("../repositories/evento.repository")).createEvento
+            )
+        ).not.toHaveBeenCalled();
     });
 });
