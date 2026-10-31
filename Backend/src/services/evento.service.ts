@@ -100,7 +100,7 @@ export async function cancelacionEvento(eventoId: number, usuarioId: number, rol
     return await cancelarEvento(eventoId);
 }
 
-export async function activacionEvento(eventoId: number, usuarioId: number, rolId: number) {
+export async function activacionEvento(eventoId: number, usuarioId: number, rolId: number, datos: ActualizarEvento) {
     const evento = await getEventoModificable(eventoId);
 
     if (!evento) {
@@ -112,6 +112,17 @@ export async function activacionEvento(eventoId: number, usuarioId: number, rolI
 
     if (!esAdmin && !esCreador) {
         throw new Error("No tiene permisos para realizar esta accion.");
+    }
+
+    if (datos.fecha || datos.hora) {
+        const fecha = datos.fecha ?? evento.fecha;
+        const hora = datos.hora ?? evento.hora;
+
+        const fechaEvento = new Date(`${fecha}T${hora}`);
+
+        if (fechaEvento <= new Date()) {
+            throw new Error("La fecha y hora no pueden ser pasadas.")
+        }
     }
 
     if (evento.estado === "finalizado" || evento.estado === "publicado") {

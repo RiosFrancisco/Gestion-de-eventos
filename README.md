@@ -325,7 +325,6 @@ Ejemplo:
 src/
 │
 ├── controllers/
-├── database/
 ├── services/
 ├── repositories/
 ├── routes/
@@ -333,6 +332,7 @@ src/
 ├── validators/
 ├── models/
 ├── config/
+├── tests/
 └── utils/
 ```
 
