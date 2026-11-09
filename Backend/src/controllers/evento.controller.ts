@@ -22,7 +22,7 @@ export async function createEventoController(req: AuthRequest, res: Response) {
     try {
         const usuario = req.usuario;
         if (!usuario) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Debe loguearse para realizar esta accion"
             });
         }
@@ -158,7 +158,7 @@ export async function activarEventoController(req: AuthRequest, res: Response) {
             });
         }
 
-        const evento = await activacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id);
+        const evento = await activacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id, req.body);
 
         return res.status(200).json({
             message: "Evento ha cambiado a estado publicado correctamente.",

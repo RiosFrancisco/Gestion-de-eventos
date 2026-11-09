@@ -5,10 +5,12 @@ import {
 } from "../services/evento.service";
 import {
     getEventoModificable,
-    cancelarEvento
+    cancelarEvento,
+    createEvento
 } from "../repositories/evento.repository";
 import { ROLES } from "../utils/roles";
 import type { Evento, CrearEvento } from "../models/evento.model";
+import { getCategoriasById } from "../repositories/categorias.repository";
 
 
 //simulamos funciones de repositorio
@@ -149,13 +151,8 @@ describe("crearEvento", () => {
             creador_id: 10
         };
 
-        const mockCreateEvento = vi.mocked(
-            await import("../repositories/evento.repository")
-        ).createEvento;
-
-        const mockGetCategoria = vi.mocked(
-            await import("../repositories/categorias.repository")
-        ).getCategoriasById;
+        const mockCreateEvento = vi.mocked(createEvento);
+        const mockGetCategoria = vi.mocked(getCategoriasById);
 
         mockGetCategoria.mockResolvedValue({ id: 1 } as any);
         mockCreateEvento.mockResolvedValue(eventoCreado);
@@ -185,9 +182,7 @@ describe("crearEvento", () => {
 
     it("No debe crear un evento si la categoria no existe", async () => {
 
-        const mockGetCategoria = vi.mocked(
-            (await import("../repositories/categorias.repository")).getCategoriasById
-        );
+        const mockGetCategoria = vi.mocked(getCategoriasById);
 
         mockGetCategoria.mockResolvedValue(undefined);
 
