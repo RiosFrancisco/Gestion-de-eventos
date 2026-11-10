@@ -59,6 +59,8 @@ CREATE TABLE actividades (
     capacidad INTEGER CHECK (capacidad > 0),
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    estado VARCHAR(20) NOT NULL DEFAULT 'publicado'
+    CHECK (estado IN ('publicado', 'cancelado', 'finalizado')),
 );
 
 
