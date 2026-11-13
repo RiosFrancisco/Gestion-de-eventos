@@ -1,19 +1,26 @@
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { 
+
+import {
     cancelacionEvento,
     crearEvento
 } from "../services/evento.service";
+
 import {
+    createEvento,
     getEventoModificable,
-    cancelarEvento,
-    createEvento
+    cancelarEvento
 } from "../repositories/evento.repository";
-import { ROLES } from "../utils/roles";
-import type { Evento, CrearEvento } from "../models/evento.model";
+
 import { getCategoriasById } from "../repositories/categorias.repository";
+import { ROLES } from "../utils/roles";
 
+import type {
+    Evento,
+    CrearEvento
+} from "../models/evento.model";
 
-//simulamos funciones de repositorio
+// Simulamos las dependencias del servicio.
 vi.mock("../repositories/evento.repository", () => ({
     createEvento: vi.fn(),
     getAllEventos: vi.fn(),
@@ -28,37 +35,55 @@ vi.mock("../repositories/categorias.repository", () => ({
     getCategoriasById: vi.fn()
 }));
 
-//creamos evento de prueba
-const eventoPublicado = {
+// Referencias tipadas a los mocks.
+const mockCreateEvento = vi.mocked(createEvento);
+const mockGetEvento = vi.mocked(getEventoModificable);
+const mockCancelarEvento = vi.mocked(cancelarEvento);
+const mockGetCategoria = vi.mocked(getCategoriasById);
+
+// Datos de prueba compartidos.
+const eventoPublicado: Evento = {
     id: 1,
     creador_id: 10,
     categoria_id: 1,
     nombre: "Evento de prueba",
+    descripcion: "Descripción del evento",
     fecha: "2030-12-20",
     hora: "20:00:00",
     ubicacion: "Bahia Blanca",
     estado: "publicado",
     created_at: new Date()
-} as unknown as Evento;
+};
 
-const eventoCancelado = {
+const eventoCancelado: Evento = {
     ...eventoPublicado,
     estado: "cancelado"
-} as Evento;
+};
 
-const mockGetEvento = vi.mocked(getEventoModificable);
-const mockCancelarEvento = vi.mocked(cancelarEvento);
+const datosEvento: CrearEvento = {
+    categoria_id: 1,
+    nombre: "Evento de prueba",
+    descripcion: "Descripcion de evento",
+    fecha: "2030-12-15",
+    hora: "15:00",
+    ubicacion: "Bahia Blanca"
+};
 
-//tests relacionados a cancelacion de eventos
+// Reiniciamos los mocks antes de cada test.
+beforeEach(() => {
+    vi.resetAllMocks();
+});
+
+
 describe("cancelacionEvento", () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
 
+    beforeEach(() => {
         mockGetEvento.mockResolvedValue(eventoPublicado);
         mockCancelarEvento.mockResolvedValue(eventoCancelado);
     });
 
-    it("Debe permitir que el creador cancele su evento", async () => {
+    it("debe permitir que el creador cancele su evento", async () => {
+
         const resultado = await cancelacionEvento(
             1,
             10,
@@ -69,7 +94,8 @@ describe("cancelacionEvento", () => {
         expect(resultado).toEqual(eventoCancelado);
     });
 
-    it("Debe permitir que un administrador cancele cualquier evento.", async () => {
+    it("debe permitir que un administrador cancele cualquier evento", async () => {
+
         const resultado = await cancelacionEvento(
             1,
             99,
@@ -80,8 +106,8 @@ describe("cancelacionEvento", () => {
         expect(resultado).toEqual(eventoCancelado);
     });
 
-    it("No debe permitir que otro usuario cancele el evento", async () => {
-        
+    it("no debe permitir cancelar eventos ajenos", async () => {
+
         await expect(
             cancelacionEvento(1, 99, ROLES.usuario)
         ).rejects.toThrow(
@@ -91,7 +117,8 @@ describe("cancelacionEvento", () => {
         expect(mockCancelarEvento).not.toHaveBeenCalled();
     });
 
-    it("Debe rechazar la cancelacion si el evento no existe", async () => {
+    it("debe rechazar la cancelación de un evento inexistente", async () => {
+
         mockGetEvento.mockResolvedValueOnce(undefined);
 
         await expect(
@@ -101,70 +128,64 @@ describe("cancelacionEvento", () => {
         expect(mockCancelarEvento).not.toHaveBeenCalled();
     });
 
-    it("No debe permitir cancelar un evento ya cancelado.", async () => {
-        mockGetEvento.mockResolvedValueOnce({
-            ...eventoPublicado,
-            estado: "cancelado"
-        } as Evento);
+    it("no debe permitir cancelar un evento ya cancelado", async () => {
+
+        mockGetEvento.mockResolvedValueOnce(eventoCancelado);
 
         await expect(
             cancelacionEvento(1, 10, ROLES.creador)
-        ).rejects.toThrow("No se puede cancelar un evento ya cancelado o finalizado.");
+        ).rejects.toThrow(
+            "No se puede cancelar un evento ya cancelado o finalizado."
+        );
 
         expect(mockCancelarEvento).not.toHaveBeenCalled();
     });
 
-    it("No debe permitir cancelar un evento finalizado", async () => {
-        mockGetEvento.mockResolvedValueOnce({
+    it("no debe permitir cancelar un evento finalizado", async () => {
+
+        const eventoFinalizado: Evento = {
             ...eventoPublicado,
             estado: "finalizado"
-        } as Evento);
+        };
+
+        mockGetEvento.mockResolvedValueOnce(eventoFinalizado);
 
         await expect(
             cancelacionEvento(1, 10, ROLES.creador)
-        ).rejects.toThrow("No se puede cancelar un evento ya cancelado o finalizado.");
+        ).rejects.toThrow(
+            "No se puede cancelar un evento ya cancelado o finalizado."
+        );
 
         expect(mockCancelarEvento).not.toHaveBeenCalled();
     });
 });
 
-//tests relacionador a creacion de eventos
+
 describe("crearEvento", () => {
 
-    const datosEvento: CrearEvento = {
-        categoria_id: 1,
-        nombre: "Evento de prueba",
-        descripcion: "Descripcion de evento",
-        fecha: "2030-12-15",
-        hora: "15:00",
-        ubicacion: "Bahia Blanca"
-    };
-
     beforeEach(() => {
-        vi.clearAllMocks();
+        mockGetCategoria.mockResolvedValue({
+            id: 1,
+            nombre: "Tecnología"
+        });
+
+        mockCreateEvento.mockResolvedValue(eventoPublicado);
     });
 
-    it("Debe crear un evento cuando los datos son validos", async () => {
-        
-        const eventoCreado = {
-            ...eventoPublicado,
-            creador_id: 10
-        };
-
-        const mockCreateEvento = vi.mocked(createEvento);
-        const mockGetCategoria = vi.mocked(getCategoriasById);
-
-        mockGetCategoria.mockResolvedValue({ id: 1 } as any);
-        mockCreateEvento.mockResolvedValue(eventoCreado);
+    it("debe crear un evento cuando los datos son válidos", async () => {
 
         const resultado = await crearEvento(10, datosEvento);
 
         expect(mockGetCategoria).toHaveBeenCalledWith(1);
-        expect(mockCreateEvento).toHaveBeenCalledWith(10, datosEvento);
-        expect(resultado).toEqual(eventoCreado);
+        expect(mockCreateEvento).toHaveBeenCalledWith(
+            10,
+            datosEvento
+        );
+
+        expect(resultado).toEqual(eventoPublicado);
     });
 
-    it("No debe crear un evento con fecha pasada", async () => {
+    it("no debe crear un evento con fecha pasada", async () => {
 
         await expect(
             crearEvento(10, {
@@ -173,27 +194,21 @@ describe("crearEvento", () => {
             })
         ).rejects.toThrow("La fecha no puede ser pasada");
 
-        expect(
-            vi.mocked(
-                (await import("../repositories/evento.repository")).createEvento
-            )
-        ).not.toHaveBeenCalled();
+        expect(mockGetCategoria).not.toHaveBeenCalled();
+        expect(mockCreateEvento).not.toHaveBeenCalled();
     });
 
-    it("No debe crear un evento si la categoria no existe", async () => {
+    it("no debe crear un evento si la categoría no existe", async () => {
 
-        const mockGetCategoria = vi.mocked(getCategoriasById);
-
-        mockGetCategoria.mockResolvedValue(undefined);
+        mockGetCategoria.mockResolvedValueOnce(undefined);
 
         await expect(
             crearEvento(10, datosEvento)
-        ).rejects.toThrow("La categoria seleccionada no existe");
+        ).rejects.toThrow(
+            "La categoria seleccionada no existe"
+        );
 
-        expect(
-            vi.mocked(
-                (await import("../repositories/evento.repository")).createEvento
-            )
-        ).not.toHaveBeenCalled();
+        expect(mockGetCategoria).toHaveBeenCalledWith(1);
+        expect(mockCreateEvento).not.toHaveBeenCalled();
     });
 });

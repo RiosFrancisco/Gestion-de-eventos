@@ -27,6 +27,9 @@ Beneficios:
 Costo:
 - agrega pequeñas funciones auxiliares.
 
+# Migracion de la base de datos
+Se hizo una migracion para agregar un estado de actividades, ya que sin esta, no podiamos cancelar actividades sin eliminarlas.
+
 ## Mejoras futuras: 
 
 # Patrones de diseño
