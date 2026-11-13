@@ -49,8 +49,7 @@ export async function getActividadById(
             estado,
             created_at
         FROM actividades
-        WHERE evento_id = $1
-        ORDER BY fecha ASC, hora ASC`,
+        WHERE id = $1`,
         [actividadId]
     );
 
