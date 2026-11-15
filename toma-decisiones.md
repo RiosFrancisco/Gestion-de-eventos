@@ -27,8 +27,11 @@ Beneficios:
 Costo:
 - agrega pequeñas funciones auxiliares.
 
-# Migracion de la base de datos
-Se hizo una migracion para agregar un estado de actividades, ya que sin esta, no podiamos cancelar actividades sin eliminarlas.
+# Módulos pendientes
+Noticias: publicación, modificación y eliminación de noticias asociadas a eventos.
+Propuestas gastronómicas: gestión de ofertas gastronómicas vinculadas a eventos.
+Pagos: administración de pagos y suscripciones para acceder a funcionalidades de creador.
+Notificaciones: comunicación de novedades, cancelaciones y modificaciones relevantes.
 
 ## Mejoras futuras: 
 
@@ -45,57 +48,3 @@ Situación actual: los controladores gestionan errores de forma local y algunas 
 Propuesta: incorporar una clase de error de aplicación (por ejemplo, AppError) y un middleware global de errores en Express. Los servicios comunicarían fallos de negocio conocidos; el middleware los convertiría en respuestas HTTP consistentes (400, 401, 403, 404, 409) y reservaría 500 para errores inesperados.
 
 Beneficios: eliminar try/catch repetidos, unificar el formato de respuesta y facilitar la incorporación de actividades, inscripciones y otros módulos.
-
-
-
-// A tratar que se hace con esto:
-
-CREATE TABLE noticias (
-    id BIGSERIAL PRIMARY KEY,
-    evento_id BIGINT NOT NULL
-        REFERENCES eventos(id)
-        ON DELETE CASCADE,
-    titulo VARCHAR(150) NOT NULL,
-    descripcion TEXT NOT NULL,
-    imagen TEXT,
-    fecha_publicacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE propuestas_gastronomicas (
-    id BIGSERIAL PRIMARY KEY,
-    evento_id BIGINT NOT NULL
-        REFERENCES eventos(id)
-        ON DELETE CASCADE,
-    nombre VARCHAR(150) NOT NULL,
-    descripcion TEXT,
-    ubicacion VARCHAR(150),
-    horarios VARCHAR(150),
-    informacion_adicional TEXT
-);
-
-CREATE TABLE contrataciones (
-    id BIGSERIAL PRIMARY KEY,
-    usuario_id BIGINT NOT NULL
-        REFERENCES usuarios(id),
-    plan_id INTEGER NOT NULL
-        REFERENCES planes(id),
-    fecha_inicio TIMESTAMP NOT NULL,
-    fecha_fin TIMESTAMP NOT NULL,
-    estado VARCHAR(20) NOT NULL
-    CHECK (estado IN ('pendiente', 'activa', 'vencida', 'cancelada')),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CHECK (fecha_fin > fecha_inicio)
-);
-
-CREATE TABLE pagos (
-    id BIGSERIAL PRIMARY KEY,
-    contratacion_id BIGINT NOT NULL
-        REFERENCES contrataciones(id),
-    monto NUMERIC(12,2) NOT NULL CHECK (monto >= 0),
-    fecha_pago TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    estado VARCHAR(20) NOT NULL
-    CHECK (estado IN ('pendiente', 'aprobado', 'rechazado')),
-    metodo_pago VARCHAR(50),
-    referencia_externa VARCHAR(150)
-);
