@@ -419,12 +419,13 @@ Además, se utilizarán las correspondientes dependencias de tipos para TypeScri
 ## Instalación y ejecución
 # Requisitos previos
 
-Antes de instalar el proyecto, es necesario contar con:
-
-Node.js
-npm
-PostgreSQL
-Git
+Antes de comenzar, necesitás instalar estas herramientas:
+Herramienta	Para qué sirve
+Node.js	-- Para ejecutar el backend
+PostgreSQL	-- Para almacenar los datos
+pgAdmin 4	-- Administrar las bases de datos
+Visual Studio Code   -- Abrir y trabajar con el código
+Postman	-- Probar los endpoints de la API
 
 # 1. Clonar el repositorio
 git clone https://github.com/RiosFrancisco/Gestion-de-eventos
@@ -433,41 +434,63 @@ cd Gestion-de-eventos
 # 2. Instalar las dependencias
 - Frontend
 cd frontend
-npm install
+npm ci
 
 - Backend
 cd ../backend
-npm install
+npm ci
 
-# 3. Configurar las variables de entorno
-- Backend
-Crear un archivo .env dentro de la carpeta backend:
-PORT=3001
-DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
-JWT_SECRET=clave_secreta
+El comando "npm ci" instala las dependencias fijadas en package-lock.json.
 
-- Frontend
-Crear un archivo .env.local dentro de la carpeta frontend:
-NEXT_PUBLIC_API_URL=http://localhost:3001
+# 3. Crear las bases de datos PostgreSQL
+Necesitás dos bases de datos diferentes:
+- gestion_de_eventos: para ejecutar normalmente la aplicación.
+- gestion_de_eventos_test: exclusivamente para realizar pruebas de integración.
 
-# 4. Configurar PostgreSQL
+Abrí pgAdmin 4, conectate a tu servidor PostgreSQL y seguí estos pasos:
+1. Buscá Databases.
+2. Hacé clic derecho y seleccioná Create → Database.
+3. En el campo Database, escribí gestion_de_eventos.
+4. Guardá.
+5. Repetí los pasos para gestion_de_eventos_test.
+Si PostgreSQL solicita una contraseña, utilizá la correspondiente al usuario de tu instalación.
 
-Crear la base de datos correspondiente en PostgreSQL si todavía no existe:
+En pgAdmin:
+1. Seleccioná la base de datos gestion_de_eventos.
+2. Abrí Query Tool.
+3. Abrí el contenido de schema.sql, pegalo en Query Tool y ejecutalo con el botón de reproducción.
+4. Hacé lo mismo con 002_agregacion_estado_inscripciones.sql.
+5. Finalmente, ejecutá seed.sql.
+Repetí exactamente el mismo procedimiento para gestion_de_eventos_test.
 
-```sql
-CREATE DATABASE gestion_eventos;
-```
-Luego ejecutar los archivos (pueden ejecutarse utilizando pgAdmin u otro cliente PostgreSQL):
+Para comprobar, ejecuta en ambas bases de datos:
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
 
-```
-Backend/database/schema.sql
-Backend/database/seed.sql
-```
+# 4. Configurar las variables de entorno
+En la carpeta principal Backend, creá un archivo llamado .env.
 
-`schema.sql` crea las tablas y restricciones.
+Agregá:
+   PORT=3001
+   DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos
+   JWT_SECRET=CAMBIAR_POR_UN_SECRETO_LARGO_Y_ALEATORIO
 
-`seed.sql` inserta los datos iniciales necesarios, como roles y categorías.
+Tenés que reemplazar TU_PASSWORD por la contraseña real de PostgreSQL y JWT_SECRET por una clave secreta propia, larga y aleatoria.
 
+Creá otro archivo en la misma carpeta, llamado .env.test.
+
+Agregá: 
+   DATABASE_URL_TEST=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test
+   JWT_SECRET=OTRO_SECRETO_LARGO_Y_ALEATORIO_PARA_TESTING
+
+
+# 5. Verificar TypeScript
+Antes de iniciar el servidor, comprobá si el proyecto tiene errores de tipado.
+
+Ejecutá: npm run typecheck
+Este comando utiliza tsc --noEmit: verifica el código TypeScript sin generar archivos.
 
 # 5. Ejecutar el Backend
 Desde la carpeta backend:
