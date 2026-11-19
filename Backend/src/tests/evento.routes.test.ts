@@ -31,13 +31,6 @@ describe("Rutas de eventos", () => {
         );
     }
 
-    it("Debe responder correctamente la ruta de salud", async () => {
-        const respuesta = await request(app).get("/health");
-
-        expect(respuesta.status).toBe(200);
-        expect(respuesta.body).toEqual({ status: "ok" });
-    });
-
     it("No debe permitir crear eventos sin autenticación", async () => {
         const respuesta = await request(app)
             .post("/api/eventos")

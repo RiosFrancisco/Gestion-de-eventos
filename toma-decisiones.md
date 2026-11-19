@@ -19,13 +19,24 @@ Costo:
 
 # Agregacion de carpeta utils
 pg puede devolver ciertos valores numéricos como strings.
-Para no repetir conversiones en cada función se creó mapEvento().
+Para no repetir conversiones en cada función se creó mapEvento(), asi en ...\repositories\evento.repository.ts, simplemente llamamos a dicha funcion para que se encargue de las conversiones en las funciones que lo requieran. 
+Asi tambien se aplicó mapActividad() para ...\repositories\actividad.repository.ts
+Y mapUsuario() para ...\repositories\usuario.repository.ts
 Beneficios:
 - menos código repetido;
 - conversiones centralizadas;
 - repositories más limpios.
 Costo:
 - agrega pequeñas funciones auxiliares.
+
+# Test implementados
+se priorizó verificar los comportamientos críticos del sistema.
+Criterios que se tuvieron en cuenta:
+- Importancia de la funcionalidad: Se priorizaron operaciones críticas, como la gestión de eventos, actividades y permisos.
+- Riesgo de errores: Se verificaron situaciones que podrían producir operaciones incorrectas o no autorizadas.
+- Diversidad de escenarios: Se incluyeron casos exitosos, entradas inválidas y situaciones excepcionales.
+
+Por ejemplo, cancelar un evento requiere verificar más de un escenario: que el creador pueda cancelarlo, que otro usuario no pueda hacerlo y que el sistema rechace eventos inexistentes o ya cancelados.
 
 # Módulos pendientes
 Noticias: publicación, modificación y eliminación de noticias asociadas a eventos.
@@ -47,4 +58,5 @@ Situación actual: los controladores gestionan errores de forma local y algunas 
 
 Propuesta: incorporar una clase de error de aplicación (por ejemplo, AppError) y un middleware global de errores en Express. Los servicios comunicarían fallos de negocio conocidos; el middleware los convertiría en respuestas HTTP consistentes (400, 401, 403, 404, 409) y reservaría 500 para errores inesperados.
 
-Beneficios: eliminar try/catch repetidos, unificar el formato de respuesta y facilitar la incorporación de actividades, inscripciones y otros módulos.
+Beneficios: eliminar try/catch repetidos, unificar el formato de respuesta.
+

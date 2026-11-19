@@ -419,13 +419,12 @@ Además, se utilizarán las correspondientes dependencias de tipos para TypeScri
 ## Instalación y ejecución
 # Requisitos previos
 
-Antes de comenzar, necesitás instalar estas herramientas:
-Herramienta	Para qué sirve
-Node.js	-- Para ejecutar el backend
-PostgreSQL	-- Para almacenar los datos
-pgAdmin 4	-- Administrar las bases de datos
-Visual Studio Code   -- Abrir y trabajar con el código
-Postman	-- Probar los endpoints de la API
+Antes de instalar el proyecto, es necesario contar con:
+
+Node.js
+npm
+PostgreSQL
+Git
 
 # 1. Clonar el repositorio
 git clone https://github.com/RiosFrancisco/Gestion-de-eventos
@@ -440,57 +439,34 @@ npm ci
 cd ../backend
 npm ci
 
-El comando "npm ci" instala las dependencias fijadas en package-lock.json.
+# 3. Configurar las variables de entorno
+- Backend
+Crear un archivo .env dentro de la carpeta backend:
+PORT=3001
+DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
+(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
+JWT_SECRET=clave_secreta
 
-# 3. Crear las bases de datos PostgreSQL
-Necesitás dos bases de datos diferentes:
-- gestion_de_eventos: para ejecutar normalmente la aplicación.
-- gestion_de_eventos_test: exclusivamente para realizar pruebas de integración.
+- Frontend
+Crear un archivo .env.local dentro de la carpeta frontend:
+NEXT_PUBLIC_API_URL=http://localhost:3001
 
-Abrí pgAdmin 4, conectate a tu servidor PostgreSQL y seguí estos pasos:
-1. Buscá Databases.
-2. Hacé clic derecho y seleccioná Create → Database.
-3. En el campo Database, escribí gestion_de_eventos.
-4. Guardá.
-5. Repetí los pasos para gestion_de_eventos_test.
-Si PostgreSQL solicita una contraseña, utilizá la correspondiente al usuario de tu instalación.
+# 4. Configurar PostgreSQL
+1. Abrí pgAdmin 4.
+2. Conectate a tu servidor PostgreSQL.
+3. En el panel izquierdo, buscá Databases.
+4. Hacé clic derecho sobre Databases.
+5. Seleccioná Create → Database.
+6. Escribí el siguiente nombre: gestion_eventos
+7. Expandí Databases.
+8. Seleccioná gestion_eventos.
+9. Hacé clic derecho y elegí Query Tool.
+10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
 
-En pgAdmin:
-1. Seleccioná la base de datos gestion_de_eventos.
-2. Abrí Query Tool.
-3. Abrí el contenido de schema.sql, pegalo en Query Tool y ejecutalo con el botón de reproducción.
-4. Hacé lo mismo con 002_agregacion_estado_inscripciones.sql.
-5. Finalmente, ejecutá seed.sql.
-Repetí exactamente el mismo procedimiento para gestion_de_eventos_test.
+`schema.sql` crea las tablas y restricciones.
+`seed.sql` inserta los datos iniciales necesarios, como roles y categorías.
 
-Para comprobar, ejecuta en ambas bases de datos:
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'public'
-ORDER BY table_name;
-
-# 4. Configurar las variables de entorno
-En la carpeta principal Backend, creá un archivo llamado .env.
-
-Agregá:
-   PORT=3001
-   DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos
-   JWT_SECRET=CAMBIAR_POR_UN_SECRETO_LARGO_Y_ALEATORIO
-
-Tenés que reemplazar TU_PASSWORD por la contraseña real de PostgreSQL y JWT_SECRET por una clave secreta propia, larga y aleatoria.
-
-Creá otro archivo en la misma carpeta, llamado .env.test.
-
-Agregá: 
-   DATABASE_URL_TEST=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test
-   JWT_SECRET=OTRO_SECRETO_LARGO_Y_ALEATORIO_PARA_TESTING
-
-
-# 5. Verificar TypeScript
-Antes de iniciar el servidor, comprobá si el proyecto tiene errores de tipado.
-
-Ejecutá: npm run typecheck
-Este comando utiliza tsc --noEmit: verifica el código TypeScript sin generar archivos.
 
 # 5. Ejecutar el Backend
 Desde la carpeta backend:
@@ -513,6 +489,44 @@ El servidor de desarrollo del frontend.
 El servidor de PostgreSQL.
 El frontend se comunicará con el backend mediante la API REST, mientras que el backend gestionará la conexión con la base de datos PostgreSQL.
 
+
+# Configurar base de datos de testing
+El proyecto utiliza Vitest para ejecutar pruebas automatizadas y Supertest para verificar el comportamiento de los endpoints HTTP.
+
+Las pruebas de integración utilizan una base de datos PostgreSQL independiente, con el objetivo de evitar modificaciones en los datos de desarrollo.
+
+- Backend
+Crear un archivo .env.test dentro de la carpeta backend:
+DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test  
+(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
+
+Luego seguir los siguientes pasos:
+1. Abrí pgAdmin 4.
+2. Conectate a tu servidor PostgreSQL.
+3. En el panel izquierdo, buscá Databases.
+4. Hacé clic derecho sobre Databases.
+5. Seleccioná Create → Database.
+6. Escribí el siguiente nombre: gestion_de_eventos_test (IMPORTANTE: mantener el nombre ya que se valida en tests\config.database-test.ts)
+7. Expandí Databases.
+8. Seleccioná gestion_de_eventos_test.
+9. Hacé clic derecho y elegí Query Tool.
+10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+
+Desde una terminal ubicada en la carpeta backend, ejecutar:
+
+- Pruebas unitarias y de rutas:
+npm test
+
+- Pruebas de integración con PostgreSQL: 
+npm run test:integration
+
+- Verificación de tipos de TypeScript:
+npm run typecheck
+
+- Para comprobar únicamente la conexión a PostgreSQL y la existencia de la tabla de eventos:
+npm run test:integration -- src/tests/database.integration.test.ts
+
 # Funcionalidades previstas
 
 ## Usuarios
@@ -526,32 +540,30 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 
 ## Eventos
 
-- [ ] Listado de eventos.
+- [✅] Listado de eventos.
 - [ ] Eventos próximos.
-- [ ] Búsqueda.
+- [✅] Búsqueda.
 - [ ] Filtros.
-- [ ] Detalle del evento.
-- [ ] Creación de eventos.
-- [ ] Edición de eventos.
-- [ ] Eliminación de eventos.
+- [✅] Detalle del evento.
+- [✅] Creación de eventos.
+- [✅] Edición de eventos.
+- [✅] Cancelación de eventos.
 
 ## Actividades
 
-- [ ] Crear actividades.
-- [ ] Editar actividades.
-- [ ] Eliminar actividades.
-- [ ] Consultar actividades.
-- [ ] Inscripción a actividades.
-- [ ] Control de cupos.
-- [ ] Prevención de inscripciones duplicadas.
+- [✅] Crear actividades.
+- [✅] Editar actividades.
+- [✅] Cancelar actividades.
+- [✅] Consultar actividades.
+- [✅] Inscripción a actividades.
+- [✅] Control de cupos.
+- [✅] Prevención de inscripciones duplicadas.
 
 ## Administración
 
 - [ ] Panel administrativo.
-- [ ] Gestión de eventos propios.
-- [ ] Gestión de actividades.
-- [ ] Gestión de noticias.
-- [ ] Gestión gastronómica.
+- [✅] Gestión de eventos propios.
+- [✅] Gestión de actividades.
 - [ ] Consulta de participantes.
 
 ## Pagos (A FUTURO)
