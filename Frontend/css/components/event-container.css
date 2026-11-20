@@ -23,10 +23,9 @@
 
 /* Imagen de event cards */
 
-event-image {
-  height: 160px;
+.event-image {
+  height: 220px;
   overflow: hidden;
-  background-color: var(--paletaAzulOscuro);
 }
 
 .event-image img {
