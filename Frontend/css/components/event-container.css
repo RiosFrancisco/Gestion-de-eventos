@@ -37,30 +37,46 @@
 
 /* Estado del evento */
 
-.status {
+.status-next {
   display: inline-block;
   padding: 5px 10px;
   border-radius: var(--radioS);
   font-size: 0.85rem;
   font-weight: 650;
-}
 
-#proximo {
   background-color: #90d7ff;
   color: #254e70;
 }
 
-#en-curso {
+.status-ongoing {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: var(--radioS);
+  font-size: 0.85rem;
+  font-weight: 650;
+
   background-color: #a9e190;
   color: #2e5339;
 }
 
-#finalizado {
+.status-finished {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: var(--radioS);
+  font-size: 0.85rem;
+  font-weight: 650;
+
   background-color: #c7d3dd;
   color: #37393a;
 }
 
-#cancelado {
+.status-cancelled {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: var(--radioS);
+  font-size: 0.85rem;
+  font-weight: 650;
+
   background-color: #fbbfca;
   color: #df2935;
 }
