@@ -8,3 +8,18 @@
   gap: var(--espaciadoS);
   margin-top: 20px;
 }
+
+/* mensajes event-list */
+
+.events-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin: 40px auto;
+  font-size: 1.1rem;
+  color: var(--paletaAzulOscuro);
+}
+
+.events-message.error {
+  color: #df2935;
+  font-weight: 900;
+}
