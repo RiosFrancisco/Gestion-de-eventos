@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
+    <title>Festival Manager</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/event-container.css" />
+    <link rel="stylesheet" href="../css/components/event-list.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+
+    <!-- JavaScript -->
+    <script src="../js/index.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
+      </nav>
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
+      </div>
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button id="user-button" data-page="login.html">
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <p id="user-status">Iniciar sesión</p>
+        </button>
+      </nav>
+    </header>
+    <main>
+      <section class="next-events">
+        <h1>Próximos eventos</h1>
+        <p>Estos son los eventos que se celebrarán próximamente.</p>
+      </section>
+      <section class="events-list">
+        <section class="event-container">
+          <!-- los eventos se crean dinamicamente desde index.js -->>
+        </section>
+      </section>
+    </main>
+    <footer>
+      <section class="footer-logo">
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
+    </footer>
+  </body>
+</html>

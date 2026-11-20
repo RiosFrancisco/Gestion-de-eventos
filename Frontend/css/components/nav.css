@@ -1,0 +1,17 @@
+@import url("../variables.css");
+@import url("../style.css");
+
+nav {
+  display: flex;
+  gap: var(--espaciadoXS);
+}
+
+nav p {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.nav-buttons-right {
+  justify-self: end;
+  align-items: end;
+}
