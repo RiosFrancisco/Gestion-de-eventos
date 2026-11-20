@@ -21,20 +21,6 @@
   box-shadow: var(--formatoSombraHover);
 }
 
-/* Imagen de event cards */
-
-.event-image {
-  height: 220px;
-  overflow: hidden;
-}
-
-.event-image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 /* Estado del evento */
 
 .status-next {
