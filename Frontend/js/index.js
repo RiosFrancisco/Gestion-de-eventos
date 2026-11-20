@@ -21,7 +21,7 @@ async function cargarEventos() {
     if (eventos.lenght === 0) {
       //aviso si no hay eventos publicados
       contenedorEventos.innerHTML =
-        "<p>Aún no hay eventos publicados, intenta más tarde.</p>";
+        '<p class="events-message">Aún no hay eventos publicados, intenta más tarde.</p>';
       return;
     }
 
@@ -33,7 +33,7 @@ async function cargarEventos() {
   } catch (error) {
     console.error("Error al obtener los eventos:", error); //aviso si no se puede acceder a los eventos
     contenedorEventos.innerHTML =
-      "<p>No se pudieron cargar los eventos. Revisa la conexión.</p>";
+      '<p class="events-message error">No se pudieron cargar los eventos. Revisa la conexión.</p>';
   }
 }
 
@@ -65,7 +65,47 @@ function obtenerInfoEstado(estadoBackend) {
 }
 
 function formatearFecha(fechaISO, hora) {
+  //formato estandar de fecha y hora
   if (!fechaISO) return "Fecha a confimar";
 
-  const partes = fechaISO;
+  const partes = fechaISO.split("T")[0].split("-");
+  const fechaFormateada =
+    partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : fechaISO;
+
+  return hora ? `${fechaFormateada} - ${hora.slice(0, 5)} hs` : fechaFormateada;
+}
+
+function crearTarjetaEvento(evento) {
+  //traducción de los datos al html
+  const article = document.createElement("article");
+  article.classList.add("event-container");
+  article.dataset.id = evento.id;
+
+  const infoEstado = obtenerInfoEstado(evento.estado);
+  const fechaTexto = formatearFecha(evento.fecha, evento.hora);
+
+  article.innerHTML = `
+    <div class="event-info">
+            <h4 id="event-name">${evento.nombre}</h4>
+            <div class="event-status">
+              <span class="status ${infoEstado.clase}">${infoEstado.texto}</span>
+            </div>
+            <p id="event-date">
+              <strong>Fecha:</strong>
+              ${fechaTexto}
+            </p>
+            <p id="event-location">
+              <strong>Lugar:</strong>
+              ${evento.ubicacion}
+            </p>
+            <p id="event-description">
+              ${evento.descripcion}
+            </p>
+            <p id="event-tags">
+              <strong>Etiquetas:</strong>
+              ${evento.categoria || "General"}
+            </p>
+    </div>
+  `;
+  return article;
 }
