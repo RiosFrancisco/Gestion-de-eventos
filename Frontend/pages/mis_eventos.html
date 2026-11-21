@@ -14,34 +14,32 @@
 
   <body>
     <header>
-      <nav class="header-buttons">
-        <a id="add-button" href="agregar_evento.html">
-          <img src="../assets/img/addEventButton2.png" alt="Añadir evento" />
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
           <p id="add-event-text">Añadir evento</p>
-        </a>
-
-        <a class="text-button" id="my-events-button" href="mis_eventos.html">
-          <p>Mis eventos</p>
-        </a>
-
-        <a class="text-button" id="search-button" href="index.html">
-          <p>Buscar</p>
-        </a>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
       </nav>
-
       <div id="logo" data-page="index.html">
         <img
           src="../assets/img/FestivalLogoWhite.png"
-          alt="Festival Manager"
+          alt="Festival Manager Logo"
         />
       </div>
-
-      <div class="user-icon">
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
         <button id="user-button" data-page="login.html">
-          <img src="../assets/img/userIcon.png" alt="Usuario" />
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
           <p id="user-status">Iniciar sesión</p>
         </button>
-      </div>
+      </nav>
     </header>
 
     <main class="mis-eventos">
@@ -70,9 +68,7 @@
       <section class="eventos-contenido">
         <div class="eventos-encabezado">
           <h2>Mis eventos creados</h2>
-          <a class="crear-evento" href="anadir-evento.html">
-            Añadir evento
-          </a>
+          <a class="crear-evento" href="anadir-evento.html"> Añadir evento </a>
         </div>
 
         <div class="lista-eventos">
