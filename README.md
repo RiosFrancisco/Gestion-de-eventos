@@ -535,7 +535,7 @@ npm run test:integration -- src/tests/database.integration.test.ts
 - [✅] Inicio de sesión.
 - [ ] Cierre de sesión.
 - [✅] Autenticación mediante JWT.
-- [ ] Perfil de usuario.
+- [✅] Perfil de usuario.
 - [ ] Consulta de inscripciones.
 
 ## Eventos
