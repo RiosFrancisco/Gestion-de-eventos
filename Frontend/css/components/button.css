@@ -1,0 +1,39 @@
+@import url(../variables.css);
+@import url(../style.css);
+
+/* ==== Estilo general de botón ==== */
+button {
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--espaciadoS);
+  align-items: center;
+  text-align: center;
+
+  background-color: var(--paletaBlanco);
+  border: none;
+  border-radius: var(--radioS);
+
+  font-family: var(--fuenteTexto);
+
+  box-shadow: var(--formatoSombraNormal);
+
+  transition: 0.05s ease-in-out;
+}
+
+button:hover {
+  background-color: #dde1e4;
+  box-shadow: var(--formatoSombraHover);
+  transform: scale(1.03);
+}
+
+button:active {
+  background-color: var(--paletaGris);
+  transition: 0.1s;
+}
+
+button p {
+  padding: 0;
+  margin: 0;
+}
+/* ==== * ==== */

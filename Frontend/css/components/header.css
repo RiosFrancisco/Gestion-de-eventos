@@ -1,8 +1,11 @@
 @import url("../variables.css");
 @import url("../style.css");
 
+/* ==== Header ==== */
 header {
   position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
 
   display: grid;
@@ -10,18 +13,22 @@ header {
   background-color: var(--paletaAzulOscuro);
   align-items: center;
   padding: var(--espaciadoS);
-}
 
-/*
+  box-sizing: border-box;
+  box-shadow: var(--formatoSombraNormal);
+}
+/* ==== * ==== */
+
+/* ==== Imágenes del header ====*/
 #logo img,
 #add-button img,
-#user-button img {
+#user-button img,
+#my-events-button img,
+#search-button img {
   width: auto;
   height: 50px;
 }
-  */
-
-.header-buttons {
+*/ .header-buttons {
   display: flex;
   justify-content: start;
   align-items: center;
