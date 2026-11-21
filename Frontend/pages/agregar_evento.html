@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/components/main.css" />
     <link rel="stylesheet" href="../css/components/button.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/mensaje-formulario.css" />
     <link rel="stylesheet" href="../css/agregar_evento.css" />
 
     <script src="../js/agregar_evento.js" defer></script>
@@ -52,14 +53,15 @@
           <h1>Agregar evento</h1>
           <p>Completá los datos para crear un nuevo evento.</p>
         </div>
-
-        <form>
+        <form class="form-agregar-evento">
           <div class="campo">
             <label for="nombre">Nombre del evento</label>
             <input
               type="text"
               id="nombre"
               name="nombre"
+              minlength="3"
+              maxlength="30"
               placeholder="Ej. Festival de música"
               required
             />
@@ -71,6 +73,8 @@
               id="descripcion"
               name="descripcion"
               rows="4"
+              minlength="5"
+              maxlength="100"
               placeholder="Contá de qué se trata el evento..."
               required
             ></textarea>
@@ -94,6 +98,8 @@
               type="text"
               id="ubicacion"
               name="ubicacion"
+              minlength="5"
+              maxlength="30"
               placeholder="Ej. Parque Municipal"
               required
             />
@@ -111,9 +117,10 @@
             </select>
           </div>
 
+          <p class="mensaje-formulario" id="mensaje-formulario"></p>
+
           <div class="acciones-formulario">
             <a href="mis_eventos.html" class="boton-cancelar"> Cancelar </a>
-
             <button type="submit" class="boton-crear">Crear evento</button>
           </div>
         </form>
