@@ -199,7 +199,7 @@ describe("API de actividades - Integración", () => {
                 .set("Authorization", `Bearer ${token}`)
                 .send(datosActividad(evento.id));
 
-            expect(respuesta.status).toBe(400);
+            expect(respuesta.status).toBe(409);
 
             expect(respuesta.body.message).toBe(
                 "No se pueden modificar actividades de un evento no publicado"
@@ -283,7 +283,7 @@ describe("API de actividades - Integración", () => {
                     nombre: "Cambio no permitido"
                 });
 
-            expect(respuesta.status).toBe(400);
+            expect(respuesta.status).toBe(403);
 
             expect(respuesta.body.message).toBe(
                 "No tiene permisos para modificar este evento"
@@ -313,7 +313,7 @@ describe("API de actividades - Integración", () => {
                     nombre: "Nuevo nombre"
                 });
 
-            expect(respuesta.status).toBe(400);
+            expect(respuesta.status).toBe(409);
 
             expect(respuesta.body.message).toBe(
                 "No se puede modificar una actividad cancelada o finalizada"

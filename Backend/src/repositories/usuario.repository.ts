@@ -99,3 +99,38 @@ export async function updateRolUsuario(
 
     return usuario ? mapUsuario(usuario) : undefined;
 }
+
+
+export async function updateDatosUsuario(
+    usuarioId: number,
+    datos: {
+        nombre?: string;
+        email?: string;
+    }
+): Promise<Usuario | undefined> {
+
+    const resultado = await pool.query(
+        `UPDATE usuarios
+         SET
+             nombre = COALESCE($1, nombre),
+             email = COALESCE($2, email)
+         WHERE id = $3
+         RETURNING
+             id,
+             nombre,
+             email,
+             rol_id,
+             created_at`,
+        [
+            datos.nombre ?? null,
+            datos.email ?? null,
+            usuarioId
+        ]
+    );
+
+    const usuario = resultado.rows[0];
+
+    return usuario
+        ? mapUsuario(usuario)
+        : undefined;
+}

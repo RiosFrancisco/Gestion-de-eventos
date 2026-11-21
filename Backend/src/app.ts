@@ -4,6 +4,7 @@ import eventoRoutes from "./routes/evento.routes"
 import actividadRoutes from "./routes/actividad.routes";
 import usuarioRoutes from "./routes/usuario.routes";
 import inscripcionEventoRoutes from "./routes/inscripcionEvento.routes";
+import inscripcionActividadRoutes from "./routes/inscripcionActividad.routes";
 import cors from "cors";
 import { errorMiddleware } from "./middleware/error.middleware";
 
@@ -22,7 +23,7 @@ app.use("/api/eventos", eventoRoutes);
 app.use("/api/actividades", actividadRoutes);
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/inscripciones/eventos", inscripcionEventoRoutes);
-
+app.use("/api/inscripciones/actividades", inscripcionActividadRoutes);
 
 // ruta de comprobacion de backend funcionando
 app.get("/health", (req, res) => {

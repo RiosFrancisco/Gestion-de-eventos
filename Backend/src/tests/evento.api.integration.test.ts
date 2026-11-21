@@ -111,10 +111,6 @@ describe("API de eventos - Integración", () => {
         return resultado.rows[0]?.estado;
     }
 
-    // --------------------------------------------------
-    // LIMPIEZA DE DATOS
-    // --------------------------------------------------
-
     afterEach(async () => {
 
         if (usuariosCreados.length === 0) {
@@ -140,10 +136,6 @@ describe("API de eventos - Integración", () => {
             usuariosCreados.length = 0;
         }
     });
-
-    // --------------------------------------------------
-    // CREACIÓN
-    // --------------------------------------------------
 
     describe("POST /api/eventos", () => {
 
@@ -188,9 +180,6 @@ describe("API de eventos - Integración", () => {
         });
     });
 
-    // --------------------------------------------------
-    // CONSULTA
-    // --------------------------------------------------
 
     describe("GET /api/eventos/:id", () => {
 
@@ -212,9 +201,6 @@ describe("API de eventos - Integración", () => {
         });
     });
 
-    // --------------------------------------------------
-    // ACTUALIZACIÓN
-    // --------------------------------------------------
 
     describe("PATCH /api/eventos/:id", () => {
 
@@ -267,8 +253,8 @@ describe("API de eventos - Integración", () => {
                     nombre: "Modificación ajena"
                 });
 
-            // Código que actualmente devuelve tu controlador.
-            expect(respuesta.status).toBe(400);
+
+            expect(respuesta.status).toBe(403);
 
             expect(respuesta.body.message).toBe(
                 "No tiene permisos para realizar esta accion."
@@ -282,10 +268,6 @@ describe("API de eventos - Integración", () => {
             expect(resultado.rows[0].nombre).toBe(evento.nombre);
         });
     });
-
-    // --------------------------------------------------
-    // CANCELACIÓN
-    // --------------------------------------------------
 
     describe("PATCH /api/eventos/:id/cancelar", () => {
 
@@ -325,7 +307,7 @@ describe("API de eventos - Integración", () => {
                 .patch(`/api/eventos/${evento.id}/cancelar`)
                 .set("Authorization", `Bearer ${token}`);
 
-            expect(segundaRespuesta.status).toBe(400);
+            expect(segundaRespuesta.status).toBe(409);
 
             expect(segundaRespuesta.body.message).toBe(
                 "No se puede cancelar un evento ya cancelado o finalizado."

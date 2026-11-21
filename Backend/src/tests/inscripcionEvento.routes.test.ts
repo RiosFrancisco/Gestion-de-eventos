@@ -313,7 +313,7 @@ describe("Rutas de inscripciones a eventos", () => {
         });
     });
 
-    describe("GET /misInsc", () => {
+    describe("GET /misEventos", () => {
 
         it("debe devolver las inscripciones del usuario", async () => {
             vi.mocked(listarMisInscripciones).mockResolvedValue([
@@ -321,7 +321,7 @@ describe("Rutas de inscripciones a eventos", () => {
             ]);
 
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`)
+                .get(`${rutaBase}/misEventos`)
                 .set(
                     "Authorization",
                     `Bearer ${generarToken()}`
@@ -345,7 +345,7 @@ describe("Rutas de inscripciones a eventos", () => {
             vi.mocked(listarMisInscripciones).mockResolvedValue([]);
 
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`)
+                .get(`${rutaBase}/misEventos`)
                 .set(
                     "Authorization",
                     `Bearer ${generarToken()}`
@@ -359,7 +359,7 @@ describe("Rutas de inscripciones a eventos", () => {
 
         it("debe rechazar usuarios sin token", async () => {
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`);
+                .get(`${rutaBase}/misEventos`);
 
             expect(respuesta.status).toBe(401);
 
@@ -372,7 +372,7 @@ describe("Rutas de inscripciones a eventos", () => {
 
         it("debe rechazar un JWT inválido", async () => {
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`)
+                .get(`${rutaBase}/misEventos`)
                 .set(
                     "Authorization",
                     "Bearer token-invalido"
@@ -390,7 +390,7 @@ describe("Rutas de inscripciones a eventos", () => {
             );
 
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`)
+                .get(`${rutaBase}/misEventos`)
                 .set(
                     "Authorization",
                     `Bearer ${generarToken()}`
@@ -408,7 +408,7 @@ describe("Rutas de inscripciones a eventos", () => {
             );
 
             const respuesta = await request(app)
-                .get(`${rutaBase}/misInsc`)
+                .get(`${rutaBase}/misEventos`)
                 .set(
                     "Authorization",
                     `Bearer ${generarToken()}`
