@@ -1,11 +1,13 @@
 import type { Response } from "express";
 import type { AuthRequest } from "../middleware/auth.middleware";
-import { cambiarRolSchema, modificarDatosUsuarioSchema } from "../schemas/usuario.schema";
+import { cambiarRolSchema, modificarDatosUsuarioSchema, actualizarMiPerfilSchema } from "../schemas/usuario.schema";
 import { AppError } from "../errors/appError";
 import {
     listarUsuarios,
     cambiarRolUsuario,
-    modificarDatosUsuario
+    modificarDatosUsuario,
+    obtenerMiPerfil,
+    actualizarMiPerfil
 } from "../services/usuario.service";
 
 
@@ -112,6 +114,44 @@ export async function modificarDatosUsuarioController(
 
     return res.status(200).json({
         message: "Usuario actualizado correctamente",
+        usuario
+    });
+}
+
+export async function obtenerMiPerfilController(
+    req: AuthRequest,
+    res: Response
+) {
+    if (!req.usuario) {
+        throw new AppError(401, "Debe iniciar sesión");
+    }
+
+    const usuario = await obtenerMiPerfil(req.usuario.id);
+
+    return res.status(200).json({ usuario });
+}
+
+export async function actualizarMiPerfilController(
+    req: AuthRequest,
+    res: Response
+) {
+    if (!req.usuario) {
+        throw new AppError(401, "Debe iniciar sesión");
+    }
+
+    const validacion = actualizarMiPerfilSchema.safeParse(req.body);
+
+    if (!validacion.success) {
+        throw new AppError(
+            400,
+            validacion.error.issues[0]?.message ?? "Datos de perfil inválidos"
+        );
+    }
+
+    const usuario = await actualizarMiPerfil(req.usuario.id, validacion.data);
+
+    return res.status(200).json({
+        message: "Perfil actualizado correctamente",
         usuario
     });
 }

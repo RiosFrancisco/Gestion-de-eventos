@@ -149,3 +149,51 @@ export async function modificarDatosUsuario(
         throw error;
     }
 }
+
+// Obtener datos del perfil del usuario autenticado
+export async function obtenerMiPerfil(usuarioId: number) {
+    const usuario = await getUsuarioById(usuarioId);
+
+    if (!usuario) {
+        throw new AppError(404, "Usuario no encontrado");
+    }
+
+    return usuario;
+}
+
+// Actualizar datos del perfil del usuario autenticado
+export async function actualizarMiPerfil(usuarioId: number, datos: DatosUsuario) {
+    if (datos.nombre === undefined && datos.email === undefined) {
+        throw new AppError(
+            400,
+            "Debe proporcionar al menos un campo para actualizar"
+        );
+    }
+
+    const usuario = await getUsuarioById(usuarioId);
+
+    if (!usuario) {
+        throw new AppError(404, "Usuario no encontrado");
+    }
+
+    try {
+        const usuarioActualizado = await updateDatosUsuario(usuarioId, datos);
+
+        if (!usuarioActualizado) {
+            throw new AppError(404, "Usuario no encontrado");
+        }
+
+        return usuarioActualizado;
+    } catch (error: unknown) {
+        if (
+            typeof error === "object" &&
+            error !== null &&
+            "code" in error &&
+            error.code === "23505"
+        ) {
+            throw new AppError(409, "El email ya está registrado");
+        }
+
+        throw error;
+    }
+}

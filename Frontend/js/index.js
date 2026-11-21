@@ -80,9 +80,13 @@ function mensaje(id, texto, tipo = "error") {
 
 function configurarFormularios() {
   document.getElementById("user-button").addEventListener("click", () => {
-    if (!sesion) mostrarDialogo("login-dialog");
+    if (!sesion) {
+      mostrarDialogo("login-dialog");
+    } else {
+      window.location.href = "/pages/perfil.html";
+    }
   });
-
+  
   document.getElementById("logout-button").addEventListener("click", cerrarSesion);
 
   document.getElementById("register-button").addEventListener("click", () => {
