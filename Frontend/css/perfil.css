@@ -1,0 +1,147 @@
+.profile-container {
+    max-width: 960px;
+    margin: var(--espaciadoXL) auto;
+    padding: 0 var(--espaciadoM);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciadoL);
+    font-family: var(--fuenteTexto);
+}
+
+.profile-header-card {
+    background-color: white;
+    border-radius: var(--radioS);
+    padding: var(--espaciadoL);
+    box-shadow: var(--formatoSombraNormal);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--espaciadoM);
+}
+
+.profile-identity {
+    display: flex;
+    align-items: center;
+    gap: var(--espaciadoM);
+}
+
+.profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--paletaAzulOscuro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.profile-identity h1 {
+    margin: 0;
+    font-family: var(--fuenteTitulo);
+    color: var(--paletaAzulOscuro);
+    font-size: 1.6rem;
+}
+
+.profile-email {
+    margin: 4px 0;
+    color: #48535c;
+    font-size: 0.95rem;
+}
+
+.role-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 12px;
+    border-radius: var(--radioXL);
+    font-size: 0.8rem;
+    font-weight: 700;
+    background-color: var(--paletaAzulClaro);
+    color: var(--paletaBlanco);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaciadoL);
+}
+
+.profile-card {
+    background-color: white;
+    border-radius: var(--radioS);
+    padding: var(--espaciadoL);
+    box-shadow: var(--formatoSombraNormal);
+}
+
+.profile-card h2 {
+    margin: 0 0 var(--espaciadoM);
+    color: var(--paletaAzulOscuro);
+    font-size: 1.25rem;
+}
+
+.profile-form {
+    padding: 0;
+}
+
+.inscripciones-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciadoS);
+}
+
+.inscripcion-item {
+    border: 1px solid var(--paletaGris);
+    border-radius: 8px;
+    padding: var(--espaciadoS) var(--espaciadoM);
+    background-color: var(--paletaBlanco);
+}
+
+.inscripcion-item h3 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+    color: var(--paletaNegro);
+}
+
+.inscripcion-item p {
+    margin: 2px 0;
+    font-size: 0.88rem;
+    color: #364149;
+}
+
+.inscripcion-estado {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--paletaAzulOscuro);
+}
+
+.back-button {
+    flex-direction: row;
+    gap: 8px;
+    background-color: var(--paletaAzulOscuro);
+    color: var(--paletaBlanco);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: var(--paletaAzulClaro);
+}
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -5,7 +5,7 @@ let sesion = recuperarSesion();
 
 document.addEventListener("DOMContentLoaded", () => {
     if (!sesion?.token || !sesion?.usuario) {
-        window.location.href = "/index.html";
+        window.location.href = "/pages/index.html";
         return;
     }
 
@@ -34,7 +34,7 @@ function guardarSesion(usuarioActualizado) {
 function cerrarSesion() {
     sesion = null;
     sessionStorage.removeItem(SESSION_KEY);
-    window.location.href = "/index.html";
+    window.location.href = "/pages/index.html";
 }
 
 function obtenerNombreRol(rolId) {
@@ -59,7 +59,7 @@ function mostrarMensaje(texto, tipo = "error") {
 
 function configurarNavegacion() {
     const irInicio = () => {
-        window.location.href = "/index.html";
+        window.location.href = "/pages/index.html";
     };
 
     document.getElementById("logo")?.addEventListener("click", irInicio);

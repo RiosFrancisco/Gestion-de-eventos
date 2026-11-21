@@ -83,7 +83,7 @@ function configurarFormularios() {
     if (!sesion) {
       mostrarDialogo("login-dialog");
     } else {
-      window.location.href = "/perfil.html";
+      window.location.href = "/pages/perfil.html";
     }
   });
   
