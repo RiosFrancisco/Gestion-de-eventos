@@ -1,0 +1,130 @@
+@import url("variables.css");
+
+body {
+    background-color: #f4f7fb;
+    font-family: var(--fuenteTexto);
+    margin: 0;
+}
+
+.contenedor-formulario {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.formulario-card {
+    width: 100%;
+    max-width: 700px;
+    padding: 32px;
+    background-color: #ffffff;
+    border: 2px solid #2d75ad;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+}
+
+.formulario-titulo {
+    margin-bottom: 28px;
+    border-bottom: 1px solid #d6e2ee;
+    padding-bottom: 18px;
+}
+
+.formulario-titulo h1 {
+    color: #064f91;
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.formulario-titulo p {
+    color: #626f7b;
+    margin: 0;
+    font-size: 15px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo label {
+    color: #173e60;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #c6d5e3;
+    border-radius: 8px;
+    background-color: #f9fbfd;
+    color: #263746;
+    font-family: var(--fuenteTexto);
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+    border-color: #2d75ad;
+    box-shadow: 0 0 0 3px rgba(45, 117, 173, 0.12);
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.fila-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.acciones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #d6e2ee;
+}
+
+.boton-cancelar,
+.boton-crear {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: var(--fuenteTexto);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.boton-cancelar {
+    background-color: #e5edf5;
+    color: #244968;
+    border: 1px solid #c6d5e3;
+}
+
+.boton-cancelar:hover {
+    background-color: #d4e2ef;
+}
+
+.boton-crear {
+    background-color: #064f91;
+    color: white;
+    border: 1px solid #064f91;
+}
+
+.boton-crear:hover {
+    background-color: #043b6c;
+}
