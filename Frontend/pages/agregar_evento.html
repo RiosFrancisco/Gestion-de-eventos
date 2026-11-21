@@ -8,35 +8,40 @@
     <link rel="icon" href="../assets/favicon/favIcon.png" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
     <link rel="stylesheet" href="../css/agregar_evento.css" />
   </head>
   <body>
     <header>
-      <nav class="header-buttons">
-        <a id="add-button" href="agregar_evento.html">
-          <img src="../assets/img/addEventButton2.png" alt="Añadir evento" />
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
           <p id="add-event-text">Añadir evento</p>
-        </a>
-
-        <a class="text-button" id="my-events-button" href="mis_eventos.html">
-          <p>Mis eventos</p>
-        </a>
-
-        <a class="text-button" id="search-button" href="index.html">
-          <p>Buscar</p>
-        </a>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
       </nav>
-
       <div id="logo" data-page="index.html">
-        <img src="../assets/img/FestivalLogoWhite.png" alt="Festival Manager" />
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
       </div>
-
-      <div class="user-icon">
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
         <button id="user-button" data-page="login.html">
-          <img src="../assets/img/userIcon.png" alt="Usuario" />
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
           <p id="user-status">Iniciar sesión</p>
         </button>
-      </div>
+      </nav>
     </header>
 
     <main class="contenedor-formulario">
@@ -112,5 +117,20 @@
         </form>
       </section>
     </main>
+    <footer>
+      <section class="footer-logo">
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
+    </footer>
   </body>
 </html>
