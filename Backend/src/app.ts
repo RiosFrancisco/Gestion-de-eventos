@@ -2,9 +2,14 @@ import express from "express";
 import authRoutes from "./routes/auth.routes";
 import eventoRoutes from "./routes/evento.routes"
 import actividadRoutes from "./routes/actividad.routes";
-import usuarioRoutes from "./routes/usuario.routes"
+import usuarioRoutes from "./routes/usuario.routes";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 
 app.use(express.json());
 
