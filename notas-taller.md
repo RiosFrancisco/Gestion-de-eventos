@@ -34,6 +34,12 @@ Demuestra: integración real con la base de datos, inserción y persistencia de 
 Muestra: npm run test:integration -- src/tests/evento.repository.integration.test.ts
 
 
-Demostracion de mejora: Centralización de conversiones con mapEvento(), mapActividades(), mapUsuario()
+Demostracion de mejora: 
+- Centralización de conversiones con mapEvento(), mapActividades(), mapUsuario()
 En toma-decisiones.md esta explicado pero en resumen, para evitar repetir conversiones, creamos una función auxiliar.
 Qué mejora: mantenibilidad, reutilización y consistencia de los datos.
+- Manejo centralizado de errores HTTP
+¿Qué conseguimos?
+Eliminamos los try/catch repetidos en los Controllers.
+Unificamos las respuestas HTTP mediante AppError.
+Diferenciamos errores de validación, permisos, recursos inexistentes y conflictos.

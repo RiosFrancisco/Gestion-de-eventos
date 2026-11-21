@@ -1,20 +1,16 @@
-
 import {
     describe,
     it,
     expect,
     afterEach
 } from "vitest";
-
 import request from "supertest";
 import jwt from "jsonwebtoken";
 import { randomUUID } from "node:crypto";
-
 import app from "../app";
 import { pool } from "../config/database";
 import { createEvento } from "../repositories/evento.repository";
 import { ROLES } from "../utils/roles";
-
 import type { CrearEvento } from "../models/evento.model";
 
 describe("API de eventos - Integración", () => {

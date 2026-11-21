@@ -1,21 +1,17 @@
-
 import {
     describe,
     it,
     expect,
     afterEach
 } from "vitest";
-
 import { randomUUID } from "node:crypto";
 import { pool } from "../config/database";
-
 import {
     createEvento,
     getEventoById,
     updateEvento,
     cancelarEvento
 } from "../repositories/evento.repository";
-
 import type { CrearEvento } from "../models/evento.model";
 
 describe("Repositorio de eventos - Integración", () => {

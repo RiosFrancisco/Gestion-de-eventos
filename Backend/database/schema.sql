@@ -20,16 +20,6 @@ CREATE TABLE categorias_evento (
 );
 
 
-CREATE TABLE planes (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    descripcion TEXT,
-    precio NUMERIC(12,2) NOT NULL CHECK (precio >= 0),
-    duracion_dias INTEGER NOT NULL CHECK (duracion_dias > 0),
-    activo BOOLEAN NOT NULL DEFAULT TRUE
-);
-
-
 CREATE TABLE eventos (
     id BIGSERIAL PRIMARY KEY,
     creador_id BIGINT NOT NULL REFERENCES usuarios(id),
@@ -68,7 +58,11 @@ CREATE TABLE inscripciones_actividades (
     actividad_id BIGINT NOT NULL
         REFERENCES actividades(id)
         ON DELETE CASCADE,
-    fecha_inscripcion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    estado VARCHAR(20) NOT NULL DEFAULT 'activa'
+        CHECK (estado IN ('activa', 'cancelada')),
+    fecha_inscripcion TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    fecha_cancelacion TIMESTAMP NULL,
     UNIQUE (usuario_id, actividad_id)
 );
 
@@ -90,12 +84,13 @@ CREATE TABLE inscripciones_eventos (
 
 CREATE TABLE asistencias (
     id BIGSERIAL PRIMARY KEY,
-    inscripcion_id BIGINT NOT NULL
-        REFERENCES inscripciones(id)
+    inscripcion_actividad_id BIGINT NOT NULL
+        REFERENCES inscripciones_actividades(id)
         ON DELETE CASCADE,
     presente BOOLEAN NOT NULL DEFAULT FALSE,
-    fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (inscripcion_id)
+    fecha_registro TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (inscripcion_actividad_id)
 );
 
 

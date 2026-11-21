@@ -1,20 +1,15 @@
-
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import {
     cancelacionEvento,
     crearEvento
 } from "../services/evento.service";
-
 import {
     createEvento,
     getEventoModificable,
     cancelarEvento
 } from "../repositories/evento.repository";
-
 import { getCategoriasById } from "../repositories/categorias.repository";
 import { ROLES } from "../utils/roles";
-
 import type {
     Evento,
     CrearEvento
@@ -192,7 +187,7 @@ describe("crearEvento", () => {
                 ...datosEvento,
                 fecha: "2020-01-01"
             })
-        ).rejects.toThrow("La fecha no puede ser pasada");
+        ).rejects.toThrow("La fecha y hora no pueden ser pasadas.");
 
         expect(mockGetCategoria).not.toHaveBeenCalled();
         expect(mockCreateEvento).not.toHaveBeenCalled();

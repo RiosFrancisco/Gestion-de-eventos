@@ -38,6 +38,13 @@ Criterios que se tuvieron en cuenta:
 
 Por ejemplo, cancelar un evento requiere verificar más de un escenario: que el creador pueda cancelarlo, que otro usuario no pueda hacerlo y que el sistema rechace eventos inexistentes o ya cancelados.
 
+# Manejo centralizado de errores HTTP
+Situación actual: los controladores gestionan errores de forma local y algunas respuestas pueden no distinguir suficientemente entre datos inválidos y falta de permisos (por ejemplo, responder 400 en lugar de 403).
+
+Propuesta: incorporar una clase de error de aplicación (por ejemplo, AppError) y un middleware global de errores en Express. Los servicios comunicarían fallos de negocio conocidos; el middleware los convertiría en respuestas HTTP consistentes (400, 401, 403, 404, 409) y reservaría 500 para errores inesperados.
+
+Beneficios: eliminar try/catch repetidos, unificar el formato de respuesta.
+
 # Módulos pendientes
 Noticias: publicación, modificación y eliminación de noticias asociadas a eventos.
 Propuestas gastronómicas: gestión de ofertas gastronómicas vinculadas a eventos.
@@ -53,10 +60,5 @@ A futuro se planea implementar los siguientes patrones de diseño:
 - Observer (comportamiento): Cuando se quiera agregar sistema de notificaciones, esto nos ayuda a seguir un protocolo de notificaciones segun el evento ocurrido, por ejemplo, cuando se cancele un evento, tiene que darse aviso a los usuarios registrados para tal evento.
 
 
-# Manejo centralizado de errores HTTP
-Situación actual: los controladores gestionan errores de forma local y algunas respuestas pueden no distinguir suficientemente entre datos inválidos y falta de permisos (por ejemplo, responder 400 en lugar de 403).
 
-Propuesta: incorporar una clase de error de aplicación (por ejemplo, AppError) y un middleware global de errores en Express. Los servicios comunicarían fallos de negocio conocidos; el middleware los convertiría en respuestas HTTP consistentes (400, 401, 403, 404, 409) y reservaría 500 para errores inesperados.
-
-Beneficios: eliminar try/catch repetidos, unificar el formato de respuesta.
 

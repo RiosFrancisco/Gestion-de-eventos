@@ -1,10 +1,33 @@
-
-import { beforeAll, afterAll, describe, expect, it } from "vitest";
+import { vi, beforeAll, beforeEach, afterAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import jwt from "jsonwebtoken";
 import app from "../app";
 import { ROLES } from "../utils/roles";
+import { getUsuarioById } from "../repositories/usuario.repository";
 
+
+vi.mock("../repositories/usuario.repository", async (importOriginal) => {
+    const original = await importOriginal<
+        typeof import("../repositories/usuario.repository")
+    >();
+
+    return {
+        ...original,
+        getUsuarioById: vi.fn()
+    };
+});
+
+function simularUsuario(rolId: number) {
+    vi.mocked(getUsuarioById).mockImplementation(
+        async (id) => ({
+            id,
+            nombre: "Usuario de prueba",
+            email: "test@example.com",
+            rol_id: rolId,
+            created_at: new Date()
+        })
+    );
+}
 
 describe("Rutas de actividades", () => {
 
@@ -13,6 +36,12 @@ describe("Rutas de actividades", () => {
 
     beforeAll(() => {
         process.env.JWT_SECRET = jwtSecretTest;
+    });
+
+    beforeEach(() => {
+        vi.mocked(getUsuarioById).mockReset();
+
+        simularUsuario(ROLES.creador);
     });
 
     afterAll(() => {
@@ -106,6 +135,7 @@ describe("Rutas de actividades", () => {
         });
 
         it("debe rechazar usuarios sin rol permitido", async () => {
+            simularUsuario(ROLES.usuario);
             const token = generarToken(10, ROLES.usuario);
 
             const respuesta = await request(app)
@@ -218,6 +248,7 @@ describe("Rutas de actividades", () => {
         });
 
         it("debe rechazar usuarios sin rol permitido", async () => {
+            simularUsuario(ROLES.usuario);
             const token = generarToken(10, ROLES.usuario);
 
             const respuesta = await request(app)
