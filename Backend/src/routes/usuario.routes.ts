@@ -2,7 +2,6 @@ import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validarRol } from "../middleware/roles.middleware";
 import { ROLES } from "../utils/roles";
-
 import {
     listarUsuariosController,
     cambiarRolController,

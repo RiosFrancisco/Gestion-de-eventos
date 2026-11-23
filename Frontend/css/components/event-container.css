@@ -1,0 +1,113 @@
+/* Festival Manager — tarjetas grandes de eventos.
+   Compatible con las clases actuales de js/index.js. */
+.event-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 335px;
+  overflow: hidden;
+  border: 1px solid #cbdde9;
+  border-top: 6px solid var(--paletaAzulOscuro, #004e98);
+  border-radius: var(--radioM, 24px);
+  background: #fff;
+  color: var(--paletaNegro, #0f110c);
+  box-shadow: var(--formatoSombraNormal, 0 4px 12px rgb(0 0 0 / 15%));
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+.event-container:hover,
+.event-container:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--paletaAzulClaro, #3a6ea5);
+  box-shadow: var(--formatoSombraHover, 0 8px 18px rgb(0 0 0 / 20%));
+}
+.event-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(20px, 2.2vw, 30px);
+  box-sizing: border-box;
+}
+.event-info h4 {
+  font-family: var(--fuenteTitulo, sans-serif);
+  color: var(--paletaAzulOscuro, #004e98);
+  font-size: clamp(1.45rem, 2.1vw, 1.95rem);
+  line-height: 1.25;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.event-info p {
+  margin: 0;
+  color: #263645;
+  line-height: 1.55;
+}
+.event-info .event-date,
+.event-info .event-location,
+.event-info .event-tags {
+  font-size: .94rem;
+}
+.event-info .event-date strong,
+.event-info .event-location strong,
+.event-info .event-tags strong { color: #164c83; }
+.event-info > p:not([class]) {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+}
+.event-info .event-tags { margin-top: auto; }
+.event-container .status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font: 700 .82rem var(--fuenteTexto, sans-serif);
+}
+.event-container .status-next {
+  background: #d6efff;
+  color: #08528e;
+}
+.event-container .status-ongoing {
+  background: #def4e1;
+  color: #216239;
+}
+.event-container .status-finished {
+  background: #e8edf2;
+  color: #425263;
+}
+.event-container .status-cancelled {
+  background: #ffe0e1;
+  color: #a21e2d;
+}
+/* El enlace se agrega con el pequeño cambio de JS indicado en README. */
+.event-card-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.event-card-link:focus-visible {
+  outline: 3px solid var(--paletaNaranja, #ff6700);
+  outline-offset: -4px;
+  border-radius: 18px;
+}
+.event-card-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 4px;
+  padding: 10px 15px;
+  border-radius: var(--radioS, 12px);
+  background: var(--paletaAzulOscuro, #004e98);
+  color: white;
+  font: 700 .95rem var(--fuenteTexto, sans-serif);
+}
+.event-card-link:hover .event-card-cta { background: #0066bd; }
+@media (prefers-reduced-motion: reduce) {
+  .event-container { transition: none; }
+  .event-container:hover { transform: none; }
+}
