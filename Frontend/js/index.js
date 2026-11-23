@@ -86,7 +86,7 @@ function configurarFormularios() {
       window.location.href = "/pages/perfil.html";
     }
   });
-  
+
   document.getElementById("logout-button").addEventListener("click", cerrarSesion);
 
   document.getElementById("register-button").addEventListener("click", () => {
@@ -298,6 +298,15 @@ function crearTarjetaEvento(evento) {
   const descripcion = document.createElement("p");
   descripcion.textContent = evento.descripcion || "";
   info.append(descripcion, crearCampo("Etiquetas", evento.categoria || "General", "event-tags"));
-  tarjeta.appendChild(info);
+  const enlace = document.createElement("a");
+  enlace.className = "event-card-link";
+  enlace.href = `/pages/detalle_evento.html?id=${encodeURIComponent(evento.id)}`;
+  enlace.setAttribute("aria-label", `Ver detalles de ${evento.nombre}`);
+  const llamado = document.createElement("span");
+  llamado.className = "event-card-cta";
+  llamado.textContent = "Ver detalles →";
+  info.appendChild(llamado);
+  enlace.appendChild(info);
+  tarjeta.appendChild(enlace);
   return tarjeta;
 }
