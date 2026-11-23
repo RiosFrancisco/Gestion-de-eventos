@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://gestion-de-eventos-8jyw.onrender.com";
 
 // La sesión se conserva únicamente en esta pestaña y se elimina al cerrarla.
 const SESSION_KEY = "festival_sesion";
