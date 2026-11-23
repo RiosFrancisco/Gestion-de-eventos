@@ -1,111 +1,303 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = "http://localhost:3001/api";
+
+// La sesión se conserva únicamente en esta pestaña y se elimina al cerrarla.
+const SESSION_KEY = "festival_sesion";
+let sesion = recuperarSesion();
 
 document.addEventListener("DOMContentLoaded", () => {
-  cargarEventos(); //ejecuta la función "cargarEventos"
+  actualizarBarraUsuario();
+  configurarFormularios();
+  verificarSesion();
+  cargarEventos();
 });
 
-async function cargarEventos() {
-  const contenedorEventos = document.querySelector(".events-list");
-
+function recuperarSesion() {
   try {
-    const respuesta = await fetch(`${API_URL}/eventos`); //intenta obtener la lista de eventos
+    const dato = sessionStorage.getItem(SESSION_KEY);
+    return dato ? JSON.parse(dato) : null;
+  } catch {
+    sessionStorage.removeItem(SESSION_KEY);
+    return null;
+  }
+}
 
-    if (!respuesta.ok) {
-      throw new Error(`Error HTTP: ${respuesta.status}`); //si no lo consigue, da error
+function guardarSesion(datos) {
+  sesion = { token: datos.token, usuario: datos.usuario };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(sesion));
+  actualizarBarraUsuario();
+}
+
+function cerrarSesion() {
+  sesion = null;
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById("evento-dialog")?.close();
+  actualizarBarraUsuario();
+}
+
+function esCreador() {
+  const rolId = Number(sesion?.usuario?.rol_id);
+  return rolId === 2 || rolId === 3;
+}
+
+function actualizarBarraUsuario() {
+  const boton = document.querySelector("#user-button");
+  const texto = document.querySelector("#user-status");
+  if (!boton || !texto) return;
+  const salida = document.getElementById("logout-button");
+  const registro = document.getElementById("register-button");
+  const sesionIniciada = Boolean(sesion?.token && sesion?.usuario);
+  texto.textContent = sesionIniciada ? sesion.usuario.nombre : "Iniciar sesión";
+  boton.title = sesionIniciada ? `Usuario: ${sesion.usuario.nombre}` : "Iniciar sesión";
+  if (salida) salida.hidden = !sesionIniciada;
+  if (registro) registro.hidden = sesionIniciada;
+}
+
+function mostrarDialogo(id) {
+  document.getElementById(id)?.showModal();
+}
+
+async function verificarSesion() {
+  if (!sesion?.token || !sesion?.usuario) {
+    if (sesion) cerrarSesion();
+    return;
+  }
+  try {
+    const respuesta = await fetch(`${API_URL}/auth/protegida`, {
+      headers: { Authorization: `Bearer ${sesion.token}` }
+    });
+    if (respuesta.status === 401 || respuesta.status === 403) cerrarSesion();
+  } catch (error) {
+    // Sin conexión no se borra la sesión; se verificará al realizar una operación protegida.
+    console.warn("No se pudo verificar la sesión:", error);
+  }
+}
+
+function mensaje(id, texto, tipo = "error") {
+  const elemento = document.getElementById(id);
+  elemento.textContent = texto;
+  elemento.className = `form-message ${tipo}`;
+}
+
+function configurarFormularios() {
+  document.getElementById("user-button").addEventListener("click", () => {
+    if (!sesion) {
+      mostrarDialogo("login-dialog");
+    } else {
+      window.location.href = "/pages/perfil.html";
     }
+  });
+  
+  document.getElementById("logout-button").addEventListener("click", cerrarSesion);
 
-    const eventos = await respuesta.json(); //parsea la lista a un .json
+  document.getElementById("register-button").addEventListener("click", () => {
+    if (!sesion) mostrarDialogo("register-dialog");
+  });
+  document.getElementById("go-register").addEventListener("click", () => {
+    document.getElementById("login-dialog").close();
+    mensaje("register-message", "", "success");
+    mostrarDialogo("register-dialog");
+  });
+  document.getElementById("go-login").addEventListener("click", () => {
+    document.getElementById("register-dialog").close();
+    mensaje("login-message", "", "success");
+    mostrarDialogo("login-dialog");
+  });
 
-    contenedorEventos.innerHTML = ""; //vacía el espacio de event-list de mensajes de aviso
-
-    if (eventos.lenght === 0) {
-      //aviso si no hay eventos publicados
-      contenedorEventos.innerHTML =
-        '<p class="events-message">Aún no hay eventos publicados, intenta más tarde.</p>';
+  document.getElementById("add-button").addEventListener("click", () => {
+    if (!sesion) {
+      mensaje("login-message", "Iniciá sesión para crear un evento.");
+      mostrarDialogo("login-dialog");
       return;
     }
+    if (!esCreador()) {
+      window.alert("Tu cuenta no tiene el rol creador o administrador.");
+      return;
+    }
+    mensaje("evento-message", "", "success");
+    mostrarDialogo("evento-dialog");
+  });
 
-    eventos.forEach((evento) => {
-      //se crea una tarjeta de evento por cada evento del .json (lista de eventos)
-      const tarjeta = crearTarjetaEvento(evento);
-      contenedorEventos.appendChild(tarjeta);
+  document.querySelectorAll("[data-close]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      document.getElementById(boton.dataset.close).close();
     });
+  });
+
+  document.getElementById("login-form").addEventListener("submit", iniciarSesion);
+  document.getElementById("register-form").addEventListener("submit", registrarUsuario);
+  document.getElementById("evento-form").addEventListener("submit", crearEvento);
+}
+
+async function iniciarSesion(event) {
+  event.preventDefault();
+  const formulario = event.currentTarget;
+  const boton = formulario.querySelector('[type="submit"]');
+  const datos = Object.fromEntries(new FormData(formulario));
+  boton.disabled = true;
+  mensaje("login-message", "Ingresando...", "success");
+  try {
+    const respuesta = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+    const resultado = await respuesta.json();
+    if (!respuesta.ok || !resultado.token || !resultado.usuario) {
+      throw new Error(resultado.message || "No se pudo iniciar sesión.");
+    }
+    guardarSesion(resultado);
+    formulario.reset();
+    document.getElementById("login-dialog").close();
+    mensaje("login-message", "", "success");
   } catch (error) {
-    console.error("Error al obtener los eventos:", error); //aviso si no se puede acceder a los eventos
-    contenedorEventos.innerHTML =
-      '<p class="events-message error">No se pudieron cargar los eventos. Revisa la conexión.</p>';
+    mensaje("login-message", error.message || "Error de conexión.");
+  } finally {
+    boton.disabled = false;
   }
 }
 
-function obtenerInfoEstado(estadoBackend) {
-  //estados definidos manualmente por el usuario
-  if (evento.estado === "cancelado") {
-    return { texto: "Cancelado", clase: "status-cancelled" };
-  }
-  if (evento.estado === "finalizado") {
-    return { texto: "Finalizado", clase: "status-finished" };
-  }
-
-  //si el evento esta publicado y próximo, calcula fecha y hora actual
-  const ahora = new Date();
-  const soloFecha = evento.fecha.split("T")[0];
-  const soloHora = evento.hora ? evento.hora.slice(0, 5) : "00:00";
-  const inicioEvento = new Date(`${soloFecha}T${soloHora}:00`);
-
-  const fechaLimite = new Date(inicioEvento.getTime() + 168 * 60 * 60 * 1000); //finaliza el evento autmáticamente luego de 7 días
-
-  if (ahora < inicioEvento) {
-    //condiciones para cada estado
-    return { texto: "Próximo", clase: "status-next" };
-  } else if (ahora >= inicioEvento && ahora <= finEstimado) {
-    return { texto: "En curso", clase: "status-ongoing" };
-  } else {
-    return { texto: "Finalizado", clase: "status-finished" };
+async function registrarUsuario(event) {
+  event.preventDefault();
+  const formulario = event.currentTarget;
+  const boton = formulario.querySelector('[type="submit"]');
+  const datos = Object.fromEntries(new FormData(formulario));
+  boton.disabled = true;
+  mensaje("register-message", "Creando cuenta...", "success");
+  try {
+    const respuesta = await fetch(`${API_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+    const resultado = await respuesta.json();
+    if (!respuesta.ok) {
+      throw new Error(resultado.message || "No se pudo registrar la cuenta.");
+    }
+    formulario.reset();
+    document.getElementById("register-dialog").close();
+    const loginFormulario = document.getElementById("login-form");
+    loginFormulario.elements.email.value = datos.email;
+    loginFormulario.elements.password.value = "";
+    mensaje("login-message", "Cuenta creada. Ahora iniciá sesión.", "success");
+    mostrarDialogo("login-dialog");
+  } catch (error) {
+    mensaje("register-message", error.message || "Error de conexión.");
+  } finally {
+    boton.disabled = false;
   }
 }
 
-function formatearFecha(fechaISO, hora) {
-  //formato estandar de fecha y hora
-  if (!fechaISO) return "Fecha a confimar";
+async function crearEvento(event) {
+  event.preventDefault();
+  const formulario = event.currentTarget;
+  const boton = formulario.querySelector('[type="submit"]');
+  const datos = Object.fromEntries(new FormData(formulario));
+  datos.categoria_id = Number(datos.categoria_id);
+  if (!datos.categoria_id) {
+    mensaje("evento-message", "Seleccioná una categoría válida.");
+    return;
+  }
+  if (new Date(`${datos.fecha}T${datos.hora}:00`) <= new Date()) {
+    mensaje("evento-message", "La fecha y hora deben ser futuras.");
+    return;
+  }
+  boton.disabled = true;
+  mensaje("evento-message", "Publicando evento...", "success");
+  try {
+    const respuesta = await fetch(`${API_URL}/eventos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sesion?.token || ""}`
+      },
+      body: JSON.stringify(datos)
+    });
+    const resultado = await respuesta.json();
+    if (!respuesta.ok) {
+      if (respuesta.status === 401) cerrarSesion();
+      throw new Error(resultado.message || "No se pudo crear el evento.");
+    }
+    formulario.reset();
+    document.getElementById("evento-dialog").close();
+    await cargarEventos();
+    window.alert("Evento publicado correctamente.");
+  } catch (error) {
+    mensaje("evento-message", error.message || "Error de conexión.");
+  } finally {
+    boton.disabled = false;
+  }
+}
 
-  const partes = fechaISO.split("T")[0].split("-");
-  const fechaFormateada =
-    partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : fechaISO;
+async function cargarEventos() {
+  const contenedor = document.querySelector(".events-list");
+  if (!contenedor) return;
+  try {
+    const respuesta = await fetch(`${API_URL}/eventos`);
+    if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+    const { eventos } = await respuesta.json();
+    if (!Array.isArray(eventos)) throw new Error("Respuesta de eventos inválida");
+    contenedor.replaceChildren();
+    if (eventos.length === 0) {
+      const texto = document.createElement("p");
+      texto.className = "events-message";
+      texto.textContent = "Aún no hay eventos publicados.";
+      contenedor.appendChild(texto);
+      return;
+    }
+    eventos.forEach(evento => contenedor.appendChild(crearTarjetaEvento(evento)));
+  } catch (error) {
+    console.error("Error al cargar eventos:", error);
+    contenedor.replaceChildren();
+    const texto = document.createElement("p");
+    texto.className = "events-message error";
+    texto.textContent = "No se pudieron cargar los eventos. Revisá la conexión.";
+    contenedor.appendChild(texto);
+  }
+}
 
-  return hora ? `${fechaFormateada} - ${hora.slice(0, 5)} hs` : fechaFormateada;
+function obtenerInfoEstado(estado) {
+  if (estado === "cancelado") return { texto: "Cancelado", clase: "status-cancelled" };
+  if (estado === "finalizado") return { texto: "Finalizado", clase: "status-finished" };
+  return { texto: "Publicado", clase: "status-next" };
+}
+
+function formatearFecha(fecha, hora) {
+  if (!fecha) return "Fecha a confirmar";
+  const [anio, mes, dia] = fecha.slice(0, 10).split("-");
+  const fechaTexto = `${dia}/${mes}/${anio}`;
+  return hora ? `${fechaTexto} - ${hora.slice(0, 5)} hs` : fechaTexto;
+}
+
+function crearCampo(titulo, valor, clase) {
+  const elemento = document.createElement("p");
+  elemento.className = clase;
+  const etiqueta = document.createElement("strong");
+  etiqueta.textContent = `${titulo}: `;
+  elemento.append(etiqueta, document.createTextNode(valor == null ? "" : String(valor)));
+  return elemento;
 }
 
 function crearTarjetaEvento(evento) {
-  //traducción de los datos al html
-  const article = document.createElement("article");
-  article.classList.add("event-container");
-  article.dataset.id = evento.id;
-
-  const infoEstado = obtenerInfoEstado(evento.estado);
-  const fechaTexto = formatearFecha(evento.fecha, evento.hora);
-
-  article.innerHTML = `
-    <div class="event-info">
-            <h4 id="event-name">${evento.nombre}</h4>
-            <div class="event-status">
-              <span class="status ${infoEstado.clase}">${infoEstado.texto}</span>
-            </div>
-            <p id="event-date">
-              <strong>Fecha:</strong>
-              ${fechaTexto}
-            </p>
-            <p id="event-location">
-              <strong>Lugar:</strong>
-              ${evento.ubicacion}
-            </p>
-            <p id="event-description">
-              ${evento.descripcion}
-            </p>
-            <p id="event-tags">
-              <strong>Etiquetas:</strong>
-              ${evento.categoria || "General"}
-            </p>
-    </div>
-  `;
-  return article;
+  const tarjeta = document.createElement("article");
+  tarjeta.className = "event-container";
+  tarjeta.dataset.id = evento.id;
+  const info = document.createElement("div");
+  info.className = "event-info";
+  const nombre = document.createElement("h4");
+  nombre.textContent = evento.nombre;
+  const estado = obtenerInfoEstado(evento.estado);
+  const estadoElemento = document.createElement("span");
+  estadoElemento.className = `status ${estado.clase}`;
+  estadoElemento.textContent = estado.texto;
+  info.append(
+    nombre,
+    estadoElemento,
+    crearCampo("Fecha", formatearFecha(evento.fecha, evento.hora), "event-date"),
+    crearCampo("Lugar", evento.ubicacion, "event-location")
+  );
+  const descripcion = document.createElement("p");
+  descripcion.textContent = evento.descripcion || "";
+  info.append(descripcion, crearCampo("Etiquetas", evento.categoria || "General", "event-tags"));
+  tarjeta.appendChild(info);
+  return tarjeta;
 }

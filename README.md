@@ -325,7 +325,6 @@ Ejemplo:
 src/
 │
 ├── controllers/
-├── database/
 ├── services/
 ├── repositories/
 ├── routes/
@@ -333,6 +332,7 @@ src/
 ├── validators/
 ├── models/
 ├── config/
+├── tests/
 └── utils/
 ```
 
@@ -433,17 +433,18 @@ cd Gestion-de-eventos
 # 2. Instalar las dependencias
 - Frontend
 cd frontend
-npm install
+npm ci
 
 - Backend
 cd ../backend
-npm install
+npm ci
 
 # 3. Configurar las variables de entorno
 - Backend
 Crear un archivo .env dentro de la carpeta backend:
 PORT=3001
 DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
+(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
 JWT_SECRET=clave_secreta
 
 - Frontend
@@ -451,21 +452,19 @@ Crear un archivo .env.local dentro de la carpeta frontend:
 NEXT_PUBLIC_API_URL=http://localhost:3001
 
 # 4. Configurar PostgreSQL
-
-Crear la base de datos correspondiente en PostgreSQL si todavía no existe:
-
-```sql
-CREATE DATABASE gestion_eventos;
-```
-Luego ejecutar los archivos (pueden ejecutarse utilizando pgAdmin u otro cliente PostgreSQL):
-
-```
-Backend/database/schema.sql
-Backend/database/seed.sql
-```
+1. Abrí pgAdmin 4.
+2. Conectate a tu servidor PostgreSQL.
+3. En el panel izquierdo, buscá Databases.
+4. Hacé clic derecho sobre Databases.
+5. Seleccioná Create → Database.
+6. Escribí el siguiente nombre: gestion_eventos
+7. Expandí Databases.
+8. Seleccioná gestion_eventos.
+9. Hacé clic derecho y elegí Query Tool.
+10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
 
 `schema.sql` crea las tablas y restricciones.
-
 `seed.sql` inserta los datos iniciales necesarios, como roles y categorías.
 
 
@@ -490,6 +489,44 @@ El servidor de desarrollo del frontend.
 El servidor de PostgreSQL.
 El frontend se comunicará con el backend mediante la API REST, mientras que el backend gestionará la conexión con la base de datos PostgreSQL.
 
+
+# Configurar base de datos de testing
+El proyecto utiliza Vitest para ejecutar pruebas automatizadas y Supertest para verificar el comportamiento de los endpoints HTTP.
+
+Las pruebas de integración utilizan una base de datos PostgreSQL independiente, con el objetivo de evitar modificaciones en los datos de desarrollo.
+
+- Backend
+Crear un archivo .env.test dentro de la carpeta backend:
+DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test  
+(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
+
+Luego seguir los siguientes pasos:
+1. Abrí pgAdmin 4.
+2. Conectate a tu servidor PostgreSQL.
+3. En el panel izquierdo, buscá Databases.
+4. Hacé clic derecho sobre Databases.
+5. Seleccioná Create → Database.
+6. Escribí el siguiente nombre: gestion_de_eventos_test (IMPORTANTE: mantener el nombre ya que se valida en tests\config.database-test.ts)
+7. Expandí Databases.
+8. Seleccioná gestion_de_eventos_test.
+9. Hacé clic derecho y elegí Query Tool.
+10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+
+Desde una terminal ubicada en la carpeta backend, ejecutar:
+
+- Pruebas unitarias y de rutas:
+npm test
+
+- Pruebas de integración con PostgreSQL: 
+npm run test:integration
+
+- Verificación de tipos de TypeScript:
+npm run typecheck
+
+- Para comprobar únicamente la conexión a PostgreSQL y la existencia de la tabla de eventos:
+npm run test:integration -- src/tests/database.integration.test.ts
+
 # Funcionalidades previstas
 
 ## Usuarios
@@ -498,37 +535,35 @@ El frontend se comunicará con el backend mediante la API REST, mientras que el 
 - [✅] Inicio de sesión.
 - [ ] Cierre de sesión.
 - [✅] Autenticación mediante JWT.
-- [ ] Perfil de usuario.
+- [✅] Perfil de usuario.
 - [ ] Consulta de inscripciones.
 
 ## Eventos
 
-- [ ] Listado de eventos.
+- [✅] Listado de eventos.
 - [ ] Eventos próximos.
-- [ ] Búsqueda.
+- [✅] Búsqueda.
 - [ ] Filtros.
-- [ ] Detalle del evento.
-- [ ] Creación de eventos.
-- [ ] Edición de eventos.
-- [ ] Eliminación de eventos.
+- [✅] Detalle del evento.
+- [✅] Creación de eventos.
+- [✅] Edición de eventos.
+- [✅] Cancelación de eventos.
 
 ## Actividades
 
-- [ ] Crear actividades.
-- [ ] Editar actividades.
-- [ ] Eliminar actividades.
-- [ ] Consultar actividades.
-- [ ] Inscripción a actividades.
-- [ ] Control de cupos.
-- [ ] Prevención de inscripciones duplicadas.
+- [✅] Crear actividades.
+- [✅] Editar actividades.
+- [✅] Cancelar actividades.
+- [✅] Consultar actividades.
+- [✅] Inscripción a actividades.
+- [✅] Control de cupos.
+- [✅] Prevención de inscripciones duplicadas.
 
 ## Administración
 
 - [ ] Panel administrativo.
-- [ ] Gestión de eventos propios.
-- [ ] Gestión de actividades.
-- [ ] Gestión de noticias.
-- [ ] Gestión gastronómica.
+- [✅] Gestión de eventos propios.
+- [✅] Gestión de actividades.
 - [ ] Consulta de participantes.
 
 ## Pagos (A FUTURO)

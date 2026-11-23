@@ -9,7 +9,7 @@ export const crearEventoSchema = z.object({
     nombre: z
     .string()
     .min(3, {error: "El campo requiere como minimo 3 caracteres."})
-    .max(20, {error: "El campo no admite mas de 20 caracteres."}),
+    .max(30, {error: "El campo no admite mas de 30 caracteres."}),
 
     descripcion: z
     .string()

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar evento</title>
+
+    <link rel="icon" href="../assets/favicon/favIcon.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/agregar_evento.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
+      </nav>
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
+      </div>
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button id="user-button" data-page="login.html">
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <p id="user-status">Iniciar sesión</p>
+        </button>
+      </nav>
+    </header>
+
+    <main class="contenedor-formulario">
+      <section class="formulario-card">
+        <div class="formulario-titulo">
+          <h1>Agregar evento</h1>
+          <p>Completá los datos para crear un nuevo evento.</p>
+        </div>
+
+        <form>
+          <div class="campo">
+            <label for="nombre">Nombre del evento</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              placeholder="Ej. Festival de música"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              rows="4"
+              placeholder="Contá de qué se trata el evento..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="fecha">Fecha</label>
+              <input type="date" id="fecha" name="fecha" required />
+            </div>
+
+            <div class="campo">
+              <label for="hora">Hora</label>
+              <input type="time" id="hora" name="hora" required />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="ubicacion">Ubicación</label>
+            <input
+              type="text"
+              id="ubicacion"
+              name="ubicacion"
+              placeholder="Ej. Parque Municipal"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" name="categoria" required>
+              <option value="">Seleccioná una categoría</option>
+              <option value="musica">Música</option>
+              <option value="gastronomia">Gastronomía</option>
+              <option value="cultura">Cultura</option>
+              <option value="deportes">Deportes</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="acciones-formulario">
+            <a href="mis_eventos.html" class="boton-cancelar"> Cancelar </a>
+
+            <button type="submit" class="boton-crear">Crear evento</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <section class="footer-logo">
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
+    </footer>
+  </body>
+</html>

@@ -1,5 +1,12 @@
-import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import type {
+    Request,
+    Response,
+    NextFunction
+} from "express";
+
+import jwt from "jsonwebtoken";
+
+import { getUsuarioById } from "../repositories/usuario.repository";
 
 export interface AuthRequest extends Request {
     usuario?: {
@@ -8,53 +15,76 @@ export interface AuthRequest extends Request {
     };
 }
 
-export function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
-    try {
-        //obtengo el token del header
-        const authHeader = req.headers.authorization;
+export async function authMiddleware(
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+) {
+    const authHeader = req.headers.authorization;
 
-        if (!authHeader || typeof authHeader !== "string") {
-            return res.status(401).json({
-                message: "Token no proporcionado"
-            });
-        }
-        // comparo formato
-        const [tipo, token] = authHeader.split(" ");
-
-        if (tipo !== "Bearer" || !token) {
-            return res.status(401).json({
-                message: "Token invalido"
-            })
-        }
-
-        // consigo la clave
-        const jwtSecret = process.env.JWT_SECRET;
-
-        if (!jwtSecret) {
-            throw new Error("JWT no esta configurado");
-        }
-
-        // verifico el token
-        const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-
-        // verifico que el token tenga los datos correctos
-        if (typeof decoded.id !== "number" || typeof decoded.rol_id !== "number") {
-            return res.status(401).json({
-                message: "Token invalido"
-            });
-        }
-
-        //guardo el usuario en el req
-        req.usuario = {
-            id: decoded.id,
-            rol_id: decoded.rol_id
-        }
-
-        next();
+    if (!authHeader) {
+        return res.status(401).json({
+            message: "Token no proporcionado"
+        });
     }
-    catch(error) {
+
+    const [tipo, token] = authHeader.split(" ");
+
+    if (tipo !== "Bearer" || !token) {
+        return res.status(401).json({
+            message: "Token invalido"
+        });
+    }
+
+    const jwtSecret = process.env.JWT_SECRET;
+
+    if (!jwtSecret) {
+        return res.status(500).json({
+            message: "Error interno del servidor"
+        });
+    }
+
+    let usuarioId: number;
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+
+        if (
+            typeof decoded === "string" ||
+            typeof decoded.id !== "number" ||
+            !Number.isSafeInteger(decoded.id) ||
+            decoded.id <= 0
+        ) {
+            return res.status(401).json({
+                message: "Token invalido"
+            });
+        }
+
+        usuarioId = decoded.id;
+
+    } catch {
         return res.status(401).json({
             message: "Token invalido o expirado"
         });
+    }
+
+    try {
+        const usuario = await getUsuarioById(usuarioId);
+
+        if (!usuario) {
+            return res.status(401).json({
+                message: "Usuario no autorizado"
+            });
+        }
+
+        req.usuario = {
+            id: usuario.id,
+            rol_id: usuario.rol_id
+        };
+
+        next();
+
+    } catch (error) {
+        next(error);
     }
 }

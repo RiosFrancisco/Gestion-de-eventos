@@ -1,177 +1,168 @@
-import {
-    Request,
-    Response
-} from "express";
-import { AuthRequest } from "../middleware/auth.middleware";
+import type { Request, Response } from "express";
+import type { AuthRequest } from "../middleware/auth.middleware";
+
 import {
     crearEventoSchema,
     actualizarEventoSchema
 } from "../schemas/evento.schema";
+
 import {
     activacionEvento,
     crearEvento,
-    updatearEvento
-} from "../services/evento.service";
-import {
     listarEventos,
     obtenerEventoPorId,
+    updatearEvento,
     cancelacionEvento
 } from "../services/evento.service";
 
-export async function createEventoController(req: AuthRequest, res: Response) {
-    try {
-        const usuario = req.usuario;
-        if (!usuario) {
-            res.status(400).json({
-                message: "Debe loguearse para realizar esta accion"
-            });
-        }
+import { AppError } from "../errors/appError";
 
 
-        const datos = crearEventoSchema.parse(req.body);
+// Obtiene y valida un ID enviado por parámetro.
+function obtenerId(valor: unknown): number {
+    if (
+        typeof valor !== "string" ||
+        !/^[1-9]\d*$/.test(valor)
+    ) {
+        throw new AppError(400, "ID de evento inválido");
+    }
 
-        const evento = await crearEvento(
-            usuario!.id,
-            datos
+    const id = Number(valor);
+
+    if (!Number.isSafeInteger(id)) {
+        throw new AppError(400, "ID de evento inválido");
+    }
+
+    return id;
+}
+
+
+// Obtiene el usuario autenticado.
+function obtenerUsuario(req: AuthRequest) {
+    const usuario = req.usuario;
+
+    if (!usuario) {
+        throw new AppError(
+            401,
+            "Debe iniciar sesión"
         );
+    }
 
-        return res.status(201).json({
-            message: "Evento creado con exito.",
-            evento
-        })
-    }
-    catch (error) {
-        return res.status(400).json({
-            message: error instanceof Error
-                ? error.message
-                : "Error al crear el evento"
-        });
-    }
+    return usuario;
 }
 
-export async function listarEventosController(req: Request, res: Response) {
-    try {
-        const eventos = await listarEventos();
 
-        return res.status(200).json({
-            eventos
-        });
-    }
-    catch (error) {
-        console.error("ERROR AL REALIZAR LA ACCION", error)
-        res.status(500).json({
-            message: "Error al obtener los eventos"
-        });
-    }
+// Crear evento
+export async function createEventoController(
+    req: AuthRequest,
+    res: Response
+) {
+    const usuario = obtenerUsuario(req);
+
+    const datos = crearEventoSchema.parse(req.body);
+
+    const evento = await crearEvento(
+        usuario.id,
+        datos
+    );
+
+    return res.status(201).json({
+        message: "Evento creado con exito.",
+        evento
+    });
 }
 
-export async function getEventoByIdController(req: Request, res: Response) {
-    try {
-        const id = Number(req.params.id);
 
-        if (isNaN(id) || id <= 0) {
-            return res.status(400).json({
-                message: "ID de evento inválido"
-            });
-        }
+// Listar eventos
+export async function listarEventosController(
+    req: Request,
+    res: Response
+) {
+    const eventos = await listarEventos();
 
-        const evento = await obtenerEventoPorId(id);
-
-        return res.status(200).json({
-            evento
-        });
-
-    } catch (error) {
-        return res.status(404).json({
-            message: error instanceof Error
-                ? error.message
-                : "Evento no encontrado"
-        });
-    }
+    return res.status(200).json({
+        eventos
+    });
 }
 
-export async function updateEventoController(req: AuthRequest, res: Response) {
-    try {
-        const eventoId = Number(req.params.id);
 
-        if (isNaN(eventoId) || eventoId <= 0) {
-            return res.status(400).json({
-                message: "ID de evento invalido"
-            });
-        }
+// Obtener evento por ID
+export async function getEventoByIdController(
+    req: Request,
+    res: Response
+) {
+    const eventoId = obtenerId(req.params.id);
 
-        const datos = actualizarEventoSchema.parse(req.body);
+    const evento = await obtenerEventoPorId(eventoId);
 
-        const evento = await updatearEvento(eventoId, req.usuario!.id, req.usuario!.rol_id, datos);
-
-        return res.status(200).json({
-            message: "Evento actualizado correctamente",
-            evento
-        });
-    }
-    catch (error) {
-        console.error("ERROR AL ACTUALIZAR EVENTO:", error);
-
-        return res.status(400).json({
-            message: error instanceof Error
-                ? error.message
-                : "Error al actualizar el evento"
-        });
-    }
+    return res.status(200).json({
+        evento
+    });
 }
 
-export async function cancelarEventoController(req: AuthRequest, res: Response) {
-    try {
-        const eventoId = Number(req.params.id);
 
-        if (isNaN(eventoId) || eventoId <= 0) {
-            return res.status(400).json({
-                message: "ID de evento invalido"
-            });
-        }
+// Actualizar evento
+export async function updateEventoController(
+    req: AuthRequest,
+    res: Response
+) {
+    const usuario = obtenerUsuario(req);
+    const eventoId = obtenerId(req.params.id);
 
-        const evento = await cancelacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id);
+    const datos = actualizarEventoSchema.parse(req.body);
 
-        return res.status(200).json({
-            message: "Evento cancelado correctamente.",
-            evento
-        });
+    const evento = await updatearEvento(
+        eventoId,
+        usuario.id,
+        usuario.rol_id,
+        datos
+    );
 
-    }
-    catch (error) {
-        console.error("ERROR AL CANCELAR EVENTO.", error);
-        return res.status(400).json({
-            message: error instanceof Error
-                ? error.message
-                : "Error al cancelar el evento."
-        });
-    }
+    return res.status(200).json({
+        message: "Evento actualizado correctamente",
+        evento
+    });
 }
 
-export async function activarEventoController(req: AuthRequest, res: Response) {
-    try {
-        const eventoId = Number(req.params.id);
 
-        if (isNaN(eventoId) || eventoId <= 0) {
-            return res.status(400).json({
-                message: "ID de evento invalido"
-            });
-        }
+// Cancelar evento
+export async function cancelarEventoController(
+    req: AuthRequest,
+    res: Response
+) {
+    const usuario = obtenerUsuario(req);
+    const eventoId = obtenerId(req.params.id);
 
-        const evento = await activacionEvento(eventoId, req.usuario!.id, req.usuario!.rol_id);
+    const evento = await cancelacionEvento(
+        eventoId,
+        usuario.id,
+        usuario.rol_id
+    );
 
-        return res.status(200).json({
-            message: "Evento ha cambiado a estado publicado correctamente.",
-            evento
-        });
+    return res.status(200).json({
+        message: "Evento cancelado correctamente.",
+        evento
+    });
+}
 
-    }
-    catch (error) {
-        console.error("ERROR AL ACTIVAR EVENTO.", error);
-        return res.status(400).json({
-            message: error instanceof Error
-                ? error.message
-                : "Error al activar el evento."
-        });
-    }
+
+// Reactivar evento
+export async function activarEventoController(
+    req: AuthRequest,
+    res: Response
+) {
+    const usuario = obtenerUsuario(req);
+    const eventoId = obtenerId(req.params.id);
+
+    const evento = await activacionEvento(
+        eventoId,
+        usuario.id,
+        usuario.rol_id,
+        req.body ?? {}
+    );
+
+    return res.status(200).json({
+        message: "Evento ha cambiado a estado publicado correctamente.",
+        evento
+    });
 }
