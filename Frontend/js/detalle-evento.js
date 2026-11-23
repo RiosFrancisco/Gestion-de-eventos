@@ -1,6 +1,5 @@
 // Festival Manager — detalle e inscripciones (sin registro de asistencia presencial).
-const API_BASE =
-  "[https://gestion-de-eventos-8jyw.onrender.com](https://gestion-de-eventos-8jyw.onrender.com)";
+const API_BASE = "https://gestion-de-eventos-8jyw.onrender.com";
 const SESSION_KEY = "festival_sesion";
 const eventoId = new URLSearchParams(window.location.search).get("id");
 const $ = (selector) => document.querySelector(selector);

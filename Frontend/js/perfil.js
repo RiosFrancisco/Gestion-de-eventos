@@ -1,4 +1,4 @@
-const API_URL = "[https://gestion-de-eventos-8jyw.onrender.com](https://gestion-de-eventos-8jyw.onrender.com)";
+const API_URL = "https://gestion-de-eventos-8jyw.onrender.com";
 const SESSION_KEY = "festival_sesion";
 
 let sesion = recuperarSesion();

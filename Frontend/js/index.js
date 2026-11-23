@@ -1,4 +1,4 @@
-const API_URL = "[https://gestion-de-eventos-8jyw.onrender.com](https://gestion-de-eventos-8jyw.onrender.com)";
+const API_URL = "https://gestion-de-eventos-8jyw.onrender.com";
 
 // La sesión se conserva únicamente en esta pestaña y se elimina al cerrarla.
 const SESSION_KEY = "festival_sesion";
@@ -47,7 +47,9 @@ function actualizarBarraUsuario() {
   const registro = document.getElementById("register-button");
   const sesionIniciada = Boolean(sesion?.token && sesion?.usuario);
   texto.textContent = sesionIniciada ? sesion.usuario.nombre : "Iniciar sesión";
-  boton.title = sesionIniciada ? `Usuario: ${sesion.usuario.nombre}` : "Iniciar sesión";
+  boton.title = sesionIniciada
+    ? `Usuario: ${sesion.usuario.nombre}`
+    : "Iniciar sesión";
   if (salida) salida.hidden = !sesionIniciada;
   if (registro) registro.hidden = sesionIniciada;
 }
@@ -63,7 +65,7 @@ async function verificarSesion() {
   }
   try {
     const respuesta = await fetch(`${API_URL}/auth/protegida`, {
-      headers: { Authorization: `Bearer ${sesion.token}` }
+      headers: { Authorization: `Bearer ${sesion.token}` },
     });
     if (respuesta.status === 401 || respuesta.status === 403) cerrarSesion();
   } catch (error) {
@@ -87,7 +89,9 @@ function configurarFormularios() {
     }
   });
 
-  document.getElementById("logout-button").addEventListener("click", cerrarSesion);
+  document
+    .getElementById("logout-button")
+    .addEventListener("click", cerrarSesion);
 
   document.getElementById("register-button").addEventListener("click", () => {
     if (!sesion) mostrarDialogo("register-dialog");
@@ -123,9 +127,15 @@ function configurarFormularios() {
     });
   });
 
-  document.getElementById("login-form").addEventListener("submit", iniciarSesion);
-  document.getElementById("register-form").addEventListener("submit", registrarUsuario);
-  document.getElementById("evento-form").addEventListener("submit", crearEvento);
+  document
+    .getElementById("login-form")
+    .addEventListener("submit", iniciarSesion);
+  document
+    .getElementById("register-form")
+    .addEventListener("submit", registrarUsuario);
+  document
+    .getElementById("evento-form")
+    .addEventListener("submit", crearEvento);
 }
 
 async function iniciarSesion(event) {
@@ -139,7 +149,7 @@ async function iniciarSesion(event) {
     const respuesta = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
+      body: JSON.stringify(datos),
     });
     const resultado = await respuesta.json();
     if (!respuesta.ok || !resultado.token || !resultado.usuario) {
@@ -167,7 +177,7 @@ async function registrarUsuario(event) {
     const respuesta = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
+      body: JSON.stringify(datos),
     });
     const resultado = await respuesta.json();
     if (!respuesta.ok) {
@@ -208,9 +218,9 @@ async function crearEvento(event) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${sesion?.token || ""}`
+        Authorization: `Bearer ${sesion?.token || ""}`,
       },
-      body: JSON.stringify(datos)
+      body: JSON.stringify(datos),
     });
     const resultado = await respuesta.json();
     if (!respuesta.ok) {
@@ -235,7 +245,8 @@ async function cargarEventos() {
     const respuesta = await fetch(`${API_URL}/eventos`);
     if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
     const { eventos } = await respuesta.json();
-    if (!Array.isArray(eventos)) throw new Error("Respuesta de eventos inválida");
+    if (!Array.isArray(eventos))
+      throw new Error("Respuesta de eventos inválida");
     contenedor.replaceChildren();
     if (eventos.length === 0) {
       const texto = document.createElement("p");
@@ -244,20 +255,25 @@ async function cargarEventos() {
       contenedor.appendChild(texto);
       return;
     }
-    eventos.forEach(evento => contenedor.appendChild(crearTarjetaEvento(evento)));
+    eventos.forEach((evento) =>
+      contenedor.appendChild(crearTarjetaEvento(evento)),
+    );
   } catch (error) {
     console.error("Error al cargar eventos:", error);
     contenedor.replaceChildren();
     const texto = document.createElement("p");
     texto.className = "events-message error";
-    texto.textContent = "No se pudieron cargar los eventos. Revisá la conexión.";
+    texto.textContent =
+      "No se pudieron cargar los eventos. Revisá la conexión.";
     contenedor.appendChild(texto);
   }
 }
 
 function obtenerInfoEstado(estado) {
-  if (estado === "cancelado") return { texto: "Cancelado", clase: "status-cancelled" };
-  if (estado === "finalizado") return { texto: "Finalizado", clase: "status-finished" };
+  if (estado === "cancelado")
+    return { texto: "Cancelado", clase: "status-cancelled" };
+  if (estado === "finalizado")
+    return { texto: "Finalizado", clase: "status-finished" };
   return { texto: "Publicado", clase: "status-next" };
 }
 
@@ -273,7 +289,10 @@ function crearCampo(titulo, valor, clase) {
   elemento.className = clase;
   const etiqueta = document.createElement("strong");
   etiqueta.textContent = `${titulo}: `;
-  elemento.append(etiqueta, document.createTextNode(valor == null ? "" : String(valor)));
+  elemento.append(
+    etiqueta,
+    document.createTextNode(valor == null ? "" : String(valor)),
+  );
   return elemento;
 }
 
@@ -292,12 +311,19 @@ function crearTarjetaEvento(evento) {
   info.append(
     nombre,
     estadoElemento,
-    crearCampo("Fecha", formatearFecha(evento.fecha, evento.hora), "event-date"),
-    crearCampo("Lugar", evento.ubicacion, "event-location")
+    crearCampo(
+      "Fecha",
+      formatearFecha(evento.fecha, evento.hora),
+      "event-date",
+    ),
+    crearCampo("Lugar", evento.ubicacion, "event-location"),
   );
   const descripcion = document.createElement("p");
   descripcion.textContent = evento.descripcion || "";
-  info.append(descripcion, crearCampo("Etiquetas", evento.categoria || "General", "event-tags"));
+  info.append(
+    descripcion,
+    crearCampo("Etiquetas", evento.categoria || "General", "event-tags"),
+  );
   const enlace = document.createElement("a");
   enlace.className = "event-card-link";
   enlace.href = `/pages/detalle_evento.html?id=${encodeURIComponent(evento.id)}`;
