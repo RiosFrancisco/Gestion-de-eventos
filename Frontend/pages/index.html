@@ -3,20 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
+    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
     <title>Festival Manager</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/variables.css" />
-    <link rel="stylesheet" href="/css/components/header.css" />
-    <link rel="stylesheet" href="/css/components/nav.css" />
-    <link rel="stylesheet" href="/css/components/event-container.css" />
-    <link rel="stylesheet" href="/css/components/event-list.css" />
-    <link rel="stylesheet" href="/css/components/main.css" />
-    <link rel="stylesheet" href="/css/components/button.css" />
-    <link rel="stylesheet" href="/css/components/footer.css" />
-    <link rel="stylesheet" href="/css/components/forms.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/event-container.css" />
+    <link rel="stylesheet" href="../css/components/event-list.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/forms.css" />
 
     <!-- JavaScript -->
     <script src="/js/index.js" defer></script>
@@ -25,28 +25,31 @@
     <header>
       <nav class="nav-buttons-left">
         <button id="add-button">
-          <img src="/assets/img/addEventButton.png" alt="Add Event" />
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
           <p id="add-event-text">Añadir evento</p>
         </button>
         <button class="text-button" id="search-button">
-          <img src="/assets/img/searchIcon.png" alt="Search" />
+          <img src="../assets/img/searchIcon.png" alt="Search" />
           <p id="search-text">Buscar</p>
         </button>
       </nav>
       <div id="logo" data-page="index.html">
         <img
-          src="/assets/img/FestivalLogoWhite.png"
+          src="../assets/img/FestivalLogoWhite.png"
           alt="Festival Manager Logo"
         />
       </div>
       <nav class="nav-buttons-right">
         <button class="text-button" id="my-events-button">
-          <img src="/assets/img/myEvents.png" alt="My Events" />
+          <img src="../assets/img/myEvents.png" alt="My Events" />
           <p id="my-events-text">Mis eventos</p>
         </button>
-        <button id="register-button" class="text-button" type="button">Registrarse</button>
+        <button class="text-button" id="register-button" type="button">
+          <img src="../assets/img/registerIcon.png" alt="Register Icon" />
+          <p>Registrarse</p>
+        </button>
         <button id="user-button" type="button">
-          <img src="/assets/img/userIcon.png" alt="User Icon" />
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
           <p id="user-status">Iniciar sesión</p>
         </button>
         <button id="logout-button" type="button" hidden>Cerrar sesión</button>
@@ -63,42 +66,125 @@
       <form id="login-form" class="form-content">
         <div class="form-heading">
           <h2 id="login-title">Iniciar sesión</h2>
-          <button class="close-dialog" type="button" data-close="login-dialog" aria-label="Cerrar">×</button>
+          <button
+            class="close-dialog"
+            type="button"
+            data-close="login-dialog"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
         </div>
         <label for="login-email">Correo electrónico</label>
-        <input id="login-email" name="email" type="email" maxlength="30" autocomplete="username" required />
+        <input
+          id="login-email"
+          name="email"
+          type="email"
+          maxlength="30"
+          autocomplete="username"
+          required
+        />
         <label for="login-password">Contraseña</label>
-        <input id="login-password" name="password" type="password" maxlength="20" autocomplete="current-password" required />
-        <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+        <input
+          id="login-password"
+          name="password"
+          type="password"
+          maxlength="20"
+          autocomplete="current-password"
+          required
+        />
+        <p
+          id="login-message"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
         <button class="primary-button" type="submit">Ingresar</button>
-        <p class="form-switch">¿No tenés cuenta? <button id="go-register" type="button">Registrarse</button></p>
+        <p class="form-switch">
+          ¿No tenés cuenta?
+          <button id="go-register" type="button">Registrarse</button>
+        </p>
       </form>
     </dialog>
 
-    <dialog id="register-dialog" class="form-dialog" aria-labelledby="register-title">
+    <dialog
+      id="register-dialog"
+      class="form-dialog"
+      aria-labelledby="register-title"
+    >
       <form id="register-form" class="form-content">
         <div class="form-heading">
           <h2 id="register-title">Crear cuenta</h2>
-          <button class="close-dialog" type="button" data-close="register-dialog" aria-label="Cerrar">×</button>
+          <button
+            class="close-dialog"
+            type="button"
+            data-close="register-dialog"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
         </div>
         <label for="register-name">Nombre</label>
-        <input id="register-name" name="nombre" minlength="3" maxlength="25" autocomplete="name" required />
+        <input
+          id="register-name"
+          name="nombre"
+          minlength="3"
+          maxlength="25"
+          autocomplete="name"
+          required
+        />
         <label for="register-email">Correo electrónico</label>
-        <input id="register-email" name="email" type="email" maxlength="30" autocomplete="email" required />
+        <input
+          id="register-email"
+          name="email"
+          type="email"
+          maxlength="30"
+          autocomplete="email"
+          required
+        />
         <label for="register-password">Contraseña</label>
-        <input id="register-password" name="password" type="password" minlength="8" maxlength="20" autocomplete="new-password" required />
-        <p class="form-hint">La contraseña debe tener entre 8 y 20 caracteres.</p>
-        <p id="register-message" class="form-message" role="status" aria-live="polite"></p>
+        <input
+          id="register-password"
+          name="password"
+          type="password"
+          minlength="8"
+          maxlength="20"
+          autocomplete="new-password"
+          required
+        />
+        <p class="form-hint">
+          La contraseña debe tener entre 8 y 20 caracteres.
+        </p>
+        <p
+          id="register-message"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
         <button class="primary-button" type="submit">Crear cuenta</button>
-        <p class="form-switch">¿Ya tenés cuenta? <button id="go-login" type="button">Iniciar sesión</button></p>
+        <p class="form-switch">
+          ¿Ya tenés cuenta?
+          <button id="go-login" type="button">Iniciar sesión</button>
+        </p>
       </form>
     </dialog>
 
-    <dialog id="evento-dialog" class="form-dialog" aria-labelledby="evento-title">
+    <dialog
+      id="evento-dialog"
+      class="form-dialog"
+      aria-labelledby="evento-title"
+    >
       <form id="evento-form" class="form-content">
         <div class="form-heading">
           <h2 id="evento-title">Crear evento</h2>
-          <button class="close-dialog" type="button" data-close="evento-dialog" aria-label="Cerrar">×</button>
+          <button
+            class="close-dialog"
+            type="button"
+            data-close="evento-dialog"
+            aria-label="Cerrar"
+          >
+            x
+          </button>
         </div>
         <label for="evento-categoria">Categoría</label>
         <select id="evento-categoria" name="categoria_id" required>
@@ -109,25 +195,58 @@
           <option value="4">Educación</option>
           <option value="5">Gastronomía</option>
         </select>
-        <p class="form-hint">Las categorías usan los ID del seed original. Si tu base tiene otros, ajustá los valores del selector.</p>
+        <p class="form-hint">
+          Las categorías usan los ID del seed original. Si tu base tiene otros,
+          ajustá los valores del selector.
+        </p>
         <label for="evento-nombre">Nombre</label>
-        <input id="evento-nombre" name="nombre" minlength="3" maxlength="30" required />
+        <input
+          id="evento-nombre"
+          name="nombre"
+          minlength="3"
+          maxlength="30"
+          required
+        />
         <label for="evento-descripcion">Descripción</label>
-        <textarea id="evento-descripcion" name="descripcion" minlength="5" maxlength="100" rows="3" required></textarea>
+        <textarea
+          id="evento-descripcion"
+          name="descripcion"
+          minlength="5"
+          maxlength="100"
+          rows="3"
+          required
+        ></textarea>
         <div class="form-grid">
-          <div><label for="evento-fecha">Fecha</label><input id="evento-fecha" name="fecha" type="date" required /></div>
-          <div><label for="evento-hora">Hora</label><input id="evento-hora" name="hora" type="time" required /></div>
+          <div>
+            <label for="evento-fecha">Fecha</label
+            ><input id="evento-fecha" name="fecha" type="date" required />
+          </div>
+          <div>
+            <label for="evento-hora">Hora</label
+            ><input id="evento-hora" name="hora" type="time" required />
+          </div>
         </div>
         <label for="evento-ubicacion">Ubicación</label>
-        <input id="evento-ubicacion" name="ubicacion" minlength="5" maxlength="30" required />
-        <p id="evento-message" class="form-message" role="status" aria-live="polite"></p>
+        <input
+          id="evento-ubicacion"
+          name="ubicacion"
+          minlength="5"
+          maxlength="30"
+          required
+        />
+        <p
+          id="evento-message"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
         <button class="primary-button" type="submit">Publicar evento</button>
       </form>
     </dialog>
 
     <footer>
       <section class="footer-logo">
-        <img src="/assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
       </section>
       <section class="footer-info">
         <p>
