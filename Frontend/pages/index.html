@@ -7,53 +7,91 @@
     <title>Festival Manager</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/variables.css" />
-    <link rel="stylesheet" href="/css/components/header.css" />
-    <link rel="stylesheet" href="/css/components/nav.css" />
-    <link rel="stylesheet" href="/css/components/event-container.css" />
-    <link rel="stylesheet" href="/css/components/event-list.css" />
-    <link rel="stylesheet" href="/css/components/main.css" />
-    <link rel="stylesheet" href="/css/components/button.css" />
-    <link rel="stylesheet" href="/css/components/footer.css" />
-    <link rel="stylesheet" href="/css/components/forms.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/event-container.css" />
+    <link rel="stylesheet" href="../css/components/event-list.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/forms.css" />
 
     <!-- JavaScript -->
-    <script type="module" src="/js/index.js"></script>
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/menu-toggle.js"></script>
   </head>
   <body>
     <header>
-      <nav class="nav-buttons-left">
-        <button id="add-button">
-          <img src="/assets/img/addEventButton.png" alt="Add Event" />
-          <p id="add-event-text">Añadir evento</p>
-        </button>
-        <button class="text-button" id="search-button">
-          <img src="/assets/img/searchIcon.png" alt="Search" />
-          <p id="search-text">Buscar</p>
-        </button>
-      </nav>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
       <div id="logo" data-page="index.html">
         <img
-          src="/assets/img/FestivalLogoWhite.png"
+          src="../assets/img/FestivalLogoWhite.png"
           alt="Festival Manager Logo"
         />
       </div>
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
+      </nav>
       <nav class="nav-buttons-right">
         <button class="text-button" id="my-events-button">
-          <img src="/assets/img/myEvents.png" alt="My Events" />
+          <img src="../assets/img/myEvents.png" alt="My Events" />
           <p id="my-events-text">Mis eventos</p>
         </button>
         <button id="register-button" class="text-button" type="button">
-          Registrarse
+          <img src="../assets/img/registerIcon.png" alt="Register Icon" />
+          <p>Registrarse</p>
         </button>
         <button id="user-button" type="button">
-          <img src="/assets/img/userIcon.png" alt="User Icon" />
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
           <p id="user-status">Iniciar sesión</p>
         </button>
         <button id="logout-button" type="button" hidden>Cerrar sesión</button>
       </nav>
     </header>
+
     <main>
       <section class="next-events">
         <h1>Próximos eventos</h1>
@@ -245,7 +283,7 @@
 
     <footer>
       <section class="footer-logo">
-        <img src="/assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
       </section>
       <section class="footer-info">
         <p>
