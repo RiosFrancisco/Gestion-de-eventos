@@ -1,0 +1,21 @@
+@import url(../style.css);
+
+.mensaje-formulario {
+  margin: 10px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  min-height: 24px;
+}
+
+.mensaje-formulario.error {
+  color: #df2935;
+}
+
+.mensaje-formulario.exito {
+  color: #399c56;
+}
+
+.boton-crear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
