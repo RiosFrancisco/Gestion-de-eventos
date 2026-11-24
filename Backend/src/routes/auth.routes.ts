@@ -13,13 +13,11 @@ router.get("/protegida", authMiddleware, (req, res) => {
         message: "Acceso autorizado"
     });
 });
-
 router.get("/admin", authMiddleware, validarRol(ROLES.admin), (req, res) => {
     res.status(200).json({
         message: "Acceso autorizado solo para admin"
     });
 })
-
 router.get("/creador", authMiddleware, validarRol(ROLES.creador, ROLES.admin), (req, res) => {
     res.status(200).json({
         message: "Acceso autorizado para creador o admin"

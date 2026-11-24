@@ -4,49 +4,80 @@ import {
     getUsuarioByEmail,
     createUsuario
 } from "../repositories/usuario.repository";
+import { AppError } from "../errors/appError";
 
 
-
-export async function registerUsuario(nombre: string, email: string, password: string) {
-
-    //validacion de cuenta existente
+// Registro de usuarios
+export async function registerUsuario(
+    nombre: string,
+    email: string,
+    password: string
+) {
     const usuarioExistente = await getUsuarioByEmail(email);
+
     if (usuarioExistente) {
-        throw new Error("El mail ya esta registrado");
+        throw new AppError(
+            409,
+            "El mail ya esta registrado"
+        );
     }
 
-    // hash de contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const nuevoUsuario = await createUsuario(nombre, email, hashedPassword);
+    const nuevoUsuario = await createUsuario(
+        nombre,
+        email,
+        hashedPassword
+    );
+
     return nuevoUsuario;
 }
 
-export async function loginUsuario(email: string, password: string) {
+
+// Inicio de sesión
+export async function loginUsuario(
+    email: string,
+    password: string
+) {
     const usuario = await getUsuarioByEmail(email);
+
     if (!usuario) {
-        throw new Error("Datos invalidos");
+        throw new AppError(
+            401,
+            "Datos invalidos"
+        );
     }
 
-   
-    const passwordCorrecto = await bcrypt.compare(password, usuario.password);
+    const passwordCorrecto = await bcrypt.compare(
+        password,
+        usuario.password
+    );
 
     if (!passwordCorrecto) {
-        throw new Error("Datos invalidos");
+        throw new AppError(
+            401,
+            "Datos invalidos"
+        );
     }
 
     const jwtSecret = process.env.JWT_SECRET;
+
     if (!jwtSecret) {
-        throw new Error("JWT no esta configurado");
+        throw new AppError(
+            500,
+            "Error interno del servidor"
+        );
     }
 
-    const token = jwt.sign({
-        id: Number(usuario.id),
-        rol_id: usuario.rol_id
-    },
-        jwtSecret, {
-        expiresIn: "1h"
-    }
+    const token = jwt.sign(
+        {
+            id: Number(usuario.id),
+            rol_id: usuario.rol_id
+        },
+        jwtSecret,
+        {
+            expiresIn: "1h"
+        }
     );
 
     return {

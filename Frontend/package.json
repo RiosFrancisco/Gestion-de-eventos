@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "http-server . -p 3000 -a 127.0.0.1 -c-1 -o",
+    "start": "http-server . -p 3000 -a 127.0.0.1"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +14,9 @@
     "next": "^16.3.4",
     "react": "^19.2.8",
     "reactdom": "^2.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "tsx": "^4.23.15"
   }
 }

@@ -24,7 +24,9 @@ header {
 #add-button img,
 #user-button img,
 #my-events-button img,
-#search-button img {
+#search-button img,
+#register-button img,
+#logout-button img {
   width: auto;
   height: 50px;
 }
