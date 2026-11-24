@@ -1,6 +1,7 @@
 import {
     createEvento,
     getAllEventos,
+    getEventosByCreador,
     getEventoById,
     getEventoModificable,
     updateEvento,
@@ -204,4 +205,9 @@ export async function activacionEvento(
     );
 
     return activarEvento(eventoId);
+}
+
+
+export async function listarEventosDelCreador(creadorId: number) {
+    return getEventosByCreador(creadorId);
 }

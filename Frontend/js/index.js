@@ -1,303 +1,259 @@
-const API_URL = "http://localhost:3001/api";
+import { solicitar, headersAuth } from './shared/api.js';
+import { obtenerSesion, guardarSesion, cerrarSesion, puedeCrearEventos } from './shared/sesion.js';
+import { fechaConHora } from './shared/formato.js';
 
-// La sesión se conserva únicamente en esta pestaña y se elimina al cerrarla.
-const SESSION_KEY = "festival_sesion";
-let sesion = recuperarSesion();
-
-document.addEventListener("DOMContentLoaded", () => {
-  actualizarBarraUsuario();
-  configurarFormularios();
-  verificarSesion();
-  cargarEventos();
-});
-
-function recuperarSesion() {
-  try {
-    const dato = sessionStorage.getItem(SESSION_KEY);
-    return dato ? JSON.parse(dato) : null;
-  } catch {
-    sessionStorage.removeItem(SESSION_KEY);
-    return null;
-  }
-}
-
-function guardarSesion(datos) {
-  sesion = { token: datos.token, usuario: datos.usuario };
-  sessionStorage.setItem(SESSION_KEY, JSON.stringify(sesion));
-  actualizarBarraUsuario();
-}
-
-function cerrarSesion() {
-  sesion = null;
-  sessionStorage.removeItem(SESSION_KEY);
-  document.getElementById("evento-dialog")?.close();
-  actualizarBarraUsuario();
-}
-
-function esCreador() {
-  const rolId = Number(sesion?.usuario?.rol_id);
-  return rolId === 2 || rolId === 3;
-}
+let destinoTrasLogin = null;
 
 function actualizarBarraUsuario() {
-  const boton = document.querySelector("#user-button");
-  const texto = document.querySelector("#user-status");
+  const sesion = obtenerSesion();
+  const boton = document.getElementById('user-button');
+  const texto = document.getElementById('user-status');
   if (!boton || !texto) return;
-  const salida = document.getElementById("logout-button");
-  const registro = document.getElementById("register-button");
-  const sesionIniciada = Boolean(sesion?.token && sesion?.usuario);
-  texto.textContent = sesionIniciada ? sesion.usuario.nombre : "Iniciar sesión";
-  boton.title = sesionIniciada ? `Usuario: ${sesion.usuario.nombre}` : "Iniciar sesión";
-  if (salida) salida.hidden = !sesionIniciada;
-  if (registro) registro.hidden = sesionIniciada;
+  const autenticado = Boolean(sesion?.token && sesion?.usuario);
+  texto.textContent = autenticado ? sesion.usuario.nombre : 'Iniciar sesión';
+  boton.title = autenticado ? `Usuario: ${sesion.usuario.nombre}` : 'Iniciar sesión';
+  const salir = document.getElementById('logout-button');
+  const registro = document.getElementById('register-button');
+  if (salir) salir.hidden = !autenticado;
+  if (registro) registro.hidden = autenticado;
 }
 
-function mostrarDialogo(id) {
-  document.getElementById(id)?.showModal();
+function mensaje(id, texto, tipo = 'error') {
+  const nodo = document.getElementById(id);
+  if (!nodo) return;
+  nodo.textContent = texto;
+  nodo.className = `form-message ${tipo}`;
+}
+
+function mostrarDialogo(id) { document.getElementById(id)?.showModal(); }
+
+function salir() {
+  cerrarSesion();
+  document.getElementById('evento-dialog')?.close();
+  actualizarBarraUsuario();
 }
 
 async function verificarSesion() {
-  if (!sesion?.token || !sesion?.usuario) {
-    if (sesion) cerrarSesion();
-    return;
-  }
+  const sesion = obtenerSesion();
+  if (!sesion?.token || !sesion?.usuario) return;
   try {
-    const respuesta = await fetch(`${API_URL}/auth/protegida`, {
-      headers: { Authorization: `Bearer ${sesion.token}` }
-    });
-    if (respuesta.status === 401 || respuesta.status === 403) cerrarSesion();
+    await solicitar('/auth/protegida', { headers: headersAuth(sesion.token) });
   } catch (error) {
-    // Sin conexión no se borra la sesión; se verificará al realizar una operación protegida.
-    console.warn("No se pudo verificar la sesión:", error);
+    if (error.status === 401 || error.status === 403) salir();
+    else console.warn('No se pudo verificar la sesión:', error);
   }
-}
-
-function mensaje(id, texto, tipo = "error") {
-  const elemento = document.getElementById(id);
-  elemento.textContent = texto;
-  elemento.className = `form-message ${tipo}`;
 }
 
 function configurarFormularios() {
-  document.getElementById("user-button").addEventListener("click", () => {
-    if (!sesion) {
-      mostrarDialogo("login-dialog");
+  document.getElementById('user-button')?.addEventListener('click', () => {
+    if (!obtenerSesion()?.token) mostrarDialogo('login-dialog');
+    else window.location.href = '/pages/perfil.html';
+  });
+  document.getElementById('logout-button')?.addEventListener('click', salir);
+  document.getElementById('register-button')?.addEventListener('click', () => {
+    if (!obtenerSesion()?.token) mostrarDialogo('register-dialog');
+  });
+  document.getElementById('go-register')?.addEventListener('click', () => {
+    document.getElementById('login-dialog')?.close();
+    mensaje('register-message', '', 'success');
+    mostrarDialogo('register-dialog');
+  });
+  document.getElementById('go-login')?.addEventListener('click', () => {
+    document.getElementById('register-dialog')?.close();
+    mensaje('login-message', '', 'success');
+    mostrarDialogo('login-dialog');
+  });
+  document.getElementById('add-button')?.addEventListener('click', () => {
+    const sesion = obtenerSesion();
+    if (!sesion?.token) {
+      mensaje('login-message', 'Iniciá sesión para crear un evento.');
+      mostrarDialogo('login-dialog');
+    } else if (!puedeCrearEventos(sesion)) {
+      window.alert('Tu cuenta no tiene el rol creador o administrador.');
     } else {
-      window.location.href = "/pages/perfil.html";
+      mensaje('evento-message', '', 'success');
+      mostrarDialogo('evento-dialog');
     }
   });
-  
-  document.getElementById("logout-button").addEventListener("click", cerrarSesion);
-
-  document.getElementById("register-button").addEventListener("click", () => {
-    if (!sesion) mostrarDialogo("register-dialog");
-  });
-  document.getElementById("go-register").addEventListener("click", () => {
-    document.getElementById("login-dialog").close();
-    mensaje("register-message", "", "success");
-    mostrarDialogo("register-dialog");
-  });
-  document.getElementById("go-login").addEventListener("click", () => {
-    document.getElementById("register-dialog").close();
-    mensaje("login-message", "", "success");
-    mostrarDialogo("login-dialog");
-  });
-
-  document.getElementById("add-button").addEventListener("click", () => {
-    if (!sesion) {
-      mensaje("login-message", "Iniciá sesión para crear un evento.");
-      mostrarDialogo("login-dialog");
-      return;
+  // Si el usuario inicia sesión desde este botón, debe volver a pulsar «Mis eventos».
+  document.getElementById('my-events-button')?.addEventListener('click', () => {
+    const sesion = obtenerSesion();
+    if (!sesion?.token) {
+      mensaje('login-message', 'Iniciá sesión para administrar tus eventos.');
+      destinoTrasLogin = '/pages/mis_eventos.html';
+      mostrarDialogo('login-dialog');
+    } else if (Number(sesion.usuario?.rol_id) !== 2) {
+      window.alert('Esta sección es exclusiva para el rol creador.');
+    } else {
+      window.location.href = '/pages/mis_eventos.html';
     }
-    if (!esCreador()) {
-      window.alert("Tu cuenta no tiene el rol creador o administrador.");
-      return;
-    }
-    mensaje("evento-message", "", "success");
-    mostrarDialogo("evento-dialog");
   });
-
-  document.querySelectorAll("[data-close]").forEach((boton) => {
-    boton.addEventListener("click", () => {
-      document.getElementById(boton.dataset.close).close();
-    });
+  document.querySelectorAll('[data-close]').forEach(boton => {
+    boton.addEventListener('click', () => document.getElementById(boton.dataset.close)?.close());
   });
-
-  document.getElementById("login-form").addEventListener("submit", iniciarSesion);
-  document.getElementById("register-form").addEventListener("submit", registrarUsuario);
-  document.getElementById("evento-form").addEventListener("submit", crearEvento);
+  document.getElementById('login-form')?.addEventListener('submit', iniciarSesion);
+  document.getElementById('register-form')?.addEventListener('submit', registrarUsuario);
+  document.getElementById('evento-form')?.addEventListener('submit', crearEvento);
 }
 
-async function iniciarSesion(event) {
-  event.preventDefault();
-  const formulario = event.currentTarget;
+async function iniciarSesion(evento) {
+  evento.preventDefault();
+  const formulario = evento.currentTarget;
   const boton = formulario.querySelector('[type="submit"]');
   const datos = Object.fromEntries(new FormData(formulario));
   boton.disabled = true;
-  mensaje("login-message", "Ingresando...", "success");
+  mensaje('login-message', 'Ingresando...', 'success');
   try {
-    const respuesta = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
+    const resultado = await solicitar('/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos),
     });
-    const resultado = await respuesta.json();
-    if (!respuesta.ok || !resultado.token || !resultado.usuario) {
-      throw new Error(resultado.message || "No se pudo iniciar sesión.");
-    }
+    if (!resultado.token || !resultado.usuario) throw new Error('Respuesta de login inválida.');
     guardarSesion(resultado);
     formulario.reset();
-    document.getElementById("login-dialog").close();
-    mensaje("login-message", "", "success");
-  } catch (error) {
-    mensaje("login-message", error.message || "Error de conexión.");
-  } finally {
-    boton.disabled = false;
-  }
+    document.getElementById('login-dialog')?.close();
+    actualizarBarraUsuario();
+    mensaje('login-message', '', 'success');
+    if (destinoTrasLogin) {
+      const destino = destinoTrasLogin;
+      destinoTrasLogin = null;
+      if (Number(resultado.usuario.rol_id) === 2) window.location.href = destino;
+      else window.alert('Esta sección es exclusiva para el rol creador.');
+    }
+  } catch (error) { mensaje('login-message', error.message || 'Error de conexión.'); }
+  finally { boton.disabled = false; }
 }
 
-async function registrarUsuario(event) {
-  event.preventDefault();
-  const formulario = event.currentTarget;
+async function registrarUsuario(evento) {
+  evento.preventDefault();
+  const formulario = evento.currentTarget;
   const boton = formulario.querySelector('[type="submit"]');
   const datos = Object.fromEntries(new FormData(formulario));
   boton.disabled = true;
-  mensaje("register-message", "Creando cuenta...", "success");
+  mensaje('register-message', 'Creando cuenta...', 'success');
   try {
-    const respuesta = await fetch(`${API_URL}/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
+    await solicitar('/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos),
     });
-    const resultado = await respuesta.json();
-    if (!respuesta.ok) {
-      throw new Error(resultado.message || "No se pudo registrar la cuenta.");
-    }
     formulario.reset();
-    document.getElementById("register-dialog").close();
-    const loginFormulario = document.getElementById("login-form");
-    loginFormulario.elements.email.value = datos.email;
-    loginFormulario.elements.password.value = "";
-    mensaje("login-message", "Cuenta creada. Ahora iniciá sesión.", "success");
-    mostrarDialogo("login-dialog");
-  } catch (error) {
-    mensaje("register-message", error.message || "Error de conexión.");
-  } finally {
-    boton.disabled = false;
-  }
+    document.getElementById('register-dialog')?.close();
+    const login = document.getElementById('login-form');
+    if (login) {
+      login.elements.email.value = datos.email;
+      login.elements.password.value = '';
+    }
+    mensaje('login-message', 'Cuenta creada. Ahora iniciá sesión.', 'success');
+    mostrarDialogo('login-dialog');
+  } catch (error) { mensaje('register-message', error.message || 'Error de conexión.'); }
+  finally { boton.disabled = false; }
 }
 
-async function crearEvento(event) {
-  event.preventDefault();
-  const formulario = event.currentTarget;
+async function crearEvento(evento) {
+  evento.preventDefault();
+  const formulario = evento.currentTarget;
   const boton = formulario.querySelector('[type="submit"]');
   const datos = Object.fromEntries(new FormData(formulario));
   datos.categoria_id = Number(datos.categoria_id);
-  if (!datos.categoria_id) {
-    mensaje("evento-message", "Seleccioná una categoría válida.");
-    return;
-  }
+  if (!datos.categoria_id) return mensaje('evento-message', 'Seleccioná una categoría válida.');
   if (new Date(`${datos.fecha}T${datos.hora}:00`) <= new Date()) {
-    mensaje("evento-message", "La fecha y hora deben ser futuras.");
-    return;
+    return mensaje('evento-message', 'La fecha y hora deben ser futuras.');
   }
   boton.disabled = true;
-  mensaje("evento-message", "Publicando evento...", "success");
+  mensaje('evento-message', 'Publicando evento...', 'success');
   try {
-    const respuesta = await fetch(`${API_URL}/eventos`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sesion?.token || ""}`
-      },
-      body: JSON.stringify(datos)
+    const sesion = obtenerSesion();
+    await solicitar('/eventos', {
+      method: 'POST', headers: headersAuth(sesion?.token, true), body: JSON.stringify(datos),
     });
-    const resultado = await respuesta.json();
-    if (!respuesta.ok) {
-      if (respuesta.status === 401) cerrarSesion();
-      throw new Error(resultado.message || "No se pudo crear el evento.");
-    }
     formulario.reset();
-    document.getElementById("evento-dialog").close();
+    document.getElementById('evento-dialog')?.close();
     await cargarEventos();
-    window.alert("Evento publicado correctamente.");
+    window.alert('Evento publicado correctamente.');
   } catch (error) {
-    mensaje("evento-message", error.message || "Error de conexión.");
-  } finally {
-    boton.disabled = false;
-  }
+    if (error.status === 401) salir();
+    mensaje('evento-message', error.message || 'Error de conexión.');
+  } finally { boton.disabled = false; }
+}
+
+function obtenerInfoEstado(estado) {
+  if (estado === 'cancelado') return { texto: 'Cancelado', clase: 'status-cancelled' };
+  if (estado === 'finalizado') return { texto: 'Finalizado', clase: 'status-finished' };
+  return { texto: 'Publicado', clase: 'status-next' };
+}
+
+function crearCampo(titulo, valor, clase) {
+  const parrafo = document.createElement('p');
+  parrafo.className = clase;
+  const etiqueta = document.createElement('strong');
+  etiqueta.textContent = `${titulo}: `;
+  parrafo.append(etiqueta, document.createTextNode(valor == null ? '' : String(valor)));
+  return parrafo;
+}
+
+function crearTarjetaEvento(evento) {
+  const tarjeta = document.createElement('article');
+  tarjeta.className = 'event-container';
+  tarjeta.dataset.id = evento.id;
+  const info = document.createElement('div');
+  info.className = 'event-info';
+  const nombre = document.createElement('h4');
+  nombre.textContent = evento.nombre;
+  const estado = obtenerInfoEstado(evento.estado);
+  const estadoNodo = document.createElement('span');
+  estadoNodo.className = `status ${estado.clase}`;
+  estadoNodo.textContent = estado.texto;
+  info.append(
+    nombre, estadoNodo,
+    crearCampo('Fecha', fechaConHora(evento.fecha, evento.hora), 'event-date'),
+    crearCampo('Lugar', evento.ubicacion, 'event-location'),
+  );
+  const descripcion = document.createElement('p');
+  descripcion.textContent = evento.descripcion || '';
+  info.append(descripcion, crearCampo('Etiquetas', evento.categoria || 'General', 'event-tags'));
+  const enlace = document.createElement('a');
+  enlace.className = 'event-card-link';
+  enlace.href = `/pages/detalle_evento.html?id=${encodeURIComponent(evento.id)}`;
+  enlace.setAttribute('aria-label', `Ver detalles de ${evento.nombre}`);
+  const llamado = document.createElement('span');
+  llamado.className = 'event-card-cta';
+  llamado.textContent = 'Ver detalles →';
+  info.appendChild(llamado);
+  enlace.appendChild(info);
+  tarjeta.appendChild(enlace);
+  return tarjeta;
 }
 
 async function cargarEventos() {
-  const contenedor = document.querySelector(".events-list");
+  const contenedor = document.querySelector('.events-list');
   if (!contenedor) return;
   try {
-    const respuesta = await fetch(`${API_URL}/eventos`);
-    if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
-    const { eventos } = await respuesta.json();
-    if (!Array.isArray(eventos)) throw new Error("Respuesta de eventos inválida");
+    const { eventos } = await solicitar('/eventos');
+    if (!Array.isArray(eventos)) throw new Error('Respuesta de eventos inválida.');
     contenedor.replaceChildren();
-    if (eventos.length === 0) {
-      const texto = document.createElement("p");
-      texto.className = "events-message";
-      texto.textContent = "Aún no hay eventos publicados.";
-      contenedor.appendChild(texto);
+    if (!eventos.length) {
+      const parrafo = document.createElement('p');
+      parrafo.className = 'events-message';
+      parrafo.textContent = 'Aún no hay eventos publicados.';
+      contenedor.append(parrafo);
       return;
     }
     eventos.forEach(evento => contenedor.appendChild(crearTarjetaEvento(evento)));
   } catch (error) {
-    console.error("Error al cargar eventos:", error);
+    console.error('Error al cargar eventos:', error);
     contenedor.replaceChildren();
-    const texto = document.createElement("p");
-    texto.className = "events-message error";
-    texto.textContent = "No se pudieron cargar los eventos. Revisá la conexión.";
-    contenedor.appendChild(texto);
+    const parrafo = document.createElement('p');
+    parrafo.className = 'events-message error';
+    parrafo.textContent = 'No se pudieron cargar los eventos. Revisá la conexión.';
+    contenedor.append(parrafo);
   }
 }
 
-function obtenerInfoEstado(estado) {
-  if (estado === "cancelado") return { texto: "Cancelado", clase: "status-cancelled" };
-  if (estado === "finalizado") return { texto: "Finalizado", clase: "status-finished" };
-  return { texto: "Publicado", clase: "status-next" };
-}
-
-function formatearFecha(fecha, hora) {
-  if (!fecha) return "Fecha a confirmar";
-  const [anio, mes, dia] = fecha.slice(0, 10).split("-");
-  const fechaTexto = `${dia}/${mes}/${anio}`;
-  return hora ? `${fechaTexto} - ${hora.slice(0, 5)} hs` : fechaTexto;
-}
-
-function crearCampo(titulo, valor, clase) {
-  const elemento = document.createElement("p");
-  elemento.className = clase;
-  const etiqueta = document.createElement("strong");
-  etiqueta.textContent = `${titulo}: `;
-  elemento.append(etiqueta, document.createTextNode(valor == null ? "" : String(valor)));
-  return elemento;
-}
-
-function crearTarjetaEvento(evento) {
-  const tarjeta = document.createElement("article");
-  tarjeta.className = "event-container";
-  tarjeta.dataset.id = evento.id;
-  const info = document.createElement("div");
-  info.className = "event-info";
-  const nombre = document.createElement("h4");
-  nombre.textContent = evento.nombre;
-  const estado = obtenerInfoEstado(evento.estado);
-  const estadoElemento = document.createElement("span");
-  estadoElemento.className = `status ${estado.clase}`;
-  estadoElemento.textContent = estado.texto;
-  info.append(
-    nombre,
-    estadoElemento,
-    crearCampo("Fecha", formatearFecha(evento.fecha, evento.hora), "event-date"),
-    crearCampo("Lugar", evento.ubicacion, "event-location")
-  );
-  const descripcion = document.createElement("p");
-  descripcion.textContent = evento.descripcion || "";
-  info.append(descripcion, crearCampo("Etiquetas", evento.categoria || "General", "event-tags"));
-  tarjeta.appendChild(info);
-  return tarjeta;
-}
+document.addEventListener('DOMContentLoaded', () => {
+  actualizarBarraUsuario();
+  configurarFormularios();
+  void verificarSesion();
+  void cargarEventos();
+  if (location.hash === '#crear-evento') {
+    document.getElementById('add-button')?.click();
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+});

@@ -193,3 +193,19 @@
   color: var(--paletaBlanco);
 }
 
+#my-events-button img {
+    width: auto;
+    height: 40px;
+    object-fit: contain;
+}
+
+
+/* Gestión: se reutilizan las tarjetas originales, sin fotografías. */
+.mis-eventos .events-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr)); gap:22px; }
+.mis-eventos-acciones { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.mis-eventos-boton { display:inline-flex; align-items:center; justify-content:center; padding:10px 13px; background:#004e98; color:#fff; border:0; border-radius:9px; text-decoration:none; cursor:pointer; font:inherit; }
+.mis-eventos-boton:hover { background:#0068c6; color:#fff; }
+.mis-eventos #mis-eventos-mensaje[data-error="true"] { color:#a82430; }
+#editar-evento-dialog,#crear-actividad-dialog { border:0; border-radius:14px; padding:22px; max-width:520px; width:calc(100% - 24px); }
+#editar-evento-dialog::backdrop,#crear-actividad-dialog::backdrop { background:rgba(0,0,0,.55); }
+@media(max-width:700px){ .eventos-resumen { grid-template-columns:1fr; } .mis-eventos{padding:16px;} }

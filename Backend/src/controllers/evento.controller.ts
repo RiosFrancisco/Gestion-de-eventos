@@ -10,6 +10,7 @@ import {
     activacionEvento,
     crearEvento,
     listarEventos,
+    listarEventosDelCreador,
     obtenerEventoPorId,
     updatearEvento,
     cancelacionEvento
@@ -165,4 +166,12 @@ export async function activarEventoController(
         message: "Evento ha cambiado a estado publicado correctamente.",
         evento
     });
+}
+
+
+// Listado de eventos propios. Nunca se recibe creadorId desde el cliente.
+export async function listarMisEventosCreadosController(req: AuthRequest, res: Response) {
+    const usuario = obtenerUsuario(req);
+    const eventos = await listarEventosDelCreador(usuario.id);
+    return res.status(200).json({ eventos });
 }

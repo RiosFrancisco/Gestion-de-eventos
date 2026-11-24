@@ -214,3 +214,29 @@ export async function activarEvento(eventoId: number) {
 
     return mapEvento(evento);
 }
+
+// Devuelve exclusivamente los eventos creados por el usuario autenticado.
+export async function getEventosByCreador(creadorId: number): Promise<EventoListado[]> {
+    const resultado = await pool.query(
+        `SELECT
+            e.id,
+            e.nombre,
+            e.descripcion,
+            e.fecha::text AS fecha,
+            e.hora::text AS hora,
+            e.ubicacion,
+            e.estado,
+            c.nombre AS categoria,
+            u.nombre AS creador
+         FROM eventos e
+         JOIN categorias_evento c ON c.id = e.categoria_id
+         JOIN usuarios u ON u.id = e.creador_id
+         WHERE e.creador_id = $1
+         ORDER BY e.fecha ASC, e.hora ASC`,
+        [creadorId]
+    );
+    return resultado.rows.map(evento => ({
+        ...evento,
+        id: Number(evento.id)
+    }));
+}

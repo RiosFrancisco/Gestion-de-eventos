@@ -2,7 +2,6 @@ import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validarRol } from "../middleware/roles.middleware";
 import { ROLES } from "../utils/roles";
-
 import {
     listarUsuariosController,
     cambiarRolController,
@@ -18,6 +17,6 @@ router.patch("/perfil", authMiddleware, actualizarMiPerfilController);
 
 router.get("/", authMiddleware, validarRol(ROLES.admin), listarUsuariosController);
 router.patch("/:id/rol", authMiddleware, validarRol(ROLES.admin), cambiarRolController);
-router.patch("/:id", modificarDatosUsuarioController);
+router.patch("/:id", authMiddleware,validarRol(ROLES.admin) ,modificarDatosUsuarioController);
 
 export default router;

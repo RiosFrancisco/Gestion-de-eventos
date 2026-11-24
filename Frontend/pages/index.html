@@ -3,59 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
+    <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
     <title>Festival Manager</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/variables.css" />
-    <link rel="stylesheet" href="../css/components/header.css" />
-    <link rel="stylesheet" href="../css/components/nav.css" />
-    <link rel="stylesheet" href="../css/components/event-container.css" />
-    <link rel="stylesheet" href="../css/components/event-list.css" />
-    <link rel="stylesheet" href="../css/components/main.css" />
-    <link rel="stylesheet" href="../css/components/button.css" />
-    <link rel="stylesheet" href="../css/components/footer.css" />
-    <link rel="stylesheet" href="../css/components/forms.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="/css/components/header.css" />
+    <link rel="stylesheet" href="/css/components/nav.css" />
+    <link rel="stylesheet" href="/css/components/event-container.css" />
+    <link rel="stylesheet" href="/css/components/event-list.css" />
+    <link rel="stylesheet" href="/css/components/main.css" />
+    <link rel="stylesheet" href="/css/components/button.css" />
+    <link rel="stylesheet" href="/css/components/footer.css" />
+    <link rel="stylesheet" href="/css/components/forms.css" />
 
     <!-- JavaScript -->
-    <script src="../js/index.js" defer></script>
-    <script src="../js/nav.js" defer></script>
+    <script type="module" src="/js/index.js"></script>
   </head>
   <body>
     <header>
       <nav class="nav-buttons-left">
-        <button id="add-button" data-page="agregar_evento.html">
-          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+        <button id="add-button">
+          <img src="/assets/img/addEventButton.png" alt="Add Event" />
           <p id="add-event-text">Añadir evento</p>
         </button>
         <button class="text-button" id="search-button">
-          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <img src="/assets/img/searchIcon.png" alt="Search" />
           <p id="search-text">Buscar</p>
         </button>
       </nav>
       <div id="logo" data-page="index.html">
         <img
-          href="index.html"
-          src="../assets/img/FestivalLogoWhite.png"
+          src="/assets/img/FestivalLogoWhite.png"
           alt="Festival Manager Logo"
         />
       </div>
       <nav class="nav-buttons-right">
-        <button
-          class="text-button"
-          id="my-events-button"
-          data-page="mis_eventos.html"
-        >
-          <img src="../assets/img/myEvents.png" alt="My Events" />
+        <button class="text-button" id="my-events-button">
+          <img src="/assets/img/myEvents.png" alt="My Events" />
           <p id="my-events-text">Mis eventos</p>
         </button>
-        <button class="text-button" id="register-button" type="button">
-          <img src="../assets/img/registerIcon.png" alt="Register Icon" />
-          <p>Registrarse</p>
+        <button id="register-button" class="text-button" type="button">
+          Registrarse
         </button>
         <button id="user-button" type="button">
-          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <img src="/assets/img/userIcon.png" alt="User Icon" />
           <p id="user-status">Iniciar sesión</p>
         </button>
         <button id="logout-button" type="button" hidden>Cerrar sesión</button>
@@ -189,7 +182,7 @@
             data-close="evento-dialog"
             aria-label="Cerrar"
           >
-            x
+            ×
           </button>
         </div>
         <label for="evento-categoria">Categoría</label>
@@ -252,7 +245,7 @@
 
     <footer>
       <section class="footer-logo">
-        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+        <img src="/assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
       </section>
       <section class="footer-info">
         <p>
