@@ -5,6 +5,7 @@ import { ROLES } from "../utils/roles"
 import {
         createEventoController,
         listarEventosController,
+        listarMisEventosCreadosController,
         getEventoByIdController,
         updateEventoController,
         cancelarEventoController,
@@ -15,6 +16,7 @@ const router = Router();
 
 router.post("/", authMiddleware, validarRol(ROLES.creador, ROLES.admin), createEventoController);
 router.get("/", listarEventosController);
+router.get("/mios", authMiddleware, validarRol(ROLES.creador), listarMisEventosCreadosController);
 router.get("/:id", getEventoByIdController);
 router.patch("/:id", authMiddleware, validarRol(ROLES.admin, ROLES.creador), updateEventoController);
 router.patch("/:id/cancelar", authMiddleware, validarRol(ROLES.admin, ROLES.creador), cancelarEventoController);

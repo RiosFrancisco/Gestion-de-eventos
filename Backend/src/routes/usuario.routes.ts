@@ -17,6 +17,6 @@ router.patch("/perfil", authMiddleware, actualizarMiPerfilController);
 
 router.get("/", authMiddleware, validarRol(ROLES.admin), listarUsuariosController);
 router.patch("/:id/rol", authMiddleware, validarRol(ROLES.admin), cambiarRolController);
-router.patch("/:id", modificarDatosUsuarioController);
+router.patch("/:id", authMiddleware,validarRol(ROLES.admin) ,modificarDatosUsuarioController);
 
 export default router;

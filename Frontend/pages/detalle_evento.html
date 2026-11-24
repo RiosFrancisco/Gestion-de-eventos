@@ -1,90 +1,36 @@
-
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png">
   <title>Detalle del evento | Festival Manager</title>
-
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/components/event-container.css">
   <link rel="stylesheet" href="/css/components/event-list.css">
-
-  <script src="/js/detalle-evento.js" defer></script>
+  <script type="module" src="/js/detalle-evento.js"></script>
 </head>
-
 <body>
-  <header
-    class="festival-detail-header"
-    style="background:#004e98; text-align:center; padding:18px 16px; box-shadow:0 4px 12px rgb(0 0 0 / 15%)"
-  >
+  <header class="festival-detail-header" style="background:#004e98;text-align:center;padding:18px 16px;box-shadow:0 4px 12px rgb(0 0 0 / 15%)">
     <a href="/pages/index.html" aria-label="Volver a Festival Manager">
-      <img
-        src="/assets/img/FestivalLogoWhite.png"
-        alt="Festival Manager"
-        style="height:58px; max-width:85vw; object-fit:contain"
-      >
+      <img src="/assets/img/FestivalLogoWhite.png" alt="Festival Manager" style="height:58px;max-width:85vw;object-fit:contain">
     </a>
   </header>
-
   <main class="event-detail">
-
-    <a class="event-detail__back" href="/pages/index.html">
-      ← Volver a eventos
-    </a>
-
-    <section class="event-detail__hero">
-
+    <a class="event-detail__back" href="/pages/index.html">← Volver a eventos</a>
+    <section class="event-detail__hero" aria-labelledby="detalle-titulo">
       <h1 id="detalle-titulo">Cargando evento…</h1>
-
       <p id="detalle-descripcion"></p>
-
-      <div
-        class="event-detail__metadata"
-        id="detalle-metadata"
-      ></div>
-
-      <button
-        class="event-action"
-        id="inscribir-evento"
-        type="button"
-        disabled
-      >
-        Inscribirme al evento
-      </button>
-
-      <!-- Mensaje para usuarios sin sesión -->
-      <p id="detalle-acceso" class="event-message" hidden>
-        Para inscribirte, primero tenés que iniciar sesión.
-        <a href="/pages/index.html">Ir a iniciar sesión</a>
-      </p>
-
-      <!-- Mensajes de éxito o error -->
-      <p
-        class="event-message"
-        id="detalle-mensaje"
-        role="status"
-        aria-live="polite"
-      ></p>
-
+      <div class="event-detail__metadata" id="detalle-metadata"></div>
+      <p id="detalle-acceso" hidden>Para inscribirte, <a href="/pages/index.html">iniciá sesión en la página principal</a>.</p>
+      <button class="event-action" id="inscribir-evento" type="button" disabled>Inscribirme al evento</button>
+      <p class="event-message" id="detalle-mensaje" role="status" aria-live="polite"></p>
     </section>
-
-    <section
-      class="event-detail__section"
-      aria-labelledby="actividades-titulo"
-    >
-      <h2 id="actividades-titulo">
-        Actividades del evento
-      </h2>
-
-      <div class="activity-list" id="activity-list">
-        <p>Cargando actividades…</p>
-      </div>
+    <section class="event-detail__section" aria-labelledby="actividades-titulo">
+      <h2 id="actividades-titulo">Actividades del evento</h2>
+      <div class="activity-list" id="activity-list"><p>Cargando actividades…</p></div>
     </section>
-
   </main>
 </body>
 </html>
