@@ -2,12 +2,14 @@
 @import url(../style.css);
 
 /* ==== Estilo general de botón ==== */
-button {
+button:not(#menu-toggle) {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 
   padding: var(--espaciadoS);
   align-items: center;
+  justify-content: center;
   text-align: center;
 
   background-color: var(--paletaBlanco);
@@ -21,13 +23,13 @@ button {
   transition: 0.05s ease-in-out;
 }
 
-button:hover {
+button:not(#menu-toggle):hover {
   background-color: #dde1e4;
   box-shadow: var(--formatoSombraHover);
   transform: scale(1.03);
 }
 
-button:active {
+button:not(#menu-toggle):active {
   background-color: var(--paletaGris);
   transition: 0.1s;
 }
@@ -36,4 +38,11 @@ button p {
   padding: 0;
   margin: 0;
 }
-/* ==== * ==== */
+
+/* ==== Teléfono: botones en horizontal ==== */
+@media (max-width: 768px) {
+  button:not(#menu-toggle) {
+    flex-direction: row;
+    gap: 8px;
+  }
+}
