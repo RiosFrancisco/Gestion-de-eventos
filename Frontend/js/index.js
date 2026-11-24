@@ -226,17 +226,33 @@ async function cargarEventos() {
   const contenedor = document.querySelector('.events-list');
   if (!contenedor) return;
   try {
-    const { eventos } = await solicitar('/eventos');
-    if (!Array.isArray(eventos)) throw new Error('Respuesta de eventos inválida.');
+    const { eventos } = await solicitar("/eventos");
+
+    if (!Array.isArray(eventos)) {
+      throw new Error("Respuesta de eventos inválida");
+    }
+
+    // Mostrar solamente eventos publicados
+    const eventosPublicados = eventos.filter(
+      evento => evento.estado === "publicado"
+    );
+
     contenedor.replaceChildren();
-    if (!eventos.length) {
-      const parrafo = document.createElement('p');
-      parrafo.className = 'events-message';
-      parrafo.textContent = 'Aún no hay eventos publicados.';
-      contenedor.append(parrafo);
+
+    if (eventosPublicados.length === 0) {
+      const mensaje = document.createElement("p");
+
+      mensaje.className = "events-message";
+      mensaje.textContent = "No hay eventos publicados actualmente.";
+
+      contenedor.appendChild(mensaje);
       return;
     }
-    eventos.forEach(evento => contenedor.appendChild(crearTarjetaEvento(evento)));
+
+    // Crear tarjetas únicamente para eventos publicados
+    eventosPublicados.forEach(evento => {
+      contenedor.appendChild(crearTarjetaEvento(evento));
+    });
   } catch (error) {
     console.error('Error al cargar eventos:', error);
     contenedor.replaceChildren();
