@@ -93,56 +93,158 @@ async function actualizarPerfil(evento) {
   } finally { boton.disabled = false; }
 }
 
-function mostrarListaInscripciones(id, registros, tipo) {
-  const lista = document.getElementById(id);
-  if (!lista) return;
-  lista.replaceChildren();
-  if (!Array.isArray(registros) || !registros.length) {
-    const li = document.createElement('li');
-    li.className = 'form-hint';
-    li.textContent = tipo === 'evento'
-      ? 'Aún no estás inscripto a ningún evento.'
-      : 'Aún no estás inscripto a ninguna actividad.';
-    lista.append(li);
-    return;
+
+const detallesEventos = new Map();
+const detallesActividades = new Map();
+
+async function obtenerDetalle(ruta, id, cache, clave) {
+  if (!id) return null;
+
+  if (!cache.has(id)) {
+    const consulta = solicitar(`${ruta}/${encodeURIComponent(id)}`)
+      .then(datos => datos[clave] ?? datos)
+      .catch(error => {
+        console.warn(`No se pudo consultar ${ruta}/${id}`, error);
+        return null;
+      });
+
+    cache.set(id, consulta);
   }
-  registros.forEach(item => {
-    const li = document.createElement('li');
-    li.className = 'inscripcion-item';
-    const titulo = document.createElement('h3');
-    titulo.textContent = tipo === 'evento'
-      ? item.evento_nombre || item.nombre || `Evento #${item.evento_id || item.id}`
-      : item.actividad_nombre || item.nombre || `Actividad #${item.actividad_id || item.id}`;
-    const detalle = document.createElement('p');
-    detalle.textContent = tipo === 'actividad' && item.evento_nombre
-      ? `Evento: ${item.evento_nombre}`
-      : `Fecha: ${fechaSimple(item.fecha) || 'A confirmar'}`;
-    const estado = document.createElement('span');
-    estado.className = 'inscripcion-estado';
-    estado.textContent = `Estado: ${item.estado || 'confirmada'}`;
-    li.append(titulo, detalle, estado);
-    lista.append(li);
-  });
+
+  return cache.get(id);
+}
+
+async function completarInscripcion(item, tipo) {
+  if (tipo === "evento") {
+    const evento = await obtenerDetalle(
+      "/eventos",
+      item.evento_id,
+      detallesEventos,
+      "evento"
+    );
+
+    return {
+      ...item,
+      nombreMostrar: item.evento_nombre || evento?.nombre ||
+        "Evento no disponible",
+      fechaMostrar: evento?.fecha || item.fecha
+    };
+  }
+
+  const actividad = await obtenerDetalle(
+    "/actividades",
+    item.actividad_id,
+    detallesActividades,
+    "actividad"
+  );
+
+  const eventoId = actividad?.evento_id ?? item.evento_id;
+
+  const evento = await obtenerDetalle(
+    "/eventos",
+    eventoId,
+    detallesEventos,
+    "evento"
+  );
+
+  return {
+    ...item,
+    nombreMostrar: item.actividad_nombre || actividad?.nombre ||
+      "Actividad no disponible",
+    fechaMostrar: actividad?.fecha || item.fecha,
+    eventoMostrar: item.evento_nombre || evento?.nombre || null
+  };
+}
+
+function mostrarListaInscripciones(id, registros, tipo) {
+    const lista = document.getElementById(id);
+    if (!lista) return;
+
+    lista.replaceChildren();
+
+    if (!Array.isArray(registros) || registros.length === 0) {
+        const li = document.createElement("li");
+        li.className = "form-hint";
+        li.textContent = tipo === "evento"
+            ? "Aún no estás inscripto a ningún evento."
+            : "Aún no estás inscripto a ninguna actividad.";
+
+        lista.appendChild(li);
+        return;
+    }
+
+    registros.forEach(item => {
+        const li = document.createElement("li");
+        li.className = "inscripcion-item";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = item.nombreMostrar;
+
+        const detalle = document.createElement("p");
+
+        detalle.textContent =
+            tipo === "actividad" && item.eventoMostrar
+                ? `Evento: ${item.eventoMostrar}`
+                : `Fecha: ${fechaSimple(item.fechaMostrar) || "A confirmar"}`;
+
+        const estado = document.createElement("span");
+        estado.className = "inscripcion-estado";
+        estado.textContent = `Estado: ${item.estado || "No informado"}`;
+
+        li.append(titulo, detalle, estado);
+        lista.appendChild(li);
+    });
 }
 
 async function cargarInscripciones(ruta, listaId, tipo) {
-  if (!document.getElementById(listaId)) return;
-  try {
-    const sesion = obtenerSesion();
-    const datos = await solicitar(ruta, { headers: headersAuth(sesion?.token) });
-    const registros = datos.inscripciones || datos.eventos || datos.actividades || [];
-    mostrarListaInscripciones(listaId, registros, tipo);
-  } catch (error) {
-    if (error.status === 401) return salir();
-    console.error(`Error cargando inscripciones de ${tipo}:`, error);
     const lista = document.getElementById(listaId);
-    lista.replaceChildren();
-    const li = document.createElement('li');
-    li.className = 'form-message error';
-    li.textContent = `No se pudieron cargar tus inscripciones a ${tipo === 'evento' ? 'eventos' : 'actividades'}.`;
-    lista.append(li);
-  }
+    if (!lista) return;
+
+    try {
+        const sesion = obtenerSesion();
+
+        const datos = await solicitar(ruta, {
+            headers: headersAuth(sesion?.token)
+        });
+
+        const registros =
+            datos.inscripciones ||
+            datos.eventos ||
+            datos.actividades ||
+            [];
+
+        if (!Array.isArray(registros)) {
+            throw new Error("Formato de inscripciones inválido");
+        }
+
+        const inscripcionesCompletas = await Promise.all(
+            registros.map(item => completarInscripcion(item, tipo))
+        );
+
+        mostrarListaInscripciones(
+            listaId,
+            inscripcionesCompletas,
+            tipo
+        );
+
+    } catch (error) {
+        if (error.status === 401) {
+            salir();
+            return;
+        }
+
+        console.error("Error al cargar inscripciones:", error);
+
+        lista.replaceChildren();
+
+        const li = document.createElement("li");
+        li.className = "form-message error";
+        li.textContent = "No se pudieron cargar tus inscripciones.";
+
+        lista.appendChild(li);
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const sesion = obtenerSesion();
