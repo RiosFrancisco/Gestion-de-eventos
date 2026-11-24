@@ -1,22 +1,31 @@
-# Plataforma de Gestión de Eventos
+# Festival Manager - Plataforma de gestión de eventos
 
-## Integrantes: Cutropia Ramiro, Scabusso Matko, Rios Francisco, Beltrame Juan Manuel
+![Festival Manager](./Frontend/assets/img/FestivalLogo.png)
 
+### Integrantes
+
+- Juan Manuel Beltrame
+- Ramiro Cutropia
+- Francisco Rios
+- Matko Scabusso
 
 ## Presentación del proyecto
 
-El objetivo es desarrollar una plataforma web **multi-evento** que permita a los usuarios participar en diferentes eventos y, mediante la contratación del servicio correspondiente, obtener permisos para crear y administrar sus propios eventos.
+El proyecto consiste en una platadorma web que funciona como un tablón público de eventos locales a fin de informar a la población de los eventos o festividades que estan ocurriendo o están próximos a ocurrir.
+Los usuarios podrán participar de los diferentes eventos que la comunidad publique en la página, para lo cual se podrá contratar el servicio de creación y gestión de eventos.
 
-La plataforma contará con dos grandes perfiles:
+**Para acceder a la aplicación, [>>haga clic en este enlace<<](https://festival-manager-r5le.onrender.com)**
 
-- **Participantes:** usuarios registrados que navegan por los eventos y se inscriben en actividades.
-- **Administradores de eventos:** usuarios que cuentan con permisos adicionales para crear y administrar sus propios eventos.
+## Usuarios y roles
+
+La plataforma cuenta con dos grandes perfiles:
+
+- **Participantes:** Usuarios registrados que navegan por los eventos y se pueden inscribir en actividades.
+- **Administradores de eventos:** Usuarios que cuentan con permisos adicionales para crear y administrar sus propios eventos.
 
 El sistema busca centralizar la información de los eventos y facilitar tanto su administración como la participación de los usuarios.
 
-# Usuarios y roles
-
-## Usuario registrado
+## Usuario registrado (Participantes)
 
 Todo usuario deberá crear una cuenta para utilizar las funcionalidades principales de la plataforma.
 
@@ -34,9 +43,7 @@ Podrá:
 - Consultar sus propias inscripciones.
 - Gestionar sus datos personales.
 
----
-
-## Administrador de evento
+## Administrador de eventos
 
 Un usuario podrá obtener permisos de administrador mediante la **contratación de un plan o servicio**.
 
@@ -54,18 +61,15 @@ Una vez realizado y validado el pago, podrá:
 
 Un administrador solamente podrá modificar los eventos que le pertenecen.
 
-Juan no debería poder modificar el Evento B de Pedro.
-
 Esto será controlado desde el **backend mediante autenticación y autorización**.
 
-# Página principal
+Por ejemplo, el usuario A no podrá modificar o alterar de ninguna manera los eventos publicados por el usuario B.
 
-La página principal será el punto de entrada de la plataforma.
+## Página principal
 
-Podrá mostrar:
+La página principal es el punto de entrada de la plataforma. Este muestra:
 
 - Eventos próximos.
-- Eventos destacados.
 - Eventos recientemente publicados.
 - Categorías de eventos.
 - Buscador.
@@ -75,25 +79,27 @@ Podrá mostrar:
 Ejemplo conceptual:
 
 ```
-┌─────────────────────────────────────────────┐
-│ LOGO       Eventos   Buscar     Mi cuenta   │
-├─────────────────────────────────────────────┤
-│                                             │
-│              PRÓXIMOS EVENTOS               │
-│                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │ Evento 1 │  │ Evento 2 │  │ Evento 3 │  │
-│  │ Fecha    │  │ Fecha    │  │ Fecha    │  │
-│  │ Lugar    │  │ Lugar    │  │ Lugar    │  │
-│  └──────────┘  └──────────┘  └──────────┘  │
-│                                             │
-└─────────────────────────────────────────────┘
+╔═════════════════════════════════════════════════╗
+║ + 🔎               Festival Manager           ⛭ 🔵 🟥 ║
+╚═════════════════════════════════════════════════╝
+│                                                        │
+│                    Próximos eventos                    │
+│                                                        │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
+│ │ Evento 1      │ │ Evento 2      │ │ Evento 3      │ │
+│ │ Fecha         │ │ Fecha         │ │ Fecha         │ │
+│ │ Lugar         │ │ Lugar         │ │ Lugar         │ │
+│ └─────────────┘ └─────────────┘ └─────────────┘ │
+│                                                        │
+└─────────────────────────────────────────────────┘
+
 ```
-# Gestión de eventos
 
-Cada evento tendrá su propia información y contenido.
+## Gestión de eventos
 
-Entre los datos principales podrán encontrarse:
+Cada evento tiene su propia información y contenido.
+
+Entre los datos principales se encuentran:
 
 - Nombre.
 - Descripción.
@@ -102,9 +108,8 @@ Entre los datos principales podrán encontrarse:
 - Ubicación.
 - Estado.
 - Categoría.
-- Administrador responsable.
 
-Cada evento podrá contener diferentes secciones:
+Cada evento tiene diferentes secciones:
 
 ```text
 EVENTO
@@ -116,9 +121,9 @@ EVENTO
 └── Inscripciones
 ```
 
-# Actividades
+## Actividades
 
-Cada evento podrá tener múltiples actividades.
+Cada evento puede tener múltiples actividades.
 
 Ejemplo:
 
@@ -141,9 +146,9 @@ Los usuarios podrán:
 5. Inscribirse.
 6. Recibir confirmación de la inscripción.
 
-# Inscripciones
+## Inscripciones
 
-Las inscripciones estarán asociadas a un **usuario registrado** y a una actividad.
+Las inscripciones se asocian a un **usuario registrado** y a una actividad.
 
 ```text
 Usuario
@@ -156,13 +161,13 @@ Actividad
 Evento
 ```
 
-Esto permitirá que el usuario pueda consultar posteriormente sus actividades inscritas.
+Esto permite que el usuario pueda consultar posteriormente sus actividades inscritas desde la página de su perfil.
 
 A su vez, el administrador podrá consultar los participantes de las actividades pertenecientes a sus eventos.
 
-# Sistema de contratación (A FUTURO)
+## Sistema de contratación (WIP)
 
-Una funcionalidad central será permitir que un usuario pueda **contratar un plan para administrar un evento**.
+Para que los usuarios puedan crear, editar y administrar eventos propios, deberán suscribirse a un plan de pago para tener acceso a dichas herramientas. Esto no solo sirve como medio de facturación para poder mantener el proyecto en el futuro, sino para restringir el mal uso de la herramienta de creación de eventos.
 
 Flujo conceptual:
 
@@ -187,11 +192,11 @@ Puede crear y gestionar su evento
 
 El sistema deberá validar que el pago haya sido correctamente procesado antes de habilitar los permisos correspondientes.
 
----
+## Autenticación y autorización
 
-# Autenticación y autorización
+### Autenticación
 
-La autenticación se realizará mediante **JSON Web Token (JWT)**.
+La autenticación será realizada mediante **JSON Web Token (JWT)**.
 
 El objetivo es permitir que el backend identifique al usuario que realiza cada solicitud.
 
@@ -206,7 +211,7 @@ Backend
    │
    │ Verifica credenciales
    ▼
-JWT
+  JWT
    │
    ▼
 Usuario autenticado
@@ -214,9 +219,9 @@ Usuario autenticado
 
 Las solicitudes que requieran autenticación deberán incluir el token correspondiente.
 
-## Autorización
+### Autorización
 
-Además de identificar al usuario, el backend deberá determinar **qué acciones tiene permitidas**.
+Además de identificar qué usuario está conectado, el backend deberá determinar **qué acciones tiene permitidas**.
 
 Ejemplo:
 
@@ -243,20 +248,18 @@ Administrador
 
 ---
 
-# Validaciones
+## Validaciones
 
-La aplicación contará con validaciones tanto en **frontend como en backend**.
+La aplicación cuenta con validaciones tanto en **frontend** para feedback al usuario, como en **backend** para mantener la consistencia de datos.
 
-## Registro
+### Registro
 
 - Nombre obligatorio.
-- Email obligatorio.
-- Email con formato válido.
-- Contraseña obligatoria.
-- Contraseña con requisitos mínimos.
+- Email obligatorio con formato válido.
+- Contraseña obligatoria y con requisitos.
 - Confirmación de contraseña.
 
-## Eventos
+### Eventos
 
 - Nombre obligatorio.
 - Descripción obligatoria.
@@ -264,40 +267,39 @@ La aplicación contará con validaciones tanto en **frontend como en backend**.
 - Ubicación obligatoria.
 - Datos consistentes.
 
-## Actividades
+### Actividades
 
 - Nombre obligatorio.
 - Descripción obligatoria.
 - Fecha válida.
-- Capacidad válida, si corresponde.
+- Capacidad válida (si corresponde).
 
-## Inscripciones
+### Inscripciones
 
 - Usuario autenticado.
 - Actividad existente.
 - Actividad disponible.
 - Evitar inscripciones duplicadas.
 
+## Base de datos
 
-# Base de datos
+La base de datos está diseñada siguiendo buenas prácticas de modelado y buscando garantizar la consistencia e integridad de la información.
 
-La base de datos será diseñada siguiendo buenas prácticas de modelado y buscando garantizar la consistencia e integridad de la información.
-
-Entre las entidades principales podrían encontrarse:
+Entre las entidades principales se encuentran:
 
 ```text
 USUARIO
    │
    ├───────────────┐
-   │               │
-   ▼               ▼
+   │                 │
+   ▼                 ▼
 EVENTO          INSCRIPCIÓN
-                   │
-                   ▼
+                     │
+                     ▼
                  ACTIVIDAD
+```
 
-
-Se deberán contemplar:
+Se comtemplan:
 
 - Claves primarias.
 - Claves foráneas.
@@ -308,35 +310,38 @@ Se deberán contemplar:
 - Relaciones entre entidades.
 - Consistencia de los datos.
 
+## Arquitectura del Backend
 
-# Arquitectura del Backend
+El backend se desarrolló con:
 
-El backend se desarrollará utilizando:
-
-- **JavaScript**
+- **SQL**
 - **TypeScript**
 - **Node.js**
 
-Se buscará mantener una arquitectura organizada por responsabilidades.
-
-Ejemplo:
+La estructura de archivos del backend mantiene una arquitectura organizada por responsabilidades para mejor mantenimiento y legibilidad:
 
 ```text
-src/
-│
-├── controllers/
-├── services/
-├── repositories/
-├── routes/
-├── middlewares/
-├── validators/
-├── models/
-├── config/
-├── tests/
-└── utils/
+Backend/
+├── database/
+│    ├── schema.sql
+│    └── seed.sql
+└── src/
+     ├── config/
+     ├── controllers/
+     ├── errors/
+     ├── middleware/
+     ├── models/
+     ├── repositories/
+     ├── routes/
+     ├── schemas/
+     ├── services/
+     ├── tests/
+     ├── utils/
+     ├── app.ts
+     └── server.ts
 ```
 
-La lógica de negocio no deberá concentrarse únicamente en las rutas o controladores.
+La lógica de negocio se concentra únicamente en las rutas o controladores.
 
 Flujo conceptual:
 
@@ -350,157 +355,150 @@ Repository
 Database
 ```
 
-# Frontend
+## Frontend
 
-Para el frontend se podrá utilizar:
+Para el frontend, se utiliza:
 
-- **React**
-- o **Next.js**
+- HTML5
+- CSS3
+- JavaScript
+- Recursos
+  - PNG
+  - TTF
 
-La interfaz deberá permitir:
+La interfaz permite:
 
 - Registro.
-- Login.
+- Inicio de sesión.
 - Navegación de eventos.
-- Búsqueda.
-- Filtros.
-- Visualización de eventos.
-- Visualización de actividades.
+- Búsqueda y filtrado.
+- Visualización de eventos y actividades.
 - Inscripciones.
 - Perfil del usuario.
 - Panel administrativo.
 - Gestión de eventos.
 
----
+Su estructura de archivos tiene un diseño modular, el cual facilita su mantenimiento y legibilidad para hacer cambios o correcciones.
 
-## Tecnologías
+```text
+Frontend/
+├── assets/
+│    ├── favicon/
+│    │    └── favIcon.png
+│    ├── fonts/
+│    │    ├── MomoTrustDisplay-Regular.ttf
+│    │    └── MomoTrustSans-VariableFont_wght.ttf
+│    └── img/
+│         ├── addEventButton.png
+│         ├── FestivalLogo.png
+│         ├── FestivalLogoWhite.png
+│         ├── logOutIcon.png
+│         ├── myEvents.png
+│         ├── registerIcon.png
+│         ├── searchIcon.png
+│         └── userIcon.png
+├── css/
+│    ├── components/
+│    │    ├── button.css
+│    │    ├── event-container.css
+│    │    ├── event-list.css
+│    │    ├── footer.css
+│    │    ├── forms.css
+│    │    ├── header.css
+│    │    ├── main.css
+│    │    ├── mensaje-formulario.css
+│    │    └── nav.css
+│    ├── agregar_evento.css
+│    ├── mis_eventos.css
+│    ├── perfil.css
+│    ├── style.css
+│    └── variables.css
+├── js/
+│    ├── agregar_evento.js
+│    ├── detalle-evento.js
+│    ├── index.js
+│    ├── nav.js
+│    └── perfil.js
+├── pages/
+│    ├── agregar_evento.html
+│    ├── detalle_evento.html
+│    ├── index.html
+│    ├── mis_eventos.html
+│    └── perfil.html
+├── notas-taller.md
+├── README.md
+└── toma-decisiones.md
+```
 
-# Frontend
-React
-Next.js
-TypeScript
-HTML
-CSS
+## Otras tecnologías
 
-# Backend
-Node.js
-Express
-TypeScript
-API REST
+### Base de Datos
 
-# Base de Datos
-PostgreSQL
+- PostgreSQL
 
-## Dependencias
-next
-react
-react-dom
-typescript
-express
-cors
-dotenv
-jsonwebtoken
-bcrypt
-zod
-pg
-tsx
-eslint
+### Dependencias
+
+- Next.js
+- Express
+- Cors
+- dotenv
+- JSON Web Token (JWT)
+- BCrypt
+- Zod
+- pg
+- tsx
+- Eslint
 
 Además, se utilizarán las correspondientes dependencias de tipos para TypeScript:
 
-@types/node
-@types/react
-@types/react-dom
-@types/express
-@types/cors
-@types/jsonwebtoken
-@types/bcrypt
+- @types/node
+- @types/react
+- @types/react-dom
+- @types/express
+- @types/cors
+- @types/jsonwebtoken
+- @types/bcrypt
 
-## Instalación y ejecución
-# Requisitos previos
+## Funcionamiento
 
-Antes de instalar el proyecto, es necesario contar con:
+El proyecto funciona por tres servicios de [Render](https://render.com/).
+Uno para el **frontend**, uno para el **backend**, y uno para la **base de datos**.
 
-Node.js
-npm
-PostgreSQL
-Git
+El Frontend se comunica con el Backend, y este a su vez se comunica con la base de datos de Postgres para las peticiones HTTP.
 
-# 1. Clonar el repositorio
-git clone https://github.com/RiosFrancisco/Gestion-de-eventos
-cd Gestion-de-eventos
+En forma de diagrama, el flujo se representa de esta forma:
 
-# 2. Instalar las dependencias
-- Frontend
-cd frontend
-npm ci
+```
+Navegador/Frontend ➔➔➔ Backend ➔➔➔ Base de datos (PostgreSQL)
+```
 
-- Backend
-cd ../backend
-npm ci
+### Deploy de frontend
 
-# 3. Configurar las variables de entorno
-- Backend
-Crear un archivo .env dentro de la carpeta backend:
-PORT=3001
-DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
-(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
-JWT_SECRET=clave_secreta
+El frontend se encuentra alojado como un _Static Web_, el cual lee el último commit de la rama `main` en la ruta `./Frontend`, donde se alojan todos los archivos de la interfaz.
 
-- Frontend
-Crear un archivo .env.local dentro de la carpeta frontend:
-NEXT_PUBLIC_API_URL=http://localhost:3001
+### Deploy de backend
 
-# 4. Configurar PostgreSQL
-1. Abrí pgAdmin 4.
-2. Conectate a tu servidor PostgreSQL.
-3. En el panel izquierdo, buscá Databases.
-4. Hacé clic derecho sobre Databases.
-5. Seleccioná Create → Database.
-6. Escribí el siguiente nombre: gestion_eventos
-7. Expandí Databases.
-8. Seleccioná gestion_eventos.
-9. Hacé clic derecho y elegí Query Tool.
-10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
-11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
+El backend se encuentra alojado como un _Web Service_, que al igual que el deploy del Frontend, lee el último commit de la rama `main`, pero este apunta hacia la ruta `./Backend`, donde se alojan todos los archivos del backend.
 
-`schema.sql` crea las tablas y restricciones.
-`seed.sql` inserta los datos iniciales necesarios, como roles y categorías.
+### Base de datos con Postgres
 
+La aplicación utiliza una instancia gestionada de PostgreSQL alojada en Render para persistir la información del sistema (como eventos, usuarios, roles o categorías).
 
-# 5. Ejecutar el Backend
-Desde la carpeta backend:
-npm run dev
-El servidor estará disponible en:
-http://localhost:3001
+El backend se conecta a esta base mediante variables de entorno (`DATABASE_URL`), y la estructura inicial junto con los datos base se cargan a partir de los scripts SQL del repositorio (`schema.sql` y `seed.sql`).
 
-# 6. Ejecutar el Frontend
-En otra terminal, desde la carpeta frontend:
-cd frontend
-npm run dev
-La aplicación estará disponible en:
-http://localhost:3000
+## Configurar base de datos de testing
 
-# 7. Ejecutar el proyecto
-
-Para utilizar la aplicación es necesario mantener ejecutándose:
-El servidor del backend.
-El servidor de desarrollo del frontend.
-El servidor de PostgreSQL.
-El frontend se comunicará con el backend mediante la API REST, mientras que el backend gestionará la conexión con la base de datos PostgreSQL.
-
-
-# Configurar base de datos de testing
 El proyecto utiliza Vitest para ejecutar pruebas automatizadas y Supertest para verificar el comportamiento de los endpoints HTTP.
 
 Las pruebas de integración utilizan una base de datos PostgreSQL independiente, con el objetivo de evitar modificaciones en los datos de desarrollo.
 
 - Backend
-Crear un archivo .env.test dentro de la carpeta backend:
-DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test  
-(Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
+  Crear un archivo .env.test dentro de la carpeta backend:
+  DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test  
+  (Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
 
 Luego seguir los siguientes pasos:
+
 1. Abrí pgAdmin 4.
 2. Conectate a tu servidor PostgreSQL.
 3. En el panel izquierdo, buscá Databases.
@@ -516,54 +514,54 @@ Luego seguir los siguientes pasos:
 Desde una terminal ubicada en la carpeta backend, ejecutar:
 
 - Pruebas unitarias y de rutas:
-npm test
+  npm test
 
-- Pruebas de integración con PostgreSQL: 
-npm run test:integration
+- Pruebas de integración con PostgreSQL:
+  npm run test:integration
 
 - Verificación de tipos de TypeScript:
-npm run typecheck
+  npm run typecheck
 
 - Para comprobar únicamente la conexión a PostgreSQL y la existencia de la tabla de eventos:
-npm run test:integration -- src/tests/database.integration.test.ts
+  npm run test:integration -- src/tests/database.integration.test.ts
 
 # Funcionalidades previstas
 
 ## Usuarios
 
-- [✅] Registro.
-- [✅] Inicio de sesión.
-- [ ] Cierre de sesión.
-- [✅] Autenticación mediante JWT.
-- [✅] Perfil de usuario.
-- [ ] Consulta de inscripciones.
+- [x] Registro.
+- [x] Inicio de sesión.
+- [x] Cierre de sesión.
+- [x] Autenticación mediante JWT.
+- [x] Perfil de usuario.
+- [x] Consulta de inscripciones.
 
 ## Eventos
 
-- [✅] Listado de eventos.
-- [ ] Eventos próximos.
-- [✅] Búsqueda.
-- [ ] Filtros.
-- [✅] Detalle del evento.
-- [✅] Creación de eventos.
-- [✅] Edición de eventos.
-- [✅] Cancelación de eventos.
+- [x] Listado de eventos.
+- [x] Eventos próximos.
+- [x] Búsqueda.
+- [x] Filtros.
+- [x] Detalle del evento.
+- [x] Creación de eventos.
+- [x] Edición de eventos.
+- [x] Cancelación de eventos.
 
 ## Actividades
 
-- [✅] Crear actividades.
-- [✅] Editar actividades.
-- [✅] Cancelar actividades.
-- [✅] Consultar actividades.
-- [✅] Inscripción a actividades.
-- [✅] Control de cupos.
-- [✅] Prevención de inscripciones duplicadas.
+- [x] Crear actividades.
+- [x] Editar actividades.
+- [x] Cancelar actividades.
+- [x] Consultar actividades.
+- [x] Inscripción a actividades.
+- [x] Control de cupos.
+- [x] Prevención de inscripciones duplicadas.
 
 ## Administración
 
 - [ ] Panel administrativo.
-- [✅] Gestión de eventos propios.
-- [✅] Gestión de actividades.
+- [x] Gestión de eventos propios.
+- [x] Gestión de actividades.
 - [ ] Consulta de participantes.
 
 ## Pagos (A FUTURO)
