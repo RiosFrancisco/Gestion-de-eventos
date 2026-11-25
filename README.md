@@ -486,32 +486,79 @@ La aplicación utiliza una instancia gestionada de PostgreSQL alojada en Render 
 
 El backend se conecta a esta base mediante variables de entorno (`DATABASE_URL`), y la estructura inicial junto con los datos base se cargan a partir de los scripts SQL del repositorio (`schema.sql` y `seed.sql`).
 
-## Configurar base de datos de testing
+### Instalación y ejecución
+## Requisitos previos
+Antes de comenzar, necesitás instalar estas herramientas:
+- Node.js	-- Para ejecutar el backend
+- PostgreSQL	-- Para almacenar los datos
+- pgAdmin 4	-- Administrar las bases de datos
+- Visual Studio Code   -- Abrir y trabajar con el código
+- Postman	-- Probar los endpoints de la API
+
+# 1. Clonar el repositorio
+git clone https://github.com/RiosFrancisco/Gestion-de-eventos
+
+# 2. Instalar las dependencias
+- Frontend
+cd frontend
+npm ci
+
+- Backend
+cd ../backend
+npm ci
+
+# 3. Crear las bases de datos PostgreSQL
+Necesitás dos bases de datos diferentes:
+- gestion_eventos: para ejecutar normalmente la aplicación.
+- gestion_de_eventos_test: exclusivamente para realizar pruebas de integración.
+
+Abrí pgAdmin 4, conectate a tu servidor PostgreSQL y seguí estos pasos:
+1. Buscá Databases.
+2. Hacé clic derecho y seleccioná Create → Database.
+3. En el campo Database, escribí gestion_eventos.
+4. Guardá.
+Repetí los pasos para gestion_de_eventos_test.
+Si PostgreSQL solicita una contraseña, utilizá la correspondiente al usuario de tu instalación.
+
+En pgAdmin:
+1. Seleccioná la base de datos gestion_eventos.
+2. Abrí Query Tool.
+3. Abrí el contenido de schema.sql, pegalo en Query Tool y ejecutalo con el botón de reproducción.
+4. Repetí el mismo paso con el contenido de seed.sql.
+Repetí exactamente el mismo procedimiento para gestion_de_eventos_test.
+
+# 4. Configurar las variables de entorno
+- En la carpeta principal Backend, creá un archivo llamado .env.
+
+Agregá:
+   PORT=3001
+   DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_eventos
+   JWT_SECRET=CAMBIAR_POR_UN_SECRETO_LARGO_Y_ALEATORIO
+
+Tenés que reemplazar TU_PASSWORD por la contraseña real de PostgreSQL y JWT_SECRET por una clave secreta propia, larga y aleatoria.
+
+- Creá otro archivo en la misma carpeta, llamado .env.test.
+
+Agregá: 
+   DATABASE_URL_TEST=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test
+   JWT_SECRET=OTRO_SECRETO_LARGO_Y_ALEATORIO_PARA_TESTING
+
+# 5. Ejecutar el Backend
+Desde la carpeta backend:
+npm run dev
+
+# 6. Ejecutar el Frontend
+En otra terminal, desde la carpeta frontend:
+cd frontend
+npm run dev
+
+Si los pasos se siguieron correctamente, deberias poder levantar ambos servidores sin errores.
+
+## Base de datos de testing
 
 El proyecto utiliza Vitest para ejecutar pruebas automatizadas y Supertest para verificar el comportamiento de los endpoints HTTP.
 
-Las pruebas de integración utilizan una base de datos PostgreSQL independiente, con el objetivo de evitar modificaciones en los datos de desarrollo.
-
-- Backend
-  Crear un archivo .env.test dentro de la carpeta backend:
-  DATABASE_URL=postgresql://postgres:TU_PASSWORD@localhost:5432/gestion_de_eventos_test  
-  (Reemplazar TU_PASSWORD por la contraseña del usuario PostgreSQL correspondiente.)
-
-Luego seguir los siguientes pasos:
-
-1. Abrí pgAdmin 4.
-2. Conectate a tu servidor PostgreSQL.
-3. En el panel izquierdo, buscá Databases.
-4. Hacé clic derecho sobre Databases.
-5. Seleccioná Create → Database.
-6. Escribí el siguiente nombre: gestion_de_eventos_test (IMPORTANTE: mantener el nombre ya que se valida en tests\config.database-test.ts)
-7. Expandí Databases.
-8. Seleccioná gestion_de_eventos_test.
-9. Hacé clic derecho y elegí Query Tool.
-10. Abrí el archivo backend/database/schema.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
-11. Abrí el archivo Backend/database/seed.sql, copia todo el contenido y pegalo en Query Tool, luego ejecutalo con el boton de reproducción.
-
-Desde una terminal ubicada en la carpeta backend, ejecutar:
+Para poder ejecutar los tests, desde una terminal ubicada en la carpeta backend, ejecutar:
 
 - Pruebas unitarias y de rutas:
   npm test
