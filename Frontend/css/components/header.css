@@ -46,7 +46,8 @@ header {
 #my-events-button img,
 #search-button img,
 #register-button img,
-#logout-button img {
+#logout-button img,
+#back-button img {
   width: auto;
   height: 50px;
 }

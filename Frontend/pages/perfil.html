@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
@@ -19,118 +19,175 @@
 
     <!-- JavaScript -->
     <script type="module" src="/js/perfil.js"></script>
-</head>
-<body class="pagina-perfil">
+  </head>
+  <body class="pagina-perfil">
     <header>
-        <nav class="nav-buttons-left">
-            <button class="text-button" id="back-home-button" type="button">
-            <p>← Volver a eventos</p>
-            </button>
-        </nav>
-        <div id="logo" style="cursor: pointer">
-            <img
-            src="/assets/img/FestivalLogoWhite.png"
-            alt="Festival Manager Logo"
-            />
-        </div>
-        <nav class="nav-buttons-right">
-            <button id="user-button" type="button">
-            <img src="/assets/img/userIcon.png" alt="User Icon" />
-            <p id="user-status">Mi perfil</p>
-            </button>
-            <button id="logout-button" type="button">Cerrar sesión</button>
-        </nav>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
+      </div>
+      <nav class="nav-buttons-left">
+        <button class="text-button" id="back-button" href="/pages/index.html">
+          <img src="../assets/img/back.png" alt="Back" />
+          <p id="back-text">Volver</p>
+        </button>
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+      </nav>
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button id="register-button" class="text-button" type="button">
+          <img src="../assets/img/registerIcon.png" alt="Register Icon" />
+          <p>Registrarse</p>
+        </button>
+        <button id="user-button" type="button">
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <p id="user-status">Iniciar sesión</p>
+        </button>
+        <button id="logout-button" type="button" hidden>
+          <img src="../assets/img/logOutIcon.png" alt="Cerrar sesión" />
+          <p>Cerrar sesión</p>
+        </button>
+      </nav>
     </header>
 
     <main class="profile-container">
-        <!-- Encabezado con resumen de cuenta -->
-        <section class="profile-header-card" aria-labelledby="perfil-nombre-titulo">
-            <div class="profile-identity">
-            <div class="profile-avatar">
-                <img src="/assets/img/userIcon.png" alt="Avatar de usuario" />
-            </div>
-            <div>
-                <h1 id="perfil-nombre-titulo">Cargando perfil...</h1>
-                <p id="perfil-email-subtitulo" class="profile-email"></p>
-                <span id="perfil-rol-badge" class="role-badge">Participante</span>
-            </div>
-            </div>
-            <button id="volver-inicio-btn" class="back-button" type="button">
-            Explorar eventos
+      <!-- Encabezado con resumen de cuenta -->
+      <section
+        class="profile-header-card"
+        aria-labelledby="perfil-nombre-titulo"
+      >
+        <div class="profile-identity">
+          <div class="profile-avatar">
+            <img src="/assets/img/userIcon.png" alt="Avatar de usuario" />
+          </div>
+          <div>
+            <h1 id="perfil-nombre-titulo">Cargando perfil...</h1>
+            <p id="perfil-email-subtitulo" class="profile-email"></p>
+            <span id="perfil-rol-badge" class="role-badge">Participante</span>
+          </div>
+        </div>
+        <button id="volver-inicio-btn" class="back-button" type="button">
+          Explorar eventos
+        </button>
+      </section>
+
+      <div class="profile-grid">
+        <!-- Tarjeta 1: Edición de datos personales -->
+        <section class="profile-card" aria-labelledby="editar-datos-titulo">
+          <h2 id="editar-datos-titulo">Mis datos personales</h2>
+          <form id="perfil-form" class="form-content profile-form">
+            <label for="perfil-nombre">Nombre</label>
+            <input
+              id="perfil-nombre"
+              name="nombre"
+              type="text"
+              minlength="3"
+              maxlength="25"
+              autocomplete="name"
+              required
+            />
+
+            <label for="perfil-email">Correo electrónico</label>
+            <input
+              id="perfil-email"
+              name="email"
+              type="email"
+              maxlength="30"
+              autocomplete="email"
+              required
+            />
+
+            <p class="form-hint" id="perfil-fecha-registro"></p>
+            <p
+              id="perfil-message"
+              class="form-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+
+            <button class="primary-button" type="submit">
+              Guardar cambios
             </button>
+          </form>
         </section>
 
-        <div class="profile-grid">
-            <!-- Tarjeta 1: Edición de datos personales -->
-            <section class="profile-card" aria-labelledby="editar-datos-titulo">
-            <h2 id="editar-datos-titulo">Mis datos personales</h2>
-            <form id="perfil-form" class="form-content profile-form">
-                <label for="perfil-nombre">Nombre</label>
-                <input
-                id="perfil-nombre"
-                name="nombre"
-                type="text"
-                minlength="3"
-                maxlength="25"
-                autocomplete="name"
-                required
-                />
+        <!-- Tarjeta 2: Mis inscripciones -->
+        <section
+          class="profile-card"
+          aria-labelledby="mis-inscripciones-titulo"
+        >
+          <h2 id="mis-inscripciones-titulo">Mis inscripciones</h2>
 
-                <label for="perfil-email">Correo electrónico</label>
-                <input
-                id="perfil-email"
-                name="email"
-                type="email"
-                maxlength="30"
-                autocomplete="email"
-                required
-                />
+          <h3>Eventos inscriptos</h3>
+          <ul id="lista-inscripciones-eventos" class="inscripciones-list">
+            <li class="form-hint">Cargando inscripciones a eventos...</li>
+          </ul>
 
-                <p class="form-hint" id="perfil-fecha-registro"></p>
-                <p
-                id="perfil-message"
-                class="form-message"
-                role="status"
-                aria-live="polite"
-                ></p>
-
-                <button class="primary-button" type="submit">
-                Guardar cambios
-                </button>
-            </form>
-            </section>
-
-            <!-- Tarjeta 2: Mis inscripciones -->
-            <section class="profile-card" aria-labelledby="mis-inscripciones-titulo">
-            <h2 id="mis-inscripciones-titulo">Mis inscripciones</h2>
-
-            <h3>Eventos inscriptos</h3>
-            <ul id="lista-inscripciones-eventos" class="inscripciones-list">
-                <li class="form-hint">Cargando inscripciones a eventos...</li>
-            </ul>
-
-            <h3 style="margin-top: 1.25rem">Actividades inscriptas</h3>
-            <ul id="lista-inscripciones-actividades" class="inscripciones-list">
-                <li class="form-hint">Cargando inscripciones a actividades...</li>
-            </ul>
-            </section>
-        </div>
+          <h3 style="margin-top: 1.25rem">Actividades inscriptas</h3>
+          <ul id="lista-inscripciones-actividades" class="inscripciones-list">
+            <li class="form-hint">Cargando inscripciones a actividades...</li>
+          </ul>
+        </section>
+      </div>
     </main>
 
     <footer>
-        <section class="footer-logo">
-            <img src="/assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
-        </section>
-        <section class="footer-info">
-            <p>
-            &copy; Festival Manager | Universidad Tecnológica Nacional -
-            Metodología de Sistemas II - 2026
-            </p>
-            <p>
-            Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
-            Scabusso
-            </p>
-        </section>
+      <section class="footer-logo">
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
     </footer>
-</body>
+  </body>
 </html>
