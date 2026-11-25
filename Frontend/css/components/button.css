@@ -12,6 +12,7 @@ button:not(#menu-toggle) {
   justify-content: center;
   text-align: center;
 
+  color: var(--paletaNegro);
   background-color: var(--paletaBlanco);
   border: none;
   border-radius: var(--radioS);
