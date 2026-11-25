@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
     <title>Detalle del evento | Festival Manager</title>
-
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/variables.css" />
     <link rel="stylesheet" href="/css/components/event-container.css" />
     <link rel="stylesheet" href="/css/components/event-list.css" />
-    <link rel="stylesheet" href="/css/components/header.css" />
-    <link rel="stylesheet" href="/css/components/nav.css" />
-    <link rel="stylesheet" href="/css/components/main.css" />
-    <link rel="stylesheet" href="/css/components/button.css" />
-    <link rel="stylesheet" href="/css/components/footer.css" />
+
     <script type="module" src="/js/detalle-evento.js"></script>
-    <script type="module" src="/js/menu-toggle.js"></script>
-    <script type="module" src="/js/nav.js"></script>
   </head>
   <body>
     <header>
@@ -63,23 +56,13 @@
         />
       </div>
       <nav class="nav-buttons-left">
-        <button class="text-button" id="back-button" href="/pages/index.html">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="#b0b9bf"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-          </svg>
-          <p id="back-text">Volver</p>
-        </button>
         <button id="add-button">
           <img src="../assets/img/addEventButton.png" alt="Add Event" />
           <p id="add-event-text">Añadir evento</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
         </button>
       </nav>
       <nav class="nav-buttons-right">
@@ -102,6 +85,9 @@
       </nav>
     </header>
     <main class="event-detail">
+      <a class="event-detail__back" href="/pages/index.html"
+        >← Volver a eventos</a
+      >
       <section class="event-detail__hero" aria-labelledby="detalle-titulo">
         <h1 id="detalle-titulo">Cargando evento…</h1>
         <p id="detalle-descripcion"></p>
