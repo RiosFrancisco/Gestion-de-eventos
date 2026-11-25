@@ -3,42 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
+    <link rel="icon" href="../assets/favicon/favIcon.png" type="image/png" />
     <title>Mi Perfil | Festival Manager</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/variables.css" />
-    <link rel="stylesheet" href="/css/components/header.css" />
-    <link rel="stylesheet" href="/css/components/nav.css" />
-    <link rel="stylesheet" href="/css/components/main.css" />
-    <link rel="stylesheet" href="/css/components/button.css" />
-    <link rel="stylesheet" href="/css/components/footer.css" />
-    <link rel="stylesheet" href="/css/components/forms.css" />
-    <link rel="stylesheet" href="/css/perfil.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/forms.css" />
+    <link rel="stylesheet" href="../css/perfil.css" />
 
     <!-- JavaScript -->
-    <script type="module" src="/js/perfil.js"></script>
+    <script type="module" src="../js/perfil.js"></script>
+    <script type="module" src="../js/menu-toggle.js"></script>
+    <script type="module" src="../js/nav.js"></script>
   </head>
   <body class="pagina-perfil">
     <header>
-      <nav class="nav-buttons-left">
-        <button class="text-button" id="back-home-button" type="button">
-          <p>← Volver a eventos</p>
-        </button>
-      </nav>
-      <div id="logo" style="cursor: pointer">
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="logo" data-page="index.html">
         <img
-          src="/assets/img/FestivalLogoWhite.png"
+          src="../assets/img/FestivalLogoWhite.png"
           alt="Festival Manager Logo"
         />
       </div>
-      <nav class="nav-buttons-right">
-        <button id="user-button" type="button">
-          <img src="/assets/img/userIcon.png" alt="User Icon" />
-          <p id="user-status">Mi perfil</p>
+      <nav class="nav-buttons-left">
+        <button
+          class="back-button"
+          type="button"
+          data-page="index.html"
+          aria-label="Volver a la página principal"
+        >
+          <svg
+            class="back-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            width="50"
+            height="50"
+            stroke-width="2.5"
+            stroke="#b0b9bf"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+          <p>Volver</p>
         </button>
-        <button id="logout-button" type="button">Cerrar sesión</button>
+        <button id="add-button" data-page="agregar_evento.html">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+      </nav>
+      <nav class="nav-buttons-right">
+        <button
+          class="text-button"
+          id="my-events-button"
+          data-page="mis_eventos.html"
+        >
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button id="logout-button" type="button" hidden>Cerrar sesión</button>
       </nav>
     </header>
 
@@ -50,7 +114,7 @@
       >
         <div class="profile-identity">
           <div class="profile-avatar">
-            <img src="/assets/img/userIcon.png" alt="Avatar de usuario" />
+            <img src="../assets/img/userIcon.png" alt="Avatar de usuario" />
           </div>
           <div>
             <h1 id="perfil-nombre-titulo">Cargando perfil...</h1>
@@ -125,7 +189,7 @@
 
     <footer>
       <section class="footer-logo">
-        <img src="/assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
       </section>
       <section class="footer-info">
         <p>
