@@ -1,78 +1,188 @@
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png">
-  <title>Mis eventos | Festival Manager</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/variables.css">
-  <link rel="stylesheet" href="/css/components/header.css">
-  <link rel="stylesheet" href="/css/components/nav.css">
-  <link rel="stylesheet" href="/css/components/event-container.css">
-  <link rel="stylesheet" href="/css/components/event-list.css">
-  <link rel="stylesheet" href="/css/components/main.css">
-  <link rel="stylesheet" href="/css/components/button.css">
-  <link rel="stylesheet" href="/css/components/footer.css">
-  <link rel="stylesheet" href="/css/components/forms.css">
-  <link rel="stylesheet" href="/css/mis_eventos.css">
-  <script type="module" src="/js/mis-eventos.js"></script>
-</head>
-<body>
-<header>
-  <nav class="nav-buttons-left">
-    <button id="add-button" type="button"><img src="/assets/img/addEventButton.png" alt=""><p>Añadir evento</p></button>
-    <button id="search-button" class="text-button" type="button"><img src="/assets/img/searchIcon.png" alt=""><p>Buscar</p></button>
-  </nav>
-  <div id="logo"><a href="/pages/index.html"><img src="/assets/img/FestivalLogoWhite.png" alt="Festival Manager"></a></div>
-  <nav class="nav-buttons-right">
-    <a
-    id="my-events-button"
-    class="text-button"
-    href="/pages/mis_eventos.html"
-    aria-current="page"
->
-    <img src="/assets/img/myEvents.png" alt="Mis eventos"><p>Mis eventos</p></a>
-    <button id="user-button" type="button"><img src="/assets/img/userIcon.png" alt=""><p id="user-status">Mi perfil</p></button>
-    <button id="logout-button" type="button">Cerrar sesión</button>
-  </nav>
-</header>
-<main class="mis-eventos">
-  <a href="/pages/index.html">← Volver a eventos</a>
-  <section class="page-title"><h1>Mis eventos</h1><p>Administrá únicamente los eventos que creaste.</p></section>
-  <section class="eventos-resumen" aria-label="Resumen de eventos">
-    <div class="resumen-card"><h3>Eventos creados</h3><p id="total-eventos">—</p></div>
-    <div class="resumen-card"><h3>Publicados</h3><p id="eventos-publicados">—</p></div>
-    <div class="resumen-card"><h3>Finalizados</h3><p id="eventos-finalizados">—</p></div>
-  </section>
-  <section class="eventos-contenido">
-    <div class="eventos-encabezado"><h2>Mis eventos creados</h2><a class="crear-evento" href="/pages/index.html#crear-evento">Añadir evento</a></div>
-    <p id="mis-eventos-mensaje" role="status" aria-live="polite"></p>
-    <div id="mis-eventos-lista" class="events-list"></div>
-  </section>
-</main>
-<dialog id="editar-evento-dialog" class="form-dialog">
- <form id="editar-evento-form" class="form-content">
-  <h2>Modificar evento</h2>
-  <label>Nombre <input name="nombre" minlength="3" maxlength="30" required></label>
-  <label>Descripción <textarea name="descripcion" minlength="5" maxlength="100" required></textarea></label>
-  <label>Fecha <input type="date" name="fecha" required></label>
-  <label>Hora <input type="time" name="hora" required></label>
-  <label>Lugar <input name="ubicacion" minlength="5" maxlength="30" required></label>
-  <div class="mis-eventos-acciones"><button type="submit" class="primary-button">Guardar cambios</button><button type="button" id="cerrar-edicion">Cerrar</button></div>
- </form>
-</dialog>
-<dialog id="crear-actividad-dialog" class="form-dialog">
- <form id="crear-actividad-form" class="form-content">
-  <h2>Agregar actividad</h2>
-  <label>Nombre <input name="nombre" minlength="3" maxlength="50" required></label>
-  <label>Descripción <textarea name="descripcion" required></textarea></label>
-  <label>Fecha <input type="date" name="fecha" required></label>
-  <label>Hora <input type="time" name="hora" required></label>
-  <label>Capacidad (opcional) <input type="number" name="capacidad" min="1" step="1" placeholder="Sin límite"></label>
-  <div class="mis-eventos-acciones"><button type="submit" class="primary-button">Crear actividad</button><button type="button" id="cerrar-actividad">Cerrar</button></div>
- </form>
-</dialog>
-<footer><section class="footer-logo"><img src="/assets/img/FestivalLogo.png" alt="Festival Manager"></section><section class="footer-info"><p>&copy; Festival Manager | Universidad Tecnológica Nacional - Metodología de Sistemas II - 2026</p></section></footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
+    <title>Mis eventos | Festival Manager</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="/css/components/header.css" />
+    <link rel="stylesheet" href="/css/components/nav.css" />
+    <link rel="stylesheet" href="/css/components/event-container.css" />
+    <link rel="stylesheet" href="/css/components/event-list.css" />
+    <link rel="stylesheet" href="/css/components/main.css" />
+    <link rel="stylesheet" href="/css/components/button.css" />
+    <link rel="stylesheet" href="/css/components/footer.css" />
+    <link rel="stylesheet" href="/css/components/forms.css" />
+    <link rel="stylesheet" href="/css/mis_eventos.css" />
+    <script type="module" src="/js/mis-eventos.js"></script>
+  </head>
+  <body>
+    <header>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="logo" data-page="index.html">
+        <img
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
+        />
+      </div>
+      <nav class="nav-buttons-left">
+        <button id="add-button">
+          <img src="../assets/img/addEventButton.png" alt="Add Event" />
+          <p id="add-event-text">Añadir evento</p>
+        </button>
+        <button class="text-button" id="search-button">
+          <img src="../assets/img/searchIcon.png" alt="Search" />
+          <p id="search-text">Buscar</p>
+        </button>
+      </nav>
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+        <button id="register-button" class="text-button" type="button">
+          <img src="../assets/img/registerIcon.png" alt="Register Icon" />
+          <p>Registrarse</p>
+        </button>
+        <button id="user-button" type="button">
+          <img src="../assets/img/userIcon.png" alt="User Icon" />
+          <p id="user-status">Iniciar sesión</p>
+        </button>
+        <button id="logout-button" type="button" hidden>
+          <img src="../assets/img/logOutIcon.png" alt="Cerrar sesión" />
+          <p>Cerrar sesión</p>
+        </button>
+      </nav>
+    </header>
+    <main class="mis-eventos">
+      <a href="/pages/index.html">← Volver a eventos</a>
+      <section class="page-title">
+        <h1>Mis eventos</h1>
+        <p>Administrá únicamente los eventos que creaste.</p>
+      </section>
+      <section class="eventos-resumen" aria-label="Resumen de eventos">
+        <div class="resumen-card">
+          <h3>Eventos creados</h3>
+          <p id="total-eventos">—</p>
+        </div>
+        <div class="resumen-card">
+          <h3>Publicados</h3>
+          <p id="eventos-publicados">—</p>
+        </div>
+        <div class="resumen-card">
+          <h3>Finalizados</h3>
+          <p id="eventos-finalizados">—</p>
+        </div>
+      </section>
+      <section class="eventos-contenido">
+        <div class="eventos-encabezado">
+          <h2>Mis eventos creados</h2>
+          <a class="crear-evento" href="/pages/index.html#crear-evento"
+            >Añadir evento</a
+          >
+        </div>
+        <p id="mis-eventos-mensaje" role="status" aria-live="polite"></p>
+        <div id="mis-eventos-lista" class="events-list"></div>
+      </section>
+    </main>
+    <dialog id="editar-evento-dialog" class="form-dialog">
+      <form id="editar-evento-form" class="form-content">
+        <h2>Modificar evento</h2>
+        <label
+          >Nombre <input name="nombre" minlength="3" maxlength="30" required
+        /></label>
+        <label
+          >Descripción
+          <textarea
+            name="descripcion"
+            minlength="5"
+            maxlength="100"
+            required
+          ></textarea>
+        </label>
+        <label>Fecha <input type="date" name="fecha" required /></label>
+        <label>Hora <input type="time" name="hora" required /></label>
+        <label
+          >Lugar <input name="ubicacion" minlength="5" maxlength="30" required
+        /></label>
+        <div class="mis-eventos-acciones">
+          <button type="submit" class="primary-button">Guardar cambios</button
+          ><button type="button" id="cerrar-edicion">Cerrar</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="crear-actividad-dialog" class="form-dialog">
+      <form id="crear-actividad-form" class="form-content">
+        <h2>Agregar actividad</h2>
+        <label
+          >Nombre <input name="nombre" minlength="3" maxlength="50" required
+        /></label>
+        <label
+          >Descripción <textarea name="descripcion" required></textarea>
+        </label>
+        <label>Fecha <input type="date" name="fecha" required /></label>
+        <label>Hora <input type="time" name="hora" required /></label>
+        <label
+          >Capacidad (opcional)
+          <input
+            type="number"
+            name="capacidad"
+            min="1"
+            step="1"
+            placeholder="Sin límite"
+        /></label>
+        <div class="mis-eventos-acciones">
+          <button type="submit" class="primary-button">Crear actividad</button
+          ><button type="button" id="cerrar-actividad">Cerrar</button>
+        </div>
+      </form>
+    </dialog>
+    <footer>
+      <section class="footer-logo">
+        <img src="/assets/img/FestivalLogo.png" alt="Festival Manager" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+      </section>
+    </footer>
+  </body>
 </html>
