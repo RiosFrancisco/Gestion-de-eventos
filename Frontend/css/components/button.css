@@ -39,6 +39,9 @@ button p {
   margin: 0;
 }
 
+button.back-button {
+}
+
 /* ==== Teléfono: botones en horizontal ==== */
 @media (max-width: 768px) {
   button:not(#menu-toggle) {

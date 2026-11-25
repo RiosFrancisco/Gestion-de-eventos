@@ -5,41 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png" />
     <title>Detalle del evento | Festival Manager</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/variables.css" />
-    <link rel="stylesheet" href="/css/components/event-container.css" />
-    <link rel="stylesheet" href="/css/components/event-list.css" />
-    <script type="module" src="/js/detalle-evento.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/components/event-container.css" />
+    <link rel="stylesheet" href="../css/components/event-list.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/components/main.css" />
+    <link rel="stylesheet" href="../css/components/button.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+
+    <script type="module" src="../js/detalle-evento.js"></script>
+    <script type="module" src="../js/menu-toggle.js"></script>
+    <script type="module" src="../js/nav.js"></script>
   </head>
   <body>
-    <header
-      class="festival-detail-header"
-      style="
-        background: #004e98;
-        text-align: center;
-        padding: 18px 16px;
-        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
-      "
-    >
-      <a href="/pages/index.html" aria-label="Volver a Festival Manager">
+    <header>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="logo" data-page="index.html">
         <img
-          src="/assets/img/FestivalLogoWhite.png"
-          alt="Festival Manager"
-          style="height: 58px; max-width: 85vw; object-fit: contain"
+          src="../assets/img/FestivalLogoWhite.png"
+          alt="Festival Manager Logo"
         />
-      </a>
+      </div>
+      <nav class="nav-buttons-left">
+        <button
+          class="back-button"
+          type="button"
+          data-page="index.html"
+          aria-label="Volver a la página principal"
+        >
+          <svg
+            class="back-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            width="50"
+            height="50"
+            stroke-width="2.5"
+            stroke="#b0b9bf"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+          <p>Volver</p>
+        </button>
+      </nav>
+      <nav class="nav-buttons-right">
+        <button class="text-button" id="my-events-button">
+          <img src="../assets/img/myEvents.png" alt="My Events" />
+          <p id="my-events-text">Mis eventos</p>
+        </button>
+      </nav>
     </header>
     <main class="event-detail">
-      <a class="event-detail__back" href="/pages/index.html"
-        >← Volver a eventos</a
-      >
       <section class="event-detail__hero" aria-labelledby="detalle-titulo">
         <h1 id="detalle-titulo">Cargando evento…</h1>
         <p id="detalle-descripcion"></p>
         <div class="event-detail__metadata" id="detalle-metadata"></div>
         <p id="detalle-acceso" hidden>
           Para inscribirte,
-          <a href="/pages/index.html">iniciá sesión en la página principal</a>.
+          <a href="../pages/index.html">iniciá sesión en la página principal</a
+          >.
         </p>
         <button
           class="event-action"
@@ -66,5 +132,20 @@
         </div>
       </section>
     </main>
+    <footer>
+      <section class="footer-logo">
+        <img src="../assets/img/FestivalLogo.png" alt="Festival Manager Logo" />
+      </section>
+      <section class="footer-info">
+        <p>
+          &copy; Festival Manager | Universidad Tecnológica Nacional -
+          Metodología de Sistemas II - 2026
+        </p>
+        <p>
+          Juan Manuel Beltrame - Ramiro Cutropia - Francisco Rios - Matko
+          Scabusso
+        </p>
+      </section>
+    </footer>
   </body>
 </html>
