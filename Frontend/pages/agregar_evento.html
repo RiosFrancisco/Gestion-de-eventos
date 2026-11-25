@@ -13,33 +13,85 @@
     <link rel="stylesheet" href="../css/components/button.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
     <link rel="stylesheet" href="../css/agregar_evento.css" />
+
+    <script type="module" src="../js/menu-toggle.js"></script>
+    <script type="module" src="../js/nav.js"></script>
   </head>
   <body>
     <header>
-      <nav class="nav-buttons-left">
-        <button id="add-button">
-          <img src="../assets/img/addEventButton.png" alt="Add Event" />
-          <p id="add-event-text">Añadir evento</p>
-        </button>
-        <button class="text-button" id="search-button">
-          <img src="../assets/img/searchIcon.png" alt="Search" />
-          <p id="search-text">Buscar</p>
-        </button>
-      </nav>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <!-- menu icon -->
+        <svg
+          class="menu-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <!-- x icon-->
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          stroke-width="2.5"
+          stroke="#b0b9bf"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
       <div id="logo" data-page="index.html">
         <img
           src="../assets/img/FestivalLogoWhite.png"
           alt="Festival Manager Logo"
         />
       </div>
+      <nav class="nav-buttons-left">
+        <button
+          class="back-button"
+          type="button"
+          data-page="index.html"
+          aria-label="Volver a la página principal"
+        >
+          <svg
+            class="back-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            width="50"
+            height="50"
+            stroke-width="2.5"
+            stroke="#b0b9bf"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+          <p>Volver</p>
+        </button>
+      </nav>
       <nav class="nav-buttons-right">
         <button class="text-button" id="my-events-button">
           <img src="../assets/img/myEvents.png" alt="My Events" />
           <p id="my-events-text">Mis eventos</p>
-        </button>
-        <button id="user-button" data-page="login.html">
-          <img src="../assets/img/userIcon.png" alt="User Icon" />
-          <p id="user-status">Iniciar sesión</p>
         </button>
       </nav>
     </header>
