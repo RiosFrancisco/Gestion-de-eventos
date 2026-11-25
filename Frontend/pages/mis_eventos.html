@@ -19,6 +19,7 @@
     <script type="script" src="../js/mis-eventos.js"></script>
     <script type="module" src="../js/menu-toggle.js"></script>
     <script type="module" src="../js/nav.js"></script>
+    <script type="module" src="../js/index.js"></script>
   </head>
   <body>
     <header>
@@ -87,12 +88,6 @@
           <p>Volver</p>
         </button>
       </nav>
-      <nav class="nav-buttons-right">
-        <button id="add-button">
-          <img src="../assets/img/addEventButton.png" alt="Add Event" />
-          <p id="add-event-text">Añadir evento</p>
-        </button>
-      </nav>
     </header>
     <main class="mis-eventos">
       <section class="page-title">
@@ -116,7 +111,7 @@
       <section class="eventos-contenido">
         <div class="eventos-encabezado">
           <h2>Mis eventos creados</h2>
-          <a class="crear-evento" href="../pages/index.html#crear-evento"
+          <a class="crear-evento" data-page="agregar_evento.html"
             >Añadir evento</a
           >
         </div>
