@@ -431,14 +431,30 @@ function iniciar() {
     if (!sesion) return;
 
     const estadoUsuario = document.getElementById("user-status");
+    const botonUsuario = document.getElementById("user-button");
+    const botonRegistro = document.getElementById("register-button");
+    const botonSalir = document.getElementById("logout-button");
 
     if (estadoUsuario) {
         estadoUsuario.textContent = sesion.usuario.nombre;
     }
 
-    configurarBotones();
+    if (botonUsuario) {
+        botonUsuario.title = `Usuario: ${sesion.usuario.nombre}`;
+    }
 
+    if (botonRegistro) {
+        botonRegistro.hidden = true;
+    }
+
+    if (botonSalir) {
+        botonSalir.hidden = false;
+    }
+
+    configurarBotones();
     void cargarMisEventos();
 }
+
+document.addEventListener("DOMContentLoaded", iniciar);
 
 document.addEventListener("DOMContentLoaded", iniciar);

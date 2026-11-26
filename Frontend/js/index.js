@@ -25,7 +25,13 @@ function mensaje(id, texto, tipo = 'error') {
   nodo.className = `form-message ${tipo}`;
 }
 
-function mostrarDialogo(id) { document.getElementById(id)?.showModal(); }
+function mostrarDialogo(id) {
+  document.getElementById(id)?.showModal();
+}
+
+function mostrarAccesoDenegado() {
+    mostrarDialogo("acceso-denegado-dialog");
+  }
 
 function salir() {
   cerrarSesion();
@@ -69,8 +75,9 @@ function configurarFormularios() {
       mensaje('login-message', 'Iniciá sesión para crear un evento.');
       mostrarDialogo('login-dialog');
     } else if (!puedeCrearEventos(sesion)) {
-      window.alert('Tu cuenta no tiene el rol creador o administrador.');
-    } else {
+      mostrarAccesoDenegado();
+    }
+    else {
       mensaje('evento-message', '', 'success');
       mostrarDialogo('evento-dialog');
     }
@@ -83,7 +90,7 @@ function configurarFormularios() {
       destinoTrasLogin = '/pages/mis_eventos.html';
       mostrarDialogo('login-dialog');
     } else if (Number(sesion.usuario?.rol_id) !== 2) {
-      window.alert('Esta sección es exclusiva para el rol creador.');
+      mostrarAccesoDenegado();
     } else {
       window.location.href = '/pages/mis_eventos.html';
     }
@@ -94,6 +101,10 @@ function configurarFormularios() {
   document.getElementById('login-form')?.addEventListener('submit', iniciarSesion);
   document.getElementById('register-form')?.addEventListener('submit', registrarUsuario);
   document.getElementById('evento-form')?.addEventListener('submit', crearEvento);
+  document.getElementById("cerrar-acceso-denegado")
+    ?.addEventListener("click", () => {
+      document.getElementById("acceso-denegado-dialog")?.close();
+    });
 }
 
 async function iniciarSesion(evento) {
@@ -116,8 +127,11 @@ async function iniciarSesion(evento) {
     if (destinoTrasLogin) {
       const destino = destinoTrasLogin;
       destinoTrasLogin = null;
-      if (Number(resultado.usuario.rol_id) === 2) window.location.href = destino;
-      else window.alert('Esta sección es exclusiva para el rol creador.');
+      if (Number(resultado.usuario.rol_id) === 2) {
+        window.location.href = destino;
+      } else {
+        mostrarAccesoDenegado();
+      }
     }
   } catch (error) { mensaje('login-message', error.message || 'Error de conexión.'); }
   finally { boton.disabled = false; }
