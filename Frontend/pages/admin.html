@@ -1,0 +1,197 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="/assets/favicon/favIcon.png" type="image/png">
+
+  <title>Administración de usuarios | Festival Manager</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/admin.css">
+
+  <script type="module" src="/js/admin.js"></script>
+</head>
+
+<body class="admin-page">
+
+  <header class="admin-header">
+    <a
+      class="admin-header__back"
+      href="/"
+      aria-label="Volver a eventos"
+    >
+      ← Volver a eventos
+    </a>
+
+    <a
+      class="admin-header__brand"
+      href="/"
+      aria-label="Festival Manager, inicio"
+    >
+      <img
+        src="/assets/img/FestivalLogoWhite.png"
+        alt="Festival Manager"
+      >
+    </a>
+
+    <button
+      id="admin-logout"
+      class="admin-header__logout"
+      type="button"
+    >
+      Cerrar sesión
+    </button>
+  </header>
+
+  <main class="admin-main">
+
+    <section class="admin-heading">
+      <div>
+        <p class="admin-eyebrow">Administración</p>
+
+        <h1>Gestión de usuarios</h1>
+
+        <p>
+          Consultá cuentas, modificá sus datos y asigná
+          o quitá el rol de creador.
+        </p>
+      </div>
+
+      <p id="admin-identidad" class="admin-identity"></p>
+    </section>
+
+    <p
+      id="admin-mensaje"
+      class="admin-message"
+      role="status"
+      aria-live="polite"
+    ></p>
+
+    <section id="admin-panel" hidden>
+
+      <div class="admin-stats" aria-label="Resumen de usuarios">
+
+        <article class="admin-stat">
+          <h2>Usuarios</h2>
+          <p id="total-usuarios">0</p>
+        </article>
+
+        <article class="admin-stat">
+          <h2>Creadores</h2>
+          <p id="total-creadores">0</p>
+        </article>
+
+        <article class="admin-stat">
+          <h2>Administradores</h2>
+          <p id="total-admins">0</p>
+        </article>
+
+      </div>
+
+      <!-- Listado -->
+      <section
+        class="admin-list-section"
+        aria-labelledby="usuarios-titulo"
+      >
+
+        <div class="admin-toolbar">
+          <h2 id="usuarios-titulo">
+            Cuentas registradas
+          </h2>
+
+          <label class="admin-search">
+            Buscar por nombre o correo
+
+            <input
+              id="buscar-usuarios"
+              type="search"
+              placeholder="Buscar usuario..."
+              autocomplete="off"
+            >
+          </label>
+        </div>
+
+        <div id="admin-lista" class="admin-users"></div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- Formulario de modificación -->
+  <dialog
+    id="admin-editar-dialog"
+    class="admin-dialog"
+    aria-labelledby="admin-editar-titulo"
+  >
+
+    <form id="admin-editar-form" class="admin-form">
+
+      <h2 id="admin-editar-titulo">
+        Modificar usuario
+      </h2>
+
+      <p
+        id="admin-editar-subtitulo"
+        class="admin-hint"
+      ></p>
+
+      <label>
+        Nombre
+
+        <input
+          name="nombre"
+          type="text"
+          minlength="2"
+          maxlength="100"
+          required
+        >
+      </label>
+
+      <label>
+        Correo electrónico
+
+        <input
+          name="email"
+          type="email"
+          maxlength="254"
+          required
+        >
+      </label>
+
+      <p
+        id="admin-editar-error"
+        class="admin-form-error"
+        role="alert"
+      ></p>
+
+      <div class="admin-dialog__actions">
+
+        <button
+          type="button"
+          id="admin-cerrar-edicion"
+          class="admin-button admin-button--neutral"
+        >
+          Cerrar
+        </button>
+
+        <button
+          type="submit"
+          class="admin-button admin-button--primary"
+        >
+          Guardar cambios
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+</body>
+</html>

@@ -4,19 +4,50 @@ import { fechaConHora } from './shared/formato.js';
 
 let destinoTrasLogin = null;
 
+
 function actualizarBarraUsuario() {
   const sesion = obtenerSesion();
-  const boton = document.getElementById('user-button');
-  const texto = document.getElementById('user-status');
-  if (!boton || !texto) return;
-  const autenticado = Boolean(sesion?.token && sesion?.usuario);
-  texto.textContent = autenticado ? sesion.usuario.nombre : 'Iniciar sesión';
-  boton.title = autenticado ? `Usuario: ${sesion.usuario.nombre}` : 'Iniciar sesión';
-  const salir = document.getElementById('logout-button');
-  const registro = document.getElementById('register-button');
+
+  const boton = document.getElementById("user-button");
+  const texto = document.getElementById("user-status");
+  const salir = document.getElementById("logout-button");
+  const registro = document.getElementById("register-button");
+  const admin = document.getElementById("admin-button");
+
+  const autenticado = Boolean(
+    sesion?.token && sesion?.usuario
+  );
+
+  const esAdministrador =
+    autenticado &&
+    Number(sesion.usuario.rol_id) === 3;
+
+  if (texto) {
+    texto.textContent = autenticado
+      ? sesion.usuario.nombre
+      : "Iniciar sesión";
+  }
+
+  if (boton) {
+    boton.title = autenticado
+      ? `Usuario: ${sesion.usuario.nombre}`
+      : "Iniciar sesión";
+  }
+
   if (salir) salir.hidden = !autenticado;
   if (registro) registro.hidden = autenticado;
+
+  if (admin) {
+    admin.hidden = !esAdministrador;
+
+    admin.style.setProperty(
+      "display",
+      esAdministrador ? "inline-flex" : "none",
+      "important"
+    );
+  }
 }
+
 
 function mensaje(id, texto, tipo = 'error') {
   const nodo = document.getElementById(id);
@@ -30,8 +61,8 @@ function mostrarDialogo(id) {
 }
 
 function mostrarAccesoDenegado() {
-    mostrarDialogo("acceso-denegado-dialog");
-  }
+  mostrarDialogo("acceso-denegado-dialog");
+}
 
 function salir() {
   cerrarSesion();
@@ -104,6 +135,21 @@ function configurarFormularios() {
   document.getElementById("cerrar-acceso-denegado")
     ?.addEventListener("click", () => {
       document.getElementById("acceso-denegado-dialog")?.close();
+    });
+  document.getElementById("admin-button")
+    ?.addEventListener("click", () => {
+      const sesion = obtenerSesion();
+
+      const esAdministrador =
+        Boolean(sesion?.token && sesion?.usuario) &&
+        Number(sesion.usuario.rol_id) === 3;
+
+      if (!esAdministrador) {
+        mostrarAccesoDenegado();
+        return;
+      }
+
+      window.location.href = "/pages/admin.html";
     });
 }
 
