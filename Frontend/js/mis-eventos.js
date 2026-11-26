@@ -1,6 +1,6 @@
 
 import { solicitar, headersAuth } from "./shared/api.js";
-import { obtenerSesion, cerrarSesion } from "./shared/sesion.js";
+import { obtenerSesion, cerrarSesion, puedeCrearEventos } from "./shared/sesion.js";
 import { fechaConHora } from "./shared/formato.js";
 
 const lista = document.getElementById("mis-eventos-lista");
@@ -42,13 +42,13 @@ function sesionValida() {
         return null;
     }
 
-    if (Number(sesion.usuario.rol_id) !== 2) {
+    if (!puedeCrearEventos(sesion)) {
         informar(
-            "Solo los usuarios con rol creador pueden administrar eventos.",
+            "Acceso no autorizado. Se requiere el rol creador o administrador.",
             true
         );
 
-        lista?.replaceChildren();
+        lista.replaceChildren();
         return null;
     }
 

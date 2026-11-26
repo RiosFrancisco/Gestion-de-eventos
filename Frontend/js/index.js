@@ -120,7 +120,7 @@ function configurarFormularios() {
       mensaje('login-message', 'Iniciá sesión para administrar tus eventos.');
       destinoTrasLogin = '/pages/mis_eventos.html';
       mostrarDialogo('login-dialog');
-    } else if (Number(sesion.usuario?.rol_id) !== 2) {
+    } else if (!puedeCrearEventos(sesion)) {
       mostrarAccesoDenegado();
     } else {
       window.location.href = '/pages/mis_eventos.html';
@@ -173,7 +173,7 @@ async function iniciarSesion(evento) {
     if (destinoTrasLogin) {
       const destino = destinoTrasLogin;
       destinoTrasLogin = null;
-      if (Number(resultado.usuario.rol_id) === 2) {
+      if (puedeCrearEventos(resultado)) {
         window.location.href = destino;
       } else {
         mostrarAccesoDenegado();
