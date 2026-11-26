@@ -34,6 +34,47 @@ function informar(texto, error = false) {
     aviso.dataset.error = String(error);
 }
 
+
+// Mostrar un mensaje de operación exitosa
+function mostrarOperacionExitosa(titulo, mensaje) {
+    const dialogo = document.getElementById(
+        "operacion-exitosa-dialog"
+    );
+
+    document.getElementById(
+        "operacion-exitosa-titulo"
+    ).textContent = titulo;
+
+    document.getElementById(
+        "operacion-exitosa-mensaje"
+    ).textContent = mensaje;
+
+    dialogo.showModal();
+}
+
+function confirmarCancelacion(nombreEvento) {
+    const dialogo = document.getElementById(
+        "confirmar-cancelacion-dialog"
+    );
+
+    document.getElementById(
+        "confirmar-cancelacion-mensaje"
+    ).textContent =
+        `¿Estás seguro de que querés cancelar «${nombreEvento}»?`;
+
+    dialogo.returnValue = "cancelar";
+
+    return new Promise(resolve => {
+        dialogo.addEventListener(
+            "close",
+            () => resolve(dialogo.returnValue === "confirmar"),
+            { once: true }
+        );
+
+        dialogo.showModal();
+    });
+}
+
 function sesionValida() {
     const sesion = obtenerSesion();
 
@@ -111,9 +152,7 @@ function abrirNuevaActividad(evento) {
 // CANCELAR EVENTO
 
 async function cancelarEvento(evento) {
-    const confirmado = window.confirm(
-        `¿Cancelar el evento «${evento.nombre}»?`
-    );
+    const confirmado = await confirmarCancelacion(evento.nombre);
 
     if (!confirmado) return;
 
@@ -124,7 +163,10 @@ async function cancelarEvento(evento) {
         });
 
         await cargarMisEventos();
-        informar("Evento cancelado correctamente.");
+        mostrarOperacionExitosa(
+            "Evento cancelado",
+            `El evento «${evento.nombre}» se canceló correctamente.`
+        );
 
     } catch (error) {
         informar(error.message, true);
@@ -147,7 +189,10 @@ async function reactivarEvento(evento) {
         });
 
         await cargarMisEventos();
-        informar("Evento reactivado correctamente.");
+        mostrarOperacionExitosa(
+            "Evento reactivado",
+            `El evento «${evento.nombre}» volvió a estar publicado.`
+        );
 
     } catch (error) {
         informar(error.message, true);
@@ -337,7 +382,10 @@ async function guardarEdicion(e) {
         editor.close();
 
         await cargarMisEventos();
-        informar("Evento modificado correctamente.");
+        mostrarOperacionExitosa(
+            "Evento actualizado",
+            "Los cambios del evento se guardaron correctamente."
+        );
 
     } catch (error) {
         informar(error.message, true);
@@ -379,8 +427,9 @@ async function guardarActividad(e) {
 
         dialogoActividad.close();
 
-        informar(
-            "Actividad creada correctamente. Podés verla en el detalle del evento."
+        mostrarOperacionExitosa(
+            "Actividad creada",
+            "La actividad se creó correctamente. Podés consultarla desde el detalle del evento."
         );
 
     } catch (error) {
@@ -401,6 +450,13 @@ function configurarBotones() {
 
     document.getElementById("cerrar-actividad")
         ?.addEventListener("click", () => dialogoActividad.close());
+
+    document.getElementById("cerrar-operacion-exitosa")
+        ?.addEventListener("click", () => {
+            document.getElementById(
+                "operacion-exitosa-dialog"
+            )?.close();
+        });
 
     document.getElementById("logout-button")
         ?.addEventListener("click", () => {

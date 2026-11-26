@@ -113,6 +113,10 @@ function configurarFormularios() {
       mostrarDialogo('evento-dialog');
     }
   });
+  document.getElementById('registro-exitoso-dialog')
+    ?.addEventListener('close', () => {
+      mostrarDialogo('login-dialog');
+    });
   // Si el usuario inicia sesión desde este botón, debe volver a pulsar «Mis eventos».
   document.getElementById('my-events-button')?.addEventListener('click', () => {
     const sesion = obtenerSesion();
@@ -201,8 +205,8 @@ async function registrarUsuario(evento) {
       login.elements.email.value = datos.email;
       login.elements.password.value = '';
     }
-    mensaje('login-message', 'Cuenta creada. Ahora iniciá sesión.', 'success');
-    mostrarDialogo('login-dialog');
+    mensaje('login-message', '', 'success');
+    mostrarDialogo('registro-exitoso-dialog');
   } catch (error) { mensaje('register-message', error.message || 'Error de conexión.'); }
   finally { boton.disabled = false; }
 }
@@ -227,7 +231,7 @@ async function crearEvento(evento) {
     formulario.reset();
     document.getElementById('evento-dialog')?.close();
     await cargarEventos();
-    window.alert('Evento publicado correctamente.');
+    mostrarDialogo('evento-publicado-dialog');
   } catch (error) {
     if (error.status === 401) salir();
     mensaje('evento-message', error.message || 'Error de conexión.');
